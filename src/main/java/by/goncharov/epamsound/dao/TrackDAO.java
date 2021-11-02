@@ -55,7 +55,7 @@ public class TrackDAO extends AbstractDAO {
             statement.setString(5, path);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during track addition", e);
         } finally {
             closeStatement(statement);
         }
@@ -67,7 +67,7 @@ public class TrackDAO extends AbstractDAO {
             statement.setString(1, Integer.toString(id));
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during track removal", e);
         } finally {
             closeStatement(statement);
         }
@@ -80,7 +80,7 @@ public class TrackDAO extends AbstractDAO {
             ResultSet set = statement.executeQuery();
             trackList = formTrackList(set);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during all tracks search", e);
         } finally {
             closeStatement(statement);
         }
@@ -94,7 +94,7 @@ public class TrackDAO extends AbstractDAO {
             ResultSet set = statement.executeQuery(SQL_SELECT_DELETED_TRACKS);
             trackList = formTrackList(set);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during deleted tracks search", e);
         } finally {
             closeStatement(statement);
         }
@@ -110,7 +110,7 @@ public class TrackDAO extends AbstractDAO {
             ResultSet set = statement.executeQuery();
             trackList = formTrackList(set);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during tracks by genre search", e);
         } finally {
             closeStatement(statement);
         }
@@ -125,7 +125,7 @@ public class TrackDAO extends AbstractDAO {
             ResultSet set = statement.executeQuery();
             track = formTrackList(set).get(0);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during track by id search", e);
         } finally {
             closeStatement(statement);
         }
@@ -160,7 +160,7 @@ public class TrackDAO extends AbstractDAO {
                 //trackList.add(new Track(id, name, artist, price, genre));
             }
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during track list formation ", e);
         }
         return trackList;
     }

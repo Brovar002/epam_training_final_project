@@ -24,7 +24,7 @@ public class GenreDAO extends AbstractDAO {
             statement.executeUpdate();
             return findGenreId(genre);
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during genre addition ", e);
         } finally {
             closeStatement(statement);
         }
@@ -42,7 +42,7 @@ public class GenreDAO extends AbstractDAO {
                 id = addGenre(genre);
             }
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during genre id search", e);
         } finally {
             closeStatement(statement);
         }
@@ -58,7 +58,7 @@ public class GenreDAO extends AbstractDAO {
                 genreList.add(set.getString("genre"));
             }
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during genre id search", e);
         } finally {
             closeStatement(statement);
         }

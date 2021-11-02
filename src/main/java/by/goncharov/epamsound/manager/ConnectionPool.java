@@ -2,7 +2,6 @@ package by.goncharov.epamsound.manager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -23,7 +22,7 @@ public final class ConnectionPool {
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
         } catch (SQLException e) {
-            LOGGER.fatal(e);
+            LOGGER.fatal("Exception during driver registration", e);
             throw new RuntimeException(e);
         }
         for (int i = 0; i < db.POOL_SIZE; i++) {
@@ -38,8 +37,8 @@ public final class ConnectionPool {
             }
         }
         if (size() == 0) {
-            LOGGER.fatal("ERROR");
-            throw new RuntimeException("ERROR");
+            LOGGER.fatal("There's no connections in the pull");
+            throw new RuntimeException("There's no connections in the pull");
         }
     }
     private void createConnection() {
@@ -49,7 +48,8 @@ public final class ConnectionPool {
             ProxyConnection proxyConnection = new ProxyConnection(connection);
             this.connectionQueue.put(proxyConnection);
         } catch (SQLException | InterruptedException e) {
-            LOGGER.error(e);
+            LOGGER.error("Exception during connection"
+                   + " addition to connection queue", e);
         }
     }
     public static ConnectionPool getInstance() {
@@ -71,7 +71,7 @@ public final class ConnectionPool {
         try {
             connection = connectionQueue.take();
         } catch (InterruptedException e) {
-            LOGGER.error(e);
+            LOGGER.error("Exception during getting connection", e);
         }
         return connection;
     }
@@ -81,14 +81,14 @@ public final class ConnectionPool {
                 connectionQueue.take().terminateConnection();
             }
         } catch (SQLException | InterruptedException e) {
-            LOGGER.error(e);
+            LOGGER.error("Exception during pool termination", e);
         }
     }
     void returnConnection(final ProxyConnection connection) {
         try {
             connectionQueue.put(connection);
         } catch (InterruptedException e) {
-            LOGGER.error(e);
+            LOGGER.error("Exception during connection return", e);
         }
     }
     private int size() {

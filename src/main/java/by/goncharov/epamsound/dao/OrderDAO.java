@@ -40,7 +40,7 @@ public class OrderDAO extends AbstractDAO {
             statement.setInt(4, trackId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DAOException(e);
+            throw new DAOException("Exception during order addition", e);
         } finally {
             closeStatement(statement);
         }
