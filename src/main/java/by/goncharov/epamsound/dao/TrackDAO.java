@@ -154,10 +154,10 @@ public class TrackDAO extends AbstractDAO {
             while (set.next()) {
                 int id = set.getInt("id");
                 String name = set.getString("name");
-                String genre = set.getString("genre");
                 String artist = set.getString("artist_name");
+                String genre = set.getString("genre");
                 double price = set.getDouble("price");
-                //trackList.add(new Track(id, name, artist, price, genre));
+                trackList.add(new Track(id, name, artist, genre, price));
             }
         } catch (SQLException e) {
             throw new DAOException("Exception during track list formation ", e);
