@@ -21,7 +21,7 @@ public class OrderService {
             try {
                 connection.setAutoCommit(false);
                 double money = user.getCash();
-                //TODO: in OrderDAO add function change money
+                userDAO.changeCash(user.getId(), money - price);
                 orderDAO.addOrder(trackId, price, user.getId());
                 connection.commit();
             } catch (SQLException e) {

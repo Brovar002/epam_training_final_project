@@ -23,6 +23,8 @@ public class UserDAO extends AbstractDAO<User> {
             + " user WHERE login=?";
     private static final String SQL_SELECT_USER_BY_EMAIL = "SELECT * FROM"
             + " user WHERE email=?";
+    private static final String SQL_CHANGE_CASH = "UPDATE user SET"
+            + " cash_account=? WHERE id=?";
     public UserDAO(final ProxyConnection connection) {
         super(connection);
     }
@@ -152,5 +154,19 @@ public class UserDAO extends AbstractDAO<User> {
             closeStatement(statement);
         }
         return user;
+    }
+    public void changeCash(final int userId, final Double cash)
+            throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_CASH);
+            statement.setDouble(1, cash);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Exception during cash change", e);
+        } finally {
+            closeStatement(statement);
+        }
     }
 }
