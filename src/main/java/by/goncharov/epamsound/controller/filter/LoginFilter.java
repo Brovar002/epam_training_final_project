@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.filter;
+package by.goncharov.epamsound.controller.filter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
