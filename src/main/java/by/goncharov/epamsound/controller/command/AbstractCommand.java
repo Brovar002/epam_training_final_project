@@ -18,7 +18,7 @@ public abstract class AbstractCommand implements Messenger {
                                               servletSessionRequestContent,
                                       final Exception e) {
         servletSessionRequestContent.setRequestAttribute(ERROR, e);
-        return ConfigurationManager.getProperty(ConfigurationManager.
-                ERROR_PATH);
+        return ConfigurationManager.getProperty(ConfigurationManager
+                .ERROR_PATH);
     }
 }
