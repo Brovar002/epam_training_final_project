@@ -12,4 +12,14 @@ public class MessageManager {
     public String getProperty(final String key) {
         return resourceBundle.getString(key);
     }
+    public MessageManager() {
+        resourceBundle = ResourceBundleType.RU_RU.getResourceBundle();
+    }
+    public void setCurrentLocale(final String language) {
+        if ("en_US".equals(language)) {
+            resourceBundle = ResourceBundleType.EN_US.getResourceBundle();
+        } else {
+            resourceBundle = ResourceBundleType.RU_RU.getResourceBundle();
+        }
+    }
 }
