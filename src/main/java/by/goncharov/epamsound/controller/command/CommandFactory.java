@@ -1,6 +1,5 @@
 package by.goncharov.epamsound.controller.command;
 
-import by.goncharov.epamsound.controller.CommandType;
 import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
