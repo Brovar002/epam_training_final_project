@@ -21,6 +21,8 @@ public class OrderDAO extends AbstractDAO {
             + "LEFT JOIN genre ON audio_track.genre_id=genre.id\n"
             + "WHERE `order`.user_id=?\n"
             + "ORDER BY audio_track.name";
+    private static final String SQL_SELECT_EXISTS = "SELECT EXISTS(SELECT"
+            + " id FROM `order` WHERE user_id = ? AND audio_track_id=?)";
     public OrderDAO(final ProxyConnection connection) {
         super(connection);
     }
@@ -53,6 +55,21 @@ public class OrderDAO extends AbstractDAO {
             ResultSet set = statement.executeQuery();
             TrackDAO trackDAO = new TrackDAO(connection);
             return trackDAO.formTrackList(set);
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public boolean isOrdered(final int userId, final int trackId)
+            throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_EXISTS);
+            statement.setInt(1, userId);
+            statement.setInt(2, trackId);
+            ResultSet set = statement.executeQuery();
+            return set.next() && set.getInt(1) == 1;
         } catch (SQLException e) {
             throw new DAOException(e);
         } finally {

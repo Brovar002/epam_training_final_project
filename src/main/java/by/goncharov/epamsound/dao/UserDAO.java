@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.dao;
 
+import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.manager.ProxyConnection;
 import java.sql.PreparedStatement;
@@ -25,6 +26,18 @@ public class UserDAO extends AbstractDAO<User> {
             + " user WHERE email=?";
     private static final String SQL_CHANGE_CASH = "UPDATE user SET"
             + " cash_account=? WHERE id=?";
+    private static final String SQL_ADD_COMMENT = "INSERT INTO comment"
+            + "(user_id,audio_track_id,date,text) VALUES(?,?,?,?)";
+    private static final String SQL_CHANGE_EMAIL = "UPDATE user SET email=?"
+            + " WHERE id=?";
+    private static final String SQL_CHANGE_LOGIN = "UPDATE user SET login=?"
+            + " WHERE id=?";
+    private static final String SQL_CHANGE_PASS = "UPDATE user SET"
+            + " password=? WHERE id=?";
+    private static final String SQL_SELECT_CASH = "SELECT cash_account"
+            + " FROM user WHERE id=?";
+    private static final String SQL_SET_BONUS = "UPDATE user SET"
+            + " discount=? WHERE id=?";
     public UserDAO(final ProxyConnection connection) {
         super(connection);
     }
@@ -165,6 +178,96 @@ public class UserDAO extends AbstractDAO<User> {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Exception during cash change", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public void addComment(final int userId, final String text,
+                           final int trackId) throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            Comment comment = new Comment(userId, trackId, text);
+            statement = connection.prepareStatement(SQL_ADD_COMMENT);
+            statement.setInt(1, userId);
+            statement.setInt(2, trackId);
+            statement.setString(3, comment.getDateTime());
+            statement.setString(4, text);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Exception during comment addition", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public void changeEmail(final int userId, final String newEmail)
+            throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_EMAIL);
+            statement.setString(1, newEmail);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Exception during changing email", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public void changeLogin(final int userId, final String newLogin)
+            throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_LOGIN);
+            statement.setString(1, newLogin);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Exception during changing login", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public void changePassword(final int userId, final String newPass)
+            throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_CHANGE_PASS);
+            statement.setString(1, newPass);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Exception during changing password", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public double findCash(final int userId) throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_SELECT_CASH);
+            statement.setInt(1, userId);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                return set.getInt("cash_account");
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Exception during cash search", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+    public void setBonus(final int userId, final int bonus)
+            throws DAOException {
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(SQL_SET_BONUS);
+            statement.setInt(1, bonus);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DAOException("Exception during bonus setting", e);
         } finally {
             closeStatement(statement);
         }
