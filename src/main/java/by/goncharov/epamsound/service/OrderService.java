@@ -55,4 +55,17 @@ public class OrderService {
             orderDAO.closeConnection(connection);
         }
     }
+    public boolean isOrdered(final int userId, final int trackId)
+            throws ServiceException {
+        ProxyConnection connection = ConnectionPool.getInstance()
+                .getConnection();
+        OrderDAO orderDAO = new OrderDAO(connection);
+        try {
+            return orderDAO.isOrdered(userId, trackId);
+        } catch (DAOException e) {
+            throw new ServiceException("Can't find is order exist", e);
+        } finally {
+            orderDAO.closeConnection(connection);
+        }
+    }
 }

@@ -15,8 +15,8 @@ public class LoginService {
                 || !validator.isPasswordValid(password)) {
             return false;
         }
-        ProxyConnection connection = ConnectionPool.getInstance().
-                getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance()
+                .getConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Pass = DigestUtils.md5Hex(password);
         try {

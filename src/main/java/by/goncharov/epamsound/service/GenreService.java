@@ -9,8 +9,8 @@ import java.util.List;
 public class GenreService {
     public int findGenreId(final String genre) throws ServiceException {
         int id;
-        ProxyConnection connection = ConnectionPool.getInstance().
-                getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance()
+                .getConnection();
         GenreDAO genreDAO = new GenreDAO(connection);
         try {
             id = genreDAO.findGenreId(genre);
@@ -23,8 +23,8 @@ public class GenreService {
         return id;
     }
     public List<String> findGenres() throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance().
-                getConnection();
+        ProxyConnection connection = ConnectionPool.getInstance()
+                .getConnection();
         GenreDAO genreDAO = new GenreDAO(connection);
         try {
             return genreDAO.findGenres();

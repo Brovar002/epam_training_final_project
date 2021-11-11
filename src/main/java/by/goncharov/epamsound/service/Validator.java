@@ -20,6 +20,9 @@ public class Validator implements Messenger {
     private final String REGEX_EMAIL = "(\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6})";
     private final String SIGNUP_SUCCESS = "Success";
     private final int ZERO = 0;
+    private final int MAX_BONUS=100;
+    private final int MAX_CASH_LENGTH = 5;
+    private final int MAX_COMMENT_LENGTH = 65_535;
     public String isDataValid(final String login, final String password,
                               final String confirmPass, final String email)
             throws ServiceException {
@@ -108,5 +111,25 @@ public class Validator implements Messenger {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    private boolean canConvertToUnsignedInt(final String value) {
+        try {
+            Integer intValue = Integer.valueOf(value);
+            return (intValue >= ZERO && intValue <= MAX_BONUS);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    public boolean isBonusValid(final String bonus) {
+        return  (bonus.length() != ZERO && bonus.length()
+                <= MAX_PRICE_LENGTH) && canConvertToUnsignedInt(bonus);
+    }
+    public boolean isCashValid(final String cash) {
+        return  !(cash.length() == ZERO && cash.length()
+                > MAX_CASH_LENGTH) && canConvertToUnsignedDouble(cash);
+    }
+    public boolean isCommentValid(final String comment) {
+        return (comment.length() > ZERO && comment.length()
+                < MAX_COMMENT_LENGTH);
     }
 }
