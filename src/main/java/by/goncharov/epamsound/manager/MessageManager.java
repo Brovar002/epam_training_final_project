@@ -29,6 +29,20 @@ public class MessageManager {
     public static final String NOT_UNIQUE_LOGIN = "message.signup.unique.login";
     public static final String SET_BONUS_ERROR = "message.bonus.error";
     public static final String SIGNUP_ERROR = "message.signup.error";
+    public static final String ADD_COMMENT_EMPTY = "message.add.comment.empty";
+    public static final String ADD_TRACK_ERROR = "message.add.track.error";
+    public static final String ADD_TRACK_SUCCESS = "message.add.track.success";
+    public static final String CHANGE_SUCCESS = "message.change.success";
+    public static final String DELETE_TRACK_SUCCESS =
+            "message.delete.track.success";
+    public static final String DOWNLOAD_ERROR = "message.download.error";
+    public static final String LOGIN_ERROR = "message.login.error";
+    public static final String ODER_DOWNLOAD = "message.order.download";
+    public static final String ORDER_ERROR = "message.order.money";
+    public static final String ORDER_SUCCESS = "message.order.success";
+    public static final String SET_BONUS_SUCCESS = "message.bonus.success";
+    public static final String TRACK_RECOVER_SUCCESS =
+            "message.track.recover.success";
     private  ResourceBundle resourceBundle;
     public String getProperty(final String key) {
         return resourceBundle.getString(key);
