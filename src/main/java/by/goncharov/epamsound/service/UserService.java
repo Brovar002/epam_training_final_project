@@ -120,7 +120,7 @@ public class UserService implements Messenger {
                     .ADD_COMMENT_ERROR);
         }
     }
-    public String addFunds(final User user, final String newCash)
+    public String addCash(final User user, final String newCash)
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isCashValid(newCash)) {
