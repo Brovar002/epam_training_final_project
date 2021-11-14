@@ -12,7 +12,7 @@ public class DatabaseManager {
 
     public static final String DB_USER = "db.user";
 
-    private final static ResourceBundle resourceBundle = ResourceBundle.
+    private static final ResourceBundle resourceBundle = ResourceBundle.
             getBundle("database");
 
     public static String getProperty(final String key) {

@@ -12,9 +12,9 @@ import java.util.Properties;
 public class InitDatabase {
     private static final Logger LOGGER = LogManager.getLogger();
     final String DATABASE_LOGIN;
-    final  String DATABASE_PASS;
-    final  String DATABASE_URL;
-    final  int POOL_SIZE;
+    final String DATABASE_PASS;
+    final String DATABASE_URL;
+    final int POOL_SIZE;
 
     InitDatabase() {
         Properties properties = new Properties();

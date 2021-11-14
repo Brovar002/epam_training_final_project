@@ -11,9 +11,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public final class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
-    private ArrayBlockingQueue<ProxyConnection> connectionQueue;
-    private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
-    private static ReentrantLock lock = new ReentrantLock();
+    private final ArrayBlockingQueue<ProxyConnection> connectionQueue;
+    private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
+    private static final ReentrantLock lock = new ReentrantLock();
     private static ConnectionPool instance;
     private static InitDatabase db;
     private ConnectionPool() {
