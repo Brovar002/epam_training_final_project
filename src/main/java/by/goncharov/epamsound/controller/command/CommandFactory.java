@@ -7,15 +7,21 @@ import org.apache.logging.log4j.Logger;
 public class CommandFactory {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String COMMAND = "command";
-    public AbstractCommand defineCommand(ServletSessionRequestContent servletSessionRequestContent) {
-            String command = servletSessionRequestContent.getRequestParameter(COMMAND);
+    public AbstractCommand defineCommand(final ServletSessionRequestContent
+                                                 servletSessionRequestContent) {
+        AbstractCommand current = new EmptyCommand();
+
+        String command = servletSessionRequestContent
+                .getRequestParameter(COMMAND);
         if (command != null && !command.isEmpty()) {
             try {
-                CommandType currentCommand = CommandType.valueOf(command.toUpperCase());
+                CommandType currentCommand = CommandType.valueOf(
+                        command.toUpperCase());
+                current = currentCommand.getCurrentCommand();
             } catch (IllegalArgumentException e) {
-                LOGGER.error("Exception during command creator",e);
+                LOGGER.error("Exception during command creator", e);
             }
         }
-        return null;
+        return current;
     }
 }
