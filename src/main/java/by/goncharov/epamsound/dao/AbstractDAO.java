@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Entity;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
@@ -9,8 +9,8 @@ import java.sql.Statement;
 
 public abstract class AbstractDAO<T extends Entity> {
     private static final Logger LOGGER = LogManager.getLogger();
-    protected ProxyConnection connection;
-    protected AbstractDAO(final ProxyConnection connection) {
+    protected Transaction connection;
+    protected AbstractDAO(final Transaction connection) {
         this.connection = connection;
     }
 
@@ -26,7 +26,7 @@ public abstract class AbstractDAO<T extends Entity> {
         }
     }
 
-    public void closeConnection(final ProxyConnection connection) {
+    public void closeConnection(final Transaction connection) {
         try {
             connection.close();
         } catch (SQLException e) {

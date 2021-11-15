@@ -2,7 +2,7 @@ package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.Track;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,7 +62,7 @@ public class TrackDAO extends AbstractDAO {
     private static final String SQL_RECOVER_TRACK = "UPDATE audio_track SET"
             + " audio_track.deleted=0 WHERE id=?";
 
-    public TrackDAO(final ProxyConnection connection) {
+    public TrackDAO(final Transaction connection) {
         super(connection);
     }
 

@@ -5,7 +5,7 @@ import by.goncharov.epamsound.dao.UserDAO;
 import by.goncharov.epamsound.manager.ConnectionPool;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +45,7 @@ public class Validator implements Messenger {
     }
     boolean isEmailUnique(final String email) throws ServiceException {
         ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        Transaction connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return (userDAO.findUserByEmail(email) == null);
@@ -62,7 +62,7 @@ public class Validator implements Messenger {
     }
     boolean isLoginUnique(final String login) throws ServiceException {
         ConnectionPool pool = ConnectionPool.getInstance();
-        ProxyConnection connection = pool.getConnection();
+        Transaction connection = pool.getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             return (userDAO.findUser(login) == null);

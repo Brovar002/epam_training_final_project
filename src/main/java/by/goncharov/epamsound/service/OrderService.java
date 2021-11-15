@@ -6,14 +6,14 @@ import by.goncharov.epamsound.dao.DAOException;
 import by.goncharov.epamsound.dao.OrderDAO;
 import by.goncharov.epamsound.dao.UserDAO;
 import by.goncharov.epamsound.manager.ConnectionPool;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
     public void addOrder(final int trackId, final double price,
                          final User user) throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance().
+        Transaction connection = ConnectionPool.getInstance().
                 getConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         UserDAO userDAO = new UserDAO(connection);
@@ -43,7 +43,7 @@ public class OrderService {
     }
     public List<Track> findMyTracks(final int userId)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance().
+        Transaction connection = ConnectionPool.getInstance().
                 getConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {
@@ -57,7 +57,7 @@ public class OrderService {
     }
     public boolean isOrdered(final int userId, final int trackId)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         OrderDAO orderDAO = new OrderDAO(connection);
         try {

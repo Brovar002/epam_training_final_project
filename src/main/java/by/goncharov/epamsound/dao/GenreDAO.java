@@ -1,6 +1,6 @@
 package by.goncharov.epamsound.dao;
 
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ public class GenreDAO extends AbstractDAO {
     private static final String SQL_SELECT_GENRE_ID = "SELECT id"
             + " FROM genre WHERE genre=?";
     private static final String SQL_SELECT_GENRES = "SELECT `genre` FROM genre";
-    public GenreDAO(final ProxyConnection connection) {
+    public GenreDAO(final Transaction connection) {
         super(connection);
     }
     private int addGenre(final String genre) throws DAOException {

@@ -6,7 +6,7 @@ import by.goncharov.epamsound.dao.UserDAO;
 import by.goncharov.epamsound.manager.ConnectionPool;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 public class UserService implements Messenger {
     private final String SUCCESS = "Success";
     public List<User> findClients() throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
@@ -28,7 +28,7 @@ public class UserService implements Messenger {
 
     public List<User> findSuitableUsers(final String str)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         UserDAO trackDAO = new UserDAO(connection);
         try {
@@ -49,7 +49,7 @@ public class UserService implements Messenger {
 
     public User findUser(final String login) throws ServiceException {
         User user;
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
@@ -68,7 +68,7 @@ public class UserService implements Messenger {
         String res = validator.isDataValid(login, password,
                 confirmPassword, email);
         if (SUCCESS.equals(res)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             UserDAO userDAO = new UserDAO(connection);
             String md5Pass = DigestUtils.md5Hex(password);
@@ -88,7 +88,7 @@ public class UserService implements Messenger {
     private User findUserById(final int id) throws ServiceException {
         User user;
 
-        ProxyConnection connection = ConnectionPool.getInstance().getConnection();
+        Transaction connection = ConnectionPool.getInstance().getConnection();
         UserDAO userDAO = new UserDAO(connection);
         try {
             user = userDAO.findUserById(id);
@@ -103,7 +103,7 @@ public class UserService implements Messenger {
                              final int trackId) throws ServiceException {
         Validator validator = new Validator();
         if (validator.isCommentValid(text)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             UserDAO userDAO = new UserDAO(connection);
             try {
@@ -124,7 +124,7 @@ public class UserService implements Messenger {
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isCashValid(newCash)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             UserDAO userDAO = new UserDAO(connection);
             try {
@@ -152,7 +152,7 @@ public class UserService implements Messenger {
         Validator validator = new Validator();
         if (validator.isEmailValid(newEmail)) {
             if (validator.isEmailUnique(newEmail)) {
-                ProxyConnection connection = ConnectionPool.getInstance()
+                Transaction connection = ConnectionPool.getInstance()
                         .getConnection();
                 UserDAO userDAO = new UserDAO(connection);
                 try {
@@ -179,7 +179,7 @@ public class UserService implements Messenger {
         Validator validator = new Validator();
         if (validator.isLoginValid(newLogin)) {
             if (validator.isLoginUnique(newLogin)) {
-                ProxyConnection connection = ConnectionPool.getInstance()
+                Transaction connection = ConnectionPool.getInstance()
                         .getConnection();
                 UserDAO userDAO = new UserDAO(connection);
                 try {
@@ -210,7 +210,7 @@ public class UserService implements Messenger {
         if (userPass.equals(md5Pass)) {
             if (validator.isPasswordValid(newPassword)) {
                 if (validator.validateConfirmPass(confPassword, newPassword)) {
-                    ProxyConnection connection = ConnectionPool.getInstance()
+                    Transaction connection = ConnectionPool.getInstance()
                             .getConnection();
                     UserDAO userDAO = new UserDAO(connection);
                     String md5NewPass = DigestUtils.md5Hex(newPassword);
@@ -243,7 +243,7 @@ public class UserService implements Messenger {
             int discount = Integer.valueOf(bonus);
             User client = findUserById(userId);
             if (discount != client.getDiscount()) {
-                ProxyConnection connection = ConnectionPool.getInstance()
+                Transaction connection = ConnectionPool.getInstance()
                         .getConnection();
                 UserDAO userDAO = new UserDAO(connection);
                 try {

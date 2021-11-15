@@ -8,7 +8,7 @@ import by.goncharov.epamsound.dao.TrackDAO;
 import by.goncharov.epamsound.manager.ConnectionPool;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class TrackService implements Messenger {
                            final String path) throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackValid(name, artist, price, genre)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             TrackDAO trackDAO = new TrackDAO(connection);
             GenreService GenreService = new GenreService();
@@ -42,7 +42,7 @@ public class TrackService implements Messenger {
 
 
     public void deleteTrackById(final int id) throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -54,7 +54,7 @@ public class TrackService implements Messenger {
         }
     }
     public List<Track> findAllTracks() throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -67,7 +67,7 @@ public class TrackService implements Messenger {
     }
     public List<Track> findSuitableTracks(final String str)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -89,7 +89,7 @@ public class TrackService implements Messenger {
         }
     }
     public List<Track> findDeletedTracks() throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -102,7 +102,7 @@ public class TrackService implements Messenger {
         }
     }
     public Track findTrackById(final int id) throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -116,7 +116,7 @@ public class TrackService implements Messenger {
     }
     public List<Track> findTracksByGenre(final String genre)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -130,7 +130,7 @@ public class TrackService implements Messenger {
     }
     public String findTrackPath(final int trackId)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -146,7 +146,7 @@ public class TrackService implements Messenger {
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackArtistValid(newArtist)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             TrackDAO trackDAO = new TrackDAO(connection);
             try {
@@ -168,7 +168,7 @@ public class TrackService implements Messenger {
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isGenreValid(newGenre)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             TrackDAO trackDAO = new TrackDAO(connection);
             GenreDAO genreDAO = new GenreDAO(connection);
@@ -192,7 +192,7 @@ public class TrackService implements Messenger {
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackNameValid(newName)) {
-            ProxyConnection connection = ConnectionPool.getInstance()
+            Transaction connection = ConnectionPool.getInstance()
                     .getConnection();
             TrackDAO trackDAO = new TrackDAO(connection);
             try {
@@ -214,7 +214,7 @@ public class TrackService implements Messenger {
         Validator validator = new Validator();
         if (validator.isPriceValid(newPrice)) {
             if (!Double.valueOf(newPrice).equals(prevPrice)) {
-                ProxyConnection connection = ConnectionPool.getInstance()
+                Transaction connection = ConnectionPool.getInstance()
                         .getConnection();
                 TrackDAO trackDAO = new TrackDAO(connection);
                 try {
@@ -236,7 +236,7 @@ public class TrackService implements Messenger {
     }
     public List<Comment> findTrackComments(final int trackId)
             throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -249,7 +249,7 @@ public class TrackService implements Messenger {
         }
     }
     public List<Track> lastTracks() throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {
@@ -263,7 +263,7 @@ public class TrackService implements Messenger {
     }
 
     public void recoverTrackById(final int id) throws ServiceException {
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         TrackDAO trackDAO = new TrackDAO(connection);
         try {

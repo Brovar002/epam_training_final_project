@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public final class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
-    private final ArrayBlockingQueue<ProxyConnection> connectionQueue;
+    private final ArrayBlockingQueue<Transaction> connectionQueue;
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static final ReentrantLock lock = new ReentrantLock();
     private static ConnectionPool instance;
@@ -45,8 +45,8 @@ public final class ConnectionPool {
         try {
             Connection connection = DriverManager.getConnection(db.DATABASE_URL,
                     db.DATABASE_LOGIN, db.DATABASE_PASS);
-            ProxyConnection proxyConnection = new ProxyConnection(connection);
-            this.connectionQueue.put(proxyConnection);
+            Transaction transaction = new Transaction(connection);
+            this.connectionQueue.put(transaction);
         } catch (SQLException | InterruptedException e) {
             LOGGER.error("Exception during connection"
                    + " addition to connection queue", e);
@@ -66,8 +66,8 @@ public final class ConnectionPool {
         }
         return instance;
     }
-    public ProxyConnection getConnection() {
-        ProxyConnection connection = null;
+    public Transaction getConnection() {
+        Transaction connection = null;
         try {
             connection = connectionQueue.take();
         } catch (InterruptedException e) {
@@ -84,7 +84,7 @@ public final class ConnectionPool {
             LOGGER.error("Exception during pool termination", e);
         }
     }
-    void returnConnection(final ProxyConnection connection) {
+    void returnConnection(final Transaction connection) {
         try {
             connectionQueue.put(connection);
         } catch (InterruptedException e) {

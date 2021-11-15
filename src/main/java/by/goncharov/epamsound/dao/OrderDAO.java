@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Track;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class OrderDAO extends AbstractDAO {
             + "ORDER BY audio_track.name";
     private static final String SQL_SELECT_EXISTS = "SELECT EXISTS(SELECT"
             + " id FROM `order` WHERE user_id = ? AND audio_track_id=?)";
-    public OrderDAO(final ProxyConnection connection) {
+    public OrderDAO(final Transaction connection) {
         super(connection);
     }
     public void addOrder(final int trackId,

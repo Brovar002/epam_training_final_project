@@ -2,7 +2,7 @@ package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +38,7 @@ public class UserDAO extends AbstractDAO<User> {
             + " FROM user WHERE id=?";
     private static final String SQL_SET_BONUS = "UPDATE user SET"
             + " discount=? WHERE id=?";
-    public UserDAO(final ProxyConnection connection) {
+    public UserDAO(final Transaction connection) {
         super(connection);
     }
     public void addUser(final String login, final String password,

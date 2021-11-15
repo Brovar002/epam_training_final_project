@@ -3,7 +3,7 @@ package by.goncharov.epamsound.service;
 import by.goncharov.epamsound.dao.DAOException;
 import by.goncharov.epamsound.dao.UserDAO;
 import by.goncharov.epamsound.manager.ConnectionPool;
-import by.goncharov.epamsound.manager.ProxyConnection;
+import by.goncharov.epamsound.manager.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class LoginService {
@@ -15,7 +15,7 @@ public class LoginService {
                 || !validator.isPasswordValid(password)) {
             return false;
         }
-        ProxyConnection connection = ConnectionPool.getInstance()
+        Transaction connection = ConnectionPool.getInstance()
                 .getConnection();
         UserDAO userDAO = new UserDAO(connection);
         String md5Pass = DigestUtils.md5Hex(password);

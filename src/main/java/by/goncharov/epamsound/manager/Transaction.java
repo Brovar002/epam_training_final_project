@@ -6,10 +6,10 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 
-public class ProxyConnection implements Connection {
+public class Transaction implements Connection {
     private Connection connection;
 
-    ProxyConnection(final Connection connection) {
+    Transaction(final Connection connection) {
         this.connection = connection;
     }
 
