@@ -51,13 +51,6 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label" for="card"><fmt:message key="signup.card"/> *</label>
-        <div class="col-sm-6">
-            <input type="text" class="form-control" data-parsley-required data-parsley-type="number"
-                   data-parsley-length="[13,18]" name="card" id="card" value="${card}"/>
-        </div>
-    </div>
-    <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9 m-t-15">
             <button type="submit" name="command" value="signup" class="btn btn-primary"><fmt:message
                     key="signup.submit"/></button>

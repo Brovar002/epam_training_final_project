@@ -37,9 +37,6 @@
               <h3 title=<fmt:message key="profile.title.discount"/>><fmt:message key="profile.discount"/> ${user.discount}</h3>
           </div>
           <div>
-              <h3><fmt:message key="profile.card"/> ${user.cardNumber}</h3>
-          </div>
-          <div>
               <h3><fmt:message key="profile.email"/> ${user.email}</h3>
           </div>
           <div>

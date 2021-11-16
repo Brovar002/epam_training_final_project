@@ -33,13 +33,6 @@
                        data-parsley-trigger="keyup" name="email" value="${user.email}">
           </div>
       </div>
-      <div class="form-group">
-          <label class="col-sm-3 control-label"><fmt:message key="signup.card"/> *</label>
-          <div class="col-sm-6">
-              <input id="cardNumber" name="cardNumber" type="text" class="form-control" data-parsley-required data-parsley-type="number"
-                   data-parsley-length="[13,18]" title="Enter new bankcard number"
-                       value="${user.cardNumber}"/>
-          </div>
       </div>
       <div class="form-group">
           <div class="col-sm-offset-3 col-sm-9 m-t-15">
