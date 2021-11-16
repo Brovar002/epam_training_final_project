@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 public class UserService implements Messenger {
     private final String SUCCESS = "Success";
     public List<User> findClients() throws ServiceException {

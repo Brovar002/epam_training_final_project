@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 public class TrackDAO extends AbstractDAO {
     private static final String SQL_ADD_TRACK = "INSERT INTO audio_track "
             + "(`name`, `artist_name`, `genre_id`, `price`, `path`) "

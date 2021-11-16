@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 public class UserDAO extends AbstractDAO<User> {
     private static final String SQL_ADD_USER = "INSERT INTO user"
             + "(login,password, email) VALUES(?,?,?)";

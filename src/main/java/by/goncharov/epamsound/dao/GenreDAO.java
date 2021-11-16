@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 public class GenreDAO extends AbstractDAO {
     private static final String SQL_INSERT_GENRE = "INSERT INTO"
             + " genre (`genre`) VALUES (?);";

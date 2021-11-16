@@ -6,10 +6,14 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebFilter(urlPatterns = {"/jsp/user/*"},
+        initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
 public class LoginFilter implements Filter {
     private static final String PATH_PARAMETER = "INDEX_PATH";
     private static final String TRUE = "true";
