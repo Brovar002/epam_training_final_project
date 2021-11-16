@@ -5,16 +5,10 @@ CREATE TABLE IF NOT EXISTS `track_db`.`user` (
   `login` VARCHAR(20) NOT NULL,
   `password` CHAR(64) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `card_number` VARCHAR(45) NOT NULL,
   `cash_account` INT DEFAULT '0' NOT NULL,
   `discount` INT DEFAULT '0' NOT NULL,
   `role` TINYINT DEFAULT '0' NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `UserT`
-    FOREIGN KEY (`id`)
-    REFERENCES `track_db`.`user` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
