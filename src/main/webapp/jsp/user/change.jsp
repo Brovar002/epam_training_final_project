@@ -33,7 +33,6 @@
                        data-parsley-trigger="keyup" name="email" value="${user.email}">
           </div>
       </div>
-      </div>
       <div class="form-group">
           <div class="col-sm-offset-3 col-sm-9 m-t-15">
               <button type="submit" name="command" value="change" class="btn btn-primary">
