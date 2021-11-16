@@ -15,7 +15,7 @@ public class UserDAO extends AbstractDAO<User> {
             + "(login,password, email) VALUES(?,?,?)";
     private static final String SQL_SELECT_ALL_CLIENTS = "SELECT user.id,"
             + " user.login, user.discount, COUNT(user.login) as count\n"
-            + " FROM audio_track_order.`order` Left join `user` ON `order`."
+            + " FROM track_db.`order` Left join `user` ON `order`."
             + "user_id=`user`.id GROUP BY user.id ORDER BY user.login";
     private static final String SQL_SELECT_PASSWORD_BY_LOGIN = "SELECT password"
             + " FROM user WHERE login=?";
