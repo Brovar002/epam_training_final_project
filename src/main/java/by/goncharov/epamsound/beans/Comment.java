@@ -19,11 +19,11 @@ public class Comment extends Entity {
         this.dateTime = now.format(formatter);
     }
 
-    public Comment(final String userLogin, final String text,
-                   final String dateTime) {
+    public Comment(final String userLogin, final String dateTime,
+                   final String text) {
         this.userLogin = userLogin;
-        this.text = text;
         this.dateTime = dateTime;
+        this.text = text;
     }
     public String getDateTime() {
         return dateTime;
