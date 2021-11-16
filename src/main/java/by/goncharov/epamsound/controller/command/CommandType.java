@@ -129,6 +129,11 @@ public enum CommandType {
         {
             this.command = new TrackInfoCommand();
         }
+    },
+    INDEX{
+        {
+            this.command = new IndexCommand();
+        }
     };
 
     AbstractCommand command;
