@@ -1,4 +1,3 @@
-/*
 package by.goncharov.epamsound;
 
 import by.goncharov.epamsound.dao.ConnectionPool;
@@ -36,6 +35,7 @@ public class ConnectionPoolTest {
     public void checkGetConnection() throws SQLException {
         Transaction connection = pool.getConnection();
         Assert.assertNotNull(connection);
+        connection.close();
     }
 
     @Test
@@ -52,4 +52,3 @@ public class ConnectionPoolTest {
         Assert.assertEquals(connectionFirst, connectionSecond);
     }
 }
-*/
