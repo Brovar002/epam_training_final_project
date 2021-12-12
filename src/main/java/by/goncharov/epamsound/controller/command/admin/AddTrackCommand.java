@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.admin;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.GenreService;
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddTrackCommand extends AbstractCommand {
+public class AddTrackCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String RESULT_ATTR = "result";
     private static final String REAL_PATH_ATTRIBUTE = "path";
@@ -25,25 +25,25 @@ public class AddTrackCommand extends AbstractCommand {
     private static final String PRICE_PARAM = "price";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        User user = (User) servletSessionRequestContent
+        User user = (User) sessionRequestContent
                 .getSessionAttribute(USER_ATTRIBUTE);
         if (user != null && user.getRole() == 1) {
             boolean result = Boolean.parseBoolean(
-                    servletSessionRequestContent
+                    sessionRequestContent
                             .getRequestAttribute(RESULT_ATTR).toString());
             if (result) {
                 TrackService trackService = new TrackService();
-                String name = servletSessionRequestContent
+                String name = sessionRequestContent
                         .getRequestParameter(NAME_PARAM);
-                String artist = servletSessionRequestContent
+                String artist = sessionRequestContent
                         .getRequestParameter(ARTIST_PARAM);
-                String genre = servletSessionRequestContent
+                String genre = sessionRequestContent
                         .getRequestParameter(GENRE_PARAM);
-                String price = servletSessionRequestContent
+                String price = sessionRequestContent
                         .getRequestParameter(PRICE_PARAM);
-                String realPath = servletSessionRequestContent
+                String realPath = sessionRequestContent
                         .getRequestAttribute(REAL_PATH_ATTRIBUTE).toString();
                 try {
                     String res = trackService.addTrack(name, artist, price,
@@ -52,29 +52,29 @@ public class AddTrackCommand extends AbstractCommand {
                         GenreService genreService = new GenreService();
                         List<String> genreList = new ArrayList<>();
                         genreList = genreService.findGenres();
-                        servletSessionRequestContent.setSessionAttribute(
+                        sessionRequestContent.setSessionAttribute(
                                 GENRES_ATTR, genreList);
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 SUCCESS, messageManager.getProperty(
                                         MessageManager.ADD_TRACK_SUCCESS));
                         page = ConfigurationManager.getProperty(
                                 ConfigurationManager.HOME_PATH);
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, res);
                         page = ConfigurationManager.getProperty(
                                 ConfigurationManager.HOME_PATH);
                     }
                 } catch (ServiceException e) {
                     LOGGER.error("Exception during track addition command", e);
-                    servletSessionRequestContent.setRequestAttribute(
+                    sessionRequestContent.setRequestAttribute(
                             ERROR, messageManager.getProperty(
                                     MessageManager.ADD_TRACK_ERROR));
                     page = ConfigurationManager.getProperty(
                             ConfigurationManager.HOME_PATH);
                 }
             } else {
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         ERROR, messageManager.getProperty(
                                 MessageManager.ADD_TRACK_ERROR));
                 page = ConfigurationManager.getProperty(

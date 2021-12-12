@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.user;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.ServiceException;
@@ -10,23 +10,23 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ChangeDataCommand extends AbstractCommand {
+public class ChangeDataCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String USER_ATTR = "user";
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_EMAIL = "email";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        String logined = (String) servletSessionRequestContent
+        String logined = (String) sessionRequestContent
                 .getSessionAttribute(IS_LOGIN);
         if (Boolean.parseBoolean(logined)) {
-            User user = (User) servletSessionRequestContent
+            User user = (User) sessionRequestContent
                     .getSessionAttribute(USER_ATTR);
-            String login = servletSessionRequestContent
+            String login = sessionRequestContent
                     .getRequestParameter(PARAM_LOGIN);
-            String email = servletSessionRequestContent
+            String email = sessionRequestContent
                     .getRequestParameter(PARAM_EMAIL);
             UserService userService = new UserService();
             String res;
@@ -36,7 +36,7 @@ public class ChangeDataCommand extends AbstractCommand {
                     if (SUCCESS.equals(res)) {
                         user.setLogin(login);
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, res);
                         return ConfigurationManager
                                 .getProperty(ConfigurationManager.CHANGE_PATH);
@@ -47,22 +47,22 @@ public class ChangeDataCommand extends AbstractCommand {
                     if (SUCCESS.equals(res)) {
                         user.setEmail(email);
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, res);
                         return ConfigurationManager.getProperty(
                                 ConfigurationManager.CHANGE_PATH);
                     }
                 }
-                servletSessionRequestContent.setSessionAttribute(USER_ATTR,
+                sessionRequestContent.setSessionAttribute(USER_ATTR,
                         user);
-                servletSessionRequestContent.setRequestAttribute(SUCCESS,
+                sessionRequestContent.setRequestAttribute(SUCCESS,
                         messageManager.getProperty(
                                 MessageManager.CHANGE_SUCCESS));
                 page = ConfigurationManager.getProperty(ConfigurationManager
                         .PROFILE_PATH);
             } catch (ServiceException e) {
                 LOGGER.error("Exception during change command", e);
-                page = redirectToErrorPage(servletSessionRequestContent, e);
+                page = redirectToErrorPage(sessionRequestContent, e);
             }
         } else {
             page = ConfigurationManager.getProperty(ConfigurationManager

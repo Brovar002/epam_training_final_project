@@ -10,14 +10,14 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndexCommand extends AbstractCommand {
+public class IndexCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String DEFAULT_LOCALE = "ru_RU";
     private static final String GENRES_ATTR = "genres";
 
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         GenreService genreService = new GenreService();
         List<String> genreList = new ArrayList<>();
         try {
@@ -25,9 +25,9 @@ public class IndexCommand extends AbstractCommand {
         } catch (ServiceException e) {
             LOGGER.error("Exception during genres search", e);
         }
-        servletSessionRequestContent.setSessionAttribute(GENRES_ATTR,
+        sessionRequestContent.setSessionAttribute(GENRES_ATTR,
                 genreList);
-        servletSessionRequestContent.setSessionAttribute(LOCALE_ATTRIBUTE,
+        sessionRequestContent.setSessionAttribute(LOCALE_ATTRIBUTE,
                 DEFAULT_LOCALE);
         return ConfigurationManager.getProperty(ConfigurationManager.HOME_PATH);
     }

@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.admin;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.ServiceException;
@@ -10,29 +10,29 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RecoverTrackCommand extends AbstractCommand {
+public class RecoverTrackCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ID = "track_id";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        User user = (User) servletSessionRequestContent
+        User user = (User) sessionRequestContent
                 .getSessionAttribute(USER_ATTRIBUTE);
         if (user != null && user.getRole() == 1) {
-            int trackId = Integer.parseInt(servletSessionRequestContent
+            int trackId = Integer.parseInt(sessionRequestContent
                     .getRequestParameter(TRACK_ID));
             TrackService trackService = new TrackService();
             try {
                 trackService.recoverTrackById(trackId);
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         SUCCESS, messageManager.getProperty(
                                 MessageManager.TRACK_RECOVER_SUCCESS));
                 page = ConfigurationManager.getProperty(
                         ConfigurationManager.TRACK_DELETED_PATH);
             } catch (ServiceException e) {
                 LOGGER.error("Exception during track recover", e);
-                page = redirectToErrorPage(servletSessionRequestContent, e);
+                page = redirectToErrorPage(sessionRequestContent, e);
             }
         } else {
             page = ConfigurationManager.getProperty(

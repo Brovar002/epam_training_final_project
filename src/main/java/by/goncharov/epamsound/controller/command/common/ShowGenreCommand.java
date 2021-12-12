@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.common;
 
 import by.goncharov.epamsound.beans.Track;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.TrackService;
@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
-public class ShowGenreCommand extends AbstractCommand {
+public class ShowGenreCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_DELETED = "is_deleted";
@@ -18,30 +18,30 @@ public class ShowGenreCommand extends AbstractCommand {
     private static final String IS_GENRE = "is_genre";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        String genre = servletSessionRequestContent.getRequestParameter(
+        String genre = sessionRequestContent.getRequestParameter(
                 GENRE_PARAMETER);
         if (genre == null) {
-            genre = servletSessionRequestContent.getSessionAttribute(
+            genre = sessionRequestContent.getSessionAttribute(
                     GENRE_PARAMETER).toString();
         }
         TrackService trackService = new TrackService();
         try {
             List<Track> trackList = trackService.findTracksByGenre(genre);
-            servletSessionRequestContent.setSessionAttribute(
+            sessionRequestContent.setSessionAttribute(
                     GENRE_PARAMETER, genre);
-            servletSessionRequestContent.setSessionAttribute(
+            sessionRequestContent.setSessionAttribute(
                     TRACK_LIST_ATTR, trackList);
-            servletSessionRequestContent.setSessionAttribute(
+            sessionRequestContent.setSessionAttribute(
                     IS_DELETED, false);
-            servletSessionRequestContent.setRequestAttribute(
+            sessionRequestContent.setRequestAttribute(
                     IS_GENRE, true);
             page = ConfigurationManager.getProperty(
                     ConfigurationManager.MAIN_PATH);
         } catch (ServiceException e) {
             LOGGER.error("Exception during tracks by genre search", e);
-            page = redirectToErrorPage(servletSessionRequestContent, e);
+            page = redirectToErrorPage(sessionRequestContent, e);
         }
         return page;
     }

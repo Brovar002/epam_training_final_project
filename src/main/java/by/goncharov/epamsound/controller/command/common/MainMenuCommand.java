@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.common;
 
 import by.goncharov.epamsound.beans.Track;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.TrackService;
@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuCommand extends AbstractCommand {
+public class MainMenuCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_DELETED = "is_deleted";

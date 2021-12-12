@@ -7,11 +7,11 @@ import org.apache.logging.log4j.Logger;
 public class CommandFactory {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String COMMAND = "command";
-    public AbstractCommand defineCommand(final SessionRequestContent
-                                                 servletSessionRequestContent) {
-        AbstractCommand current = new EmptyCommand();
+    public Command defineCommand(final SessionRequestContent
+                                                 sessionRequestContent) {
+        Command current = new EmptyCommand();
 
-        String command = servletSessionRequestContent
+        String command = sessionRequestContent
                 .getRequestParameter(COMMAND);
         if (command != null && !command.isEmpty()) {
             try {

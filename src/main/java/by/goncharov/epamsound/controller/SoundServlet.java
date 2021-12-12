@@ -1,6 +1,6 @@
 package by.goncharov.epamsound.controller;
 
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.command.CommandFactory;
 import by.goncharov.epamsound.controller.command.DownloadErrorCommand;
 import by.goncharov.epamsound.controller.command.admin.AddTrackCommand;
@@ -54,22 +54,22 @@ public class SoundServlet extends HttpServlet
                                   final HttpServletResponse response)
             throws ServletException, IOException {
 
-        SessionRequestContent servletSessionRequestContent
+        SessionRequestContent sessionRequestContent
                 = new SessionRequestContent();
-        servletSessionRequestContent.extractValues(request);
+        sessionRequestContent.extractValues(request);
         CommandFactory client = new CommandFactory();
-        AbstractCommand command = client.defineCommand(
-                servletSessionRequestContent);
+        Command command = client.defineCommand(
+                sessionRequestContent);
         String page;
 
         if (command instanceof DownloadCommand) {
-            String filePath = command.execute(servletSessionRequestContent);
+            String filePath = command.execute(sessionRequestContent);
             FileDownloader downloader = new FileDownloader();
             if (!downloader.downloadTrack(filePath, response,
                     getServletContext())) {
                 DownloadErrorCommand errorCommand = new DownloadErrorCommand();
-                page = errorCommand.execute(servletSessionRequestContent);
-                servletSessionRequestContent.insertAttributes(request);
+                page = errorCommand.execute(sessionRequestContent);
+                sessionRequestContent.insertAttributes(request);
                 RequestDispatcher dispatcher = getServletContext()
                         .getRequestDispatcher(page);
                 dispatcher.forward(request, response);
@@ -78,13 +78,13 @@ public class SoundServlet extends HttpServlet
             if (command instanceof AddTrackCommand) {
                 FileUploader uploader = new FileUploader();
                 boolean res = uploader.uploadFile(request,
-                        servletSessionRequestContent);
-                servletSessionRequestContent.setRequestAttribute("result", res);
-                servletSessionRequestContent.setRequestAttribute("realPath",
+                        sessionRequestContent);
+                sessionRequestContent.setRequestAttribute("result", res);
+                sessionRequestContent.setRequestAttribute("realPath",
                         request.getServletContext().getContextPath());
             }
-            page = command.execute(servletSessionRequestContent);
-            servletSessionRequestContent.insertAttributes(request);
+            page = command.execute(sessionRequestContent);
+            sessionRequestContent.insertAttributes(request);
             if (command instanceof CommentCommand) {
                 response.sendRedirect(request.getServletContext()
                         .getContextPath() + page);

@@ -136,8 +136,8 @@ public enum CommandType {
         }
     };
 
-    AbstractCommand command;
-    public AbstractCommand getCurrentCommand() {
+    Command command;
+    public Command getCurrentCommand() {
         return command;
     }
 }

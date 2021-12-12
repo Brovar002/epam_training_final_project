@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.user;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.OrderService;
@@ -10,23 +10,23 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class BuyTrackCommand extends AbstractCommand {
+public class BuyTrackCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ID_ATTR = "track_id";
     private static final String PRICE_ATTR = "price";
 
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        String logined = (String) servletSessionRequestContent
+        String logined = (String) sessionRequestContent
                 .getSessionAttribute(IS_LOGIN);
         if (Boolean.parseBoolean(logined)) {
-            User user = (User) servletSessionRequestContent
+            User user = (User) sessionRequestContent
                     .getSessionAttribute(USER_ATTRIBUTE);
-            int trackId = Integer.parseInt(servletSessionRequestContent
+            int trackId = Integer.parseInt(sessionRequestContent
                     .getRequestParameter(TRACK_ID_ATTR));
-            double price = Double.parseDouble(servletSessionRequestContent
+            double price = Double.parseDouble(sessionRequestContent
                     .getRequestParameter(PRICE_ATTR));
             price -= price * user.getDiscount() / 100;
             OrderService orderService = new OrderService();
@@ -35,25 +35,25 @@ public class BuyTrackCommand extends AbstractCommand {
                     if (user.getCash() - price >= 0) {
                         orderService.addOrder(trackId, price, user);
                         user.setCash(user.getCash() - price);
-                        servletSessionRequestContent.setSessionAttribute(
+                        sessionRequestContent.setSessionAttribute(
                                 USER_ATTRIBUTE, user);
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 SUCCESS, messageManager.getProperty(
                                         MessageManager.ORDER_SUCCESS));
                         page = ConfigurationManager.getProperty(
                                 ConfigurationManager.SHOW_MY_ORDERS_PATH);
 
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, messageManager.getProperty(
                                         MessageManager.ORDER_ERROR));
                         page = ConfigurationManager
-                                .getProperty(servletSessionRequestContent
+                                .getProperty(sessionRequestContent
                                         .getSessionAttribute(CUR_PAGE_ATTR)
                                         .toString());
                     }
                 } else {
-                    servletSessionRequestContent.setRequestAttribute(
+                    sessionRequestContent.setRequestAttribute(
                             SUCCESS, messageManager.getProperty(
                                     MessageManager.ODER_DOWNLOAD));
                     page = ConfigurationManager.getProperty(
@@ -61,7 +61,7 @@ public class BuyTrackCommand extends AbstractCommand {
                 }
             } catch (ServiceException e) {
                 LOGGER.error("Exception during track purchase");
-                page = redirectToErrorPage(servletSessionRequestContent, e);
+                page = redirectToErrorPage(sessionRequestContent, e);
             }
         } else {
             page = ConfigurationManager.getProperty(

@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.common;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.UserService;
@@ -9,7 +9,7 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SingUpCommand extends AbstractCommand {
+public class SingUpCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";
@@ -19,15 +19,15 @@ public class SingUpCommand extends AbstractCommand {
     private static final String IS_LOGIN = "is_login";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        String login = servletSessionRequestContent.getRequestParameter(
+        String login = sessionRequestContent.getRequestParameter(
                 PARAM_LOGIN);
-        String password = servletSessionRequestContent.getRequestParameter(
+        String password = sessionRequestContent.getRequestParameter(
                 PARAM_PASSWORD);
-        String confPassword = servletSessionRequestContent.getRequestParameter(
+        String confPassword = sessionRequestContent.getRequestParameter(
                 PARAM_CONF_PASS);
-        String email = servletSessionRequestContent.getRequestParameter(
+        String email = sessionRequestContent.getRequestParameter(
                 PARAM_EMAIL);
         UserService userService = new UserService();
         try {
@@ -35,31 +35,31 @@ public class SingUpCommand extends AbstractCommand {
                     email);
             if (SUCCESS.equals(res)) {
                 User user = userService.findUser(login);
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         IS_LOGIN, "true");
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         USER_ATTRIBUTE, user);
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         ROLE_ATTRIBUTE, user.getRole());
                 page = ConfigurationManager.getProperty(
                         ConfigurationManager.HOME_PATH);
             } else {
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         PARAM_LOGIN, login);
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         PARAM_PASSWORD, password);
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         PARAM_CONF_PASS, confPassword);
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         PARAM_EMAIL, email);
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         ERROR, res);
                 page = ConfigurationManager.getProperty(
                         ConfigurationManager.SIGNUP_PATH);
             }
         } catch (ServiceException e) {
             LOGGER.error("Exception during sign up command", e);
-            page = redirectToErrorPage(servletSessionRequestContent, e);
+            page = redirectToErrorPage(sessionRequestContent, e);
         }
         return page;
     }

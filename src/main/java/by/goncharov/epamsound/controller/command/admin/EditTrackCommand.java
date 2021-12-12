@@ -3,7 +3,7 @@ package by.goncharov.epamsound.controller.command.admin;
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.ServiceException;
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class EditTrackCommand extends AbstractCommand {
+public class EditTrackCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ATTR = "track";
     private static final String COMMENTS_ATTRIBUTE = "comments";
@@ -24,20 +24,20 @@ public class EditTrackCommand extends AbstractCommand {
     private static final String PRICE_PARAM = "price";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        User user = (User) servletSessionRequestContent
+        User user = (User) sessionRequestContent
                 .getSessionAttribute(USER_ATTRIBUTE);
         if (user != null && user.getRole() == 1) {
-            Track track = (Track) servletSessionRequestContent
+            Track track = (Track) sessionRequestContent
                     .getSessionAttribute(TRACK_ATTR);
-            String name = servletSessionRequestContent
+            String name = sessionRequestContent
                     .getRequestParameter(NAME_PARAM);
-            String artist = servletSessionRequestContent
+            String artist = sessionRequestContent
                     .getRequestParameter(ARTIST_PARAM);
-            String price = servletSessionRequestContent
+            String price = sessionRequestContent
                     .getRequestParameter(PRICE_PARAM);
-            String genre = servletSessionRequestContent
+            String genre = sessionRequestContent
                     .getRequestParameter(GENRE_PARAM);
             TrackService trackService = new TrackService();
             String res;
@@ -47,7 +47,7 @@ public class EditTrackCommand extends AbstractCommand {
                     if (SUCCESS.equals(res)) {
                         track.setName(name);
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, res);
                         return ConfigurationManager.getProperty(
                                 ConfigurationManager.TRACK_EDIT_PATH);
@@ -58,7 +58,7 @@ public class EditTrackCommand extends AbstractCommand {
                     if (SUCCESS.equals(res)) {
                         track.setArtist(artist);
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, res);
                         return ConfigurationManager.getProperty(
                                 ConfigurationManager.TRACK_EDIT_PATH);
@@ -69,7 +69,7 @@ public class EditTrackCommand extends AbstractCommand {
                     if (SUCCESS.equals(res)) {
                         track.setGenre(genre.toUpperCase());
                     } else {
-                        servletSessionRequestContent.setRequestAttribute(
+                        sessionRequestContent.setRequestAttribute(
                                 ERROR, res);
                         return ConfigurationManager.getProperty(
                                 ConfigurationManager.TRACK_EDIT_PATH);
@@ -80,25 +80,25 @@ public class EditTrackCommand extends AbstractCommand {
                 if (SUCCESS.equals(res)) {
                     track.setPrice(Double.parseDouble(price));
                 } else {
-                    servletSessionRequestContent.setRequestAttribute(
+                    sessionRequestContent.setRequestAttribute(
                             ERROR, res);
                     return ConfigurationManager.getProperty(
                             ConfigurationManager.TRACK_EDIT_PATH);
                 }
                 List<Comment> comments = trackService.findTrackComments(
                         track.getId());
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         COMMENTS_ATTRIBUTE, comments);
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         TRACK_ATTR, track);
-                servletSessionRequestContent.setRequestAttribute(
+                sessionRequestContent.setRequestAttribute(
                         SUCCESS, messageManager.getProperty(
                                 MessageManager.CHANGE_SUCCESS));
                 page = ConfigurationManager.getProperty(
                         ConfigurationManager.TRACK_INFO_PATH);
             } catch (ServiceException e) {
                 LOGGER.error("Exception during change command", e);
-                page = redirectToErrorPage(servletSessionRequestContent, e);
+                page = redirectToErrorPage(sessionRequestContent, e);
             }
         } else {
             page = ConfigurationManager.getProperty(

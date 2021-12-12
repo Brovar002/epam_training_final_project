@@ -3,16 +3,16 @@ package by.goncharov.epamsound.controller.command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.controller.SessionRequestContent;
 
-public class EmptyCommand extends AbstractCommand {
+public class EmptyCommand implements Command {
     private static final String DEFAULT_LOCALE = "ru_RU";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page = ConfigurationManager.getProperty(
                 ConfigurationManager.HOME_PATH);
-        servletSessionRequestContent.setSessionAttribute(
+        sessionRequestContent.setSessionAttribute(
                 CUR_PAGE_ATTR, ConfigurationManager.HOME_PATH);
-        servletSessionRequestContent.setSessionAttribute(
+        sessionRequestContent.setSessionAttribute(
                 LOCALE_ATTRIBUTE, DEFAULT_LOCALE);
         return page;
     }

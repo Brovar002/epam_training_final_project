@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.user;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.ServiceException;
@@ -10,7 +10,7 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ChangePasswordCommand extends AbstractCommand {
+public class ChangePasswordCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String PARAM_PASSWORD = "password";
     private static final String PARAM_CONF_PASS = "password2";

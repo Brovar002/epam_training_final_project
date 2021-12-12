@@ -1,23 +1,23 @@
 package by.goncharov.epamsound.controller.command.common;
 
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.controller.SessionRequestContent;
 
-public class ChangeLanguageCommand extends AbstractCommand {
+public class ChangeLanguageCommand implements Command {
     private static final String LANGUAGE_ATTRIBUTE = "lang";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        Object str = servletSessionRequestContent.getRequestParameter(
+        Object str = sessionRequestContent.getRequestParameter(
                 LANGUAGE_ATTRIBUTE);
         if (str != null) {
             messageManager.setCurrentLocale(str.toString());
-            servletSessionRequestContent.setSessionAttribute(
+            sessionRequestContent.setSessionAttribute(
                     LOCALE_ATTRIBUTE, str.toString());
         }
-        Object property = servletSessionRequestContent
+        Object property = sessionRequestContent
                 .getSessionAttribute(CUR_PAGE_ATTR);
         if (property == null) {
             page = ConfigurationManager.getProperty(

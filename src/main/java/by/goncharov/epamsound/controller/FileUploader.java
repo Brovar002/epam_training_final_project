@@ -15,7 +15,7 @@ public class FileUploader {
     private static final String PATH = "path";
     public boolean uploadFile(final HttpServletRequest request,
                               final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         try {
             String appPath = request.getServletContext().getRealPath("");
             String savePath = appPath + File.separator + SAVE_DIR;
@@ -32,7 +32,7 @@ public class FileUploader {
                     fileName = new File(fileName).getName();
                     String path = savePath + File.separator + fileName;
                     part.write(path);
-                    servletSessionRequestContent.setRequestAttribute(PATH,
+                    sessionRequestContent.setRequestAttribute(PATH,
                             path);
                 }
             }

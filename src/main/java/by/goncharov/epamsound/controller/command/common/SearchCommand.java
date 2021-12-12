@@ -1,7 +1,7 @@
 package by.goncharov.epamsound.controller.command.common;
 
 import by.goncharov.epamsound.beans.Track;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.TrackService;
@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
-public class SearchCommand extends AbstractCommand {
+public class SearchCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String FIND_PARAMETER = "find";
     private static final String SEARCH_ATTR = "search";
@@ -18,22 +18,22 @@ public class SearchCommand extends AbstractCommand {
     private static final String IS_DELETED = "is_deleted";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
         TrackService trackService = new TrackService();
         try {
-            String str = servletSessionRequestContent.getRequestParameter(
+            String str = sessionRequestContent.getRequestParameter(
                     FIND_PARAMETER);
             List<Track> trackList = trackService.findSuitableTracks(str);
-            servletSessionRequestContent.setSessionAttribute(IS_DELETED, false);
-            servletSessionRequestContent.setRequestAttribute(SEARCH_ATTR, true);
-            servletSessionRequestContent.setSessionAttribute(TRACK_LIST_ATTR,
+            sessionRequestContent.setSessionAttribute(IS_DELETED, false);
+            sessionRequestContent.setRequestAttribute(SEARCH_ATTR, true);
+            sessionRequestContent.setSessionAttribute(TRACK_LIST_ATTR,
                     trackList);
             page = ConfigurationManager.getProperty(ConfigurationManager
                     .MAIN_PATH);
         } catch (ServiceException e) {
             LOGGER.error("Exception during tracks search", e);
-            page = redirectToErrorPage(servletSessionRequestContent, e);
+            page = redirectToErrorPage(sessionRequestContent, e);
         }
         return page;
     }

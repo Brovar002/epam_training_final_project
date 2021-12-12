@@ -2,7 +2,7 @@ package by.goncharov.epamsound.controller.command.admin;
 
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.controller.command.AbstractCommand;
+import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.TrackService;
@@ -11,30 +11,30 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
-public class ShowDeletedCommand extends AbstractCommand {
+public class ShowDeletedCommand implements Command {
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_DELETED = "is_deleted";
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
+                                      sessionRequestContent) {
         String page;
-        User user = (User) servletSessionRequestContent
+        User user = (User) sessionRequestContent
                 .getSessionAttribute(USER_ATTRIBUTE);
         if (user != null && user.getRole() == 1) {
             List<Track> deletedTracks;
             TrackService trackService = new TrackService();
             try {
                 deletedTracks = trackService.findDeletedTracks();
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         TRACK_LIST_ATTR, deletedTracks);
-                servletSessionRequestContent.setSessionAttribute(
+                sessionRequestContent.setSessionAttribute(
                         IS_DELETED, true);
                 page = ConfigurationManager.getProperty(
                         ConfigurationManager.TRACK_RECOVER_PATH);
             } catch (ServiceException e) {
                 LOGGER.error("Exception during deleted tracks search", e);
-                page = redirectToErrorPage(servletSessionRequestContent, e);
+                page = redirectToErrorPage(sessionRequestContent, e);
             }
         } else {
             page = ConfigurationManager.getProperty(

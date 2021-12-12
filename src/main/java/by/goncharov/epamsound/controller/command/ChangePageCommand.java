@@ -3,16 +3,16 @@ package by.goncharov.epamsound.controller.command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.controller.SessionRequestContent;
 
-public class ChangePageCommand extends AbstractCommand {
+public class ChangePageCommand implements Command {
     private static final String PAGE_PARAM = "page";
     private static final String NUM_OF_PAGES = "number_of_pages";
 
     @Override
     public String execute(final SessionRequestContent
-                                      servletSessionRequestContent) {
-        Object pageObj = servletSessionRequestContent
+                                      sessionRequestContent) {
+        Object pageObj = sessionRequestContent
                 .getRequestParameter(PAGE_PARAM);
-        Object allPagesObj = servletSessionRequestContent
+        Object allPagesObj = sessionRequestContent
                 .getRequestParameter(NUM_OF_PAGES);
         int newPageNum;
         if (pageObj != null) {
@@ -24,8 +24,8 @@ public class ChangePageCommand extends AbstractCommand {
         } else {
             newPageNum = 0;
         }
-        servletSessionRequestContent.setSessionAttribute(NUM_PAGE, newPageNum);
-        return ConfigurationManager.getProperty(servletSessionRequestContent
+        sessionRequestContent.setSessionAttribute(NUM_PAGE, newPageNum);
+        return ConfigurationManager.getProperty(sessionRequestContent
                 .getSessionAttribute(CUR_PAGE_ATTR).toString());
     }
 }
