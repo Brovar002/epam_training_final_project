@@ -2,10 +2,10 @@ package by.goncharov.epamsound.controller.command.admin;
 
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.controller.command.AbstractCommand;
-import by.goncharov.epamsound.manager.ConfigurationManager;
+import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.UserService;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +15,7 @@ public class ShowUsersCommand extends AbstractCommand {
     static final Logger LOGGER = LogManager.getLogger();
     private final String USER_LIST_ATTR = "users";
     @Override
-    public String execute(final ServletSessionRequestContent
+    public String execute(final SessionRequestContent
                                       servletSessionRequestContent) {
         String page;
         User user = (User) servletSessionRequestContent

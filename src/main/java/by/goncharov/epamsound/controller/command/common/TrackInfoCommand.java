@@ -3,10 +3,10 @@ package by.goncharov.epamsound.controller.command.common;
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.controller.command.AbstractCommand;
-import by.goncharov.epamsound.manager.ConfigurationManager;
+import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.TrackService;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +18,7 @@ public class TrackInfoCommand extends AbstractCommand {
     private static final String TRACK_ATTRIBUTE = "track";
     private static final String COMMENTS_ATTRIBUTE = "comments";
     @Override
-    public String execute(final ServletSessionRequestContent
+    public String execute(final SessionRequestContent
                                       servletSessionRequestContent) {
         String page;
         int trackId = Integer.parseInt(servletSessionRequestContent

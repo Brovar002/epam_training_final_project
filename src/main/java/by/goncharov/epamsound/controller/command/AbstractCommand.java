@@ -1,8 +1,8 @@
 package by.goncharov.epamsound.controller.command;
 
-import by.goncharov.epamsound.manager.ConfigurationManager;
+import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 
 public abstract class AbstractCommand implements Messenger {
     protected static final String LOCALE_ATTRIBUTE = "locale";
@@ -12,9 +12,9 @@ public abstract class AbstractCommand implements Messenger {
     protected static final String USER_ATTRIBUTE = "user";
     protected static final String IS_LOGIN = "is_login";
     protected static final String NUM_PAGE = "num_page";
-    public abstract String execute(ServletSessionRequestContent
+    public abstract String execute(SessionRequestContent
                                            servletSessionRequestContent);
-    public String redirectToErrorPage(final ServletSessionRequestContent
+    public String redirectToErrorPage(final SessionRequestContent
                                               servletSessionRequestContent,
                                       final Exception e) {
         servletSessionRequestContent.setRequestAttribute(ERROR, e);

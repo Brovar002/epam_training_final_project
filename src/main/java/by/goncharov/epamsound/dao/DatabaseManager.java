@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.manager;
+package by.goncharov.epamsound.dao;
 
 import java.util.ResourceBundle;
 

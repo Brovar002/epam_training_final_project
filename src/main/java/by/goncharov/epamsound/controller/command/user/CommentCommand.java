@@ -3,12 +3,12 @@ package by.goncharov.epamsound.controller.command.user;
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.controller.command.AbstractCommand;
-import by.goncharov.epamsound.manager.ConfigurationManager;
+import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.TrackService;
 import by.goncharov.epamsound.service.UserService;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +20,7 @@ public class CommentCommand extends AbstractCommand {
     private static final String COMMENT_PARAM = "comment_area";
     private static final String COMMENTS_ATTRIBUTE = "comments";
     @Override
-    public String execute(final ServletSessionRequestContent
+    public String execute(final SessionRequestContent
                                       servletSessionRequestContent) {
         String page;
         String logined = (String) servletSessionRequestContent

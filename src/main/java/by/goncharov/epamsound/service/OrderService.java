@@ -5,8 +5,8 @@ import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.dao.DAOException;
 import by.goncharov.epamsound.dao.OrderDAO;
 import by.goncharov.epamsound.dao.UserDAO;
-import by.goncharov.epamsound.manager.ConnectionPool;
-import by.goncharov.epamsound.manager.Transaction;
+import by.goncharov.epamsound.dao.ConnectionPool;
+import by.goncharov.epamsound.dao.Transaction;
 import java.sql.SQLException;
 import java.util.List;
 

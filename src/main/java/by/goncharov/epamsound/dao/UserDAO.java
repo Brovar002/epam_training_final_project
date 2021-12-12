@@ -2,7 +2,7 @@ package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.manager.Transaction;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

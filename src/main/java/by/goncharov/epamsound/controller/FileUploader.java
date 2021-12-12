@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.servlet;
+package by.goncharov.epamsound.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +14,7 @@ public class FileUploader {
     private static final String SAVE_DIR = "uploadTracks";
     private static final String PATH = "path";
     public boolean uploadFile(final HttpServletRequest request,
-                              final ServletSessionRequestContent
+                              final SessionRequestContent
                                       servletSessionRequestContent) {
         try {
             String appPath = request.getServletContext().getRealPath("");

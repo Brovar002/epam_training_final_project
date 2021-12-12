@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.tag;
+package by.goncharov.epamsound.view.tag;
 
 import by.goncharov.epamsound.beans.User;
 

@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.servlet;
+package by.goncharov.epamsound.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -6,7 +6,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServletSessionRequestContent {
+public class SessionRequestContent {
     private HashMap<String, Object> requestAttributes;
     private Map<String, String[]> requestParameters;
     private HashMap<String, Object> sessionAttributes;

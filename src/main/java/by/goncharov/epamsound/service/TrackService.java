@@ -5,10 +5,10 @@ import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.dao.DAOException;
 import by.goncharov.epamsound.dao.GenreDAO;
 import by.goncharov.epamsound.dao.TrackDAO;
-import by.goncharov.epamsound.manager.ConnectionPool;
+import by.goncharov.epamsound.dao.ConnectionPool;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.manager.Transaction;
+import by.goncharov.epamsound.dao.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 

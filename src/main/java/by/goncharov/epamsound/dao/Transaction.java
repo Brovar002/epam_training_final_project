@@ -1,4 +1,6 @@
-package by.goncharov.epamsound.manager;
+package by.goncharov.epamsound.dao;
+
+import by.goncharov.epamsound.dao.ConnectionPool;
 
 import java.sql.*;
 import java.util.Map;

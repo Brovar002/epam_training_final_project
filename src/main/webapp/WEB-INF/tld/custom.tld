@@ -8,27 +8,27 @@
     <uri>customtags</uri>
     <tag>
         <name>isAdmin</name>
-        <tag-class>by.goncharov.epamsound.tag.AdminTag</tag-class>
+        <tag-class>by.goncharov.epamsound.view.tag.AdminTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>isLoggedIn</name>
-        <tag-class>by.goncharov.epamsound.tag.LoginTag</tag-class>
+        <tag-class>by.goncharov.epamsound.view.tag.LoginTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>notLoggedIn</name>
-        <tag-class>by.goncharov.epamsound.tag.NotLoginTag</tag-class>
+        <tag-class>by.goncharov.epamsound.view.tag.NotLoginTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>isDeleted</name>
-        <tag-class>by.goncharov.epamsound.tag.DeletedTag</tag-class>
+        <tag-class>by.goncharov.epamsound.view.tag.DeletedTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>notDeleted</name>
-        <tag-class>by.goncharov.epamsound.tag.NotDeletedTag</tag-class>
+        <tag-class>by.goncharov.epamsound.view.tag.NotDeletedTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
 </taglib>

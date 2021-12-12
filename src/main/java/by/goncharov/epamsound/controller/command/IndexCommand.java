@@ -1,9 +1,9 @@
 package by.goncharov.epamsound.controller.command;
 
-import by.goncharov.epamsound.manager.ConfigurationManager;
+import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.service.GenreService;
 import by.goncharov.epamsound.service.ServiceException;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +16,7 @@ public class IndexCommand extends AbstractCommand {
     private static final String GENRES_ATTR = "genres";
 
     @Override
-    public String execute(final ServletSessionRequestContent
+    public String execute(final SessionRequestContent
                                       servletSessionRequestContent) {
         GenreService genreService = new GenreService();
         List<String> genreList = new ArrayList<>();

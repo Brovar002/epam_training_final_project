@@ -1,7 +1,6 @@
 package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Entity;
-import by.goncharov.epamsound.manager.Transaction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;

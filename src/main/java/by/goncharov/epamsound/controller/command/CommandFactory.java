@@ -1,13 +1,13 @@
 package by.goncharov.epamsound.controller.command;
 
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CommandFactory {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String COMMAND = "command";
-    public AbstractCommand defineCommand(final ServletSessionRequestContent
+    public AbstractCommand defineCommand(final SessionRequestContent
                                                  servletSessionRequestContent) {
         AbstractCommand current = new EmptyCommand();
 

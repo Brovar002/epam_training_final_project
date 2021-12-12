@@ -2,12 +2,12 @@ package by.goncharov.epamsound.controller.command.common;
 
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.controller.command.AbstractCommand;
-import by.goncharov.epamsound.manager.ConfigurationManager;
+import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.service.LoginService;
 import by.goncharov.epamsound.service.ServiceException;
 import by.goncharov.epamsound.service.UserService;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ public class LogInCommand extends AbstractCommand {
     private static final String PARAM_PASSWORD = "password";
     private static final String TRUE = "true";
     @Override
-    public String execute(final ServletSessionRequestContent
+    public String execute(final SessionRequestContent
                                       servletSessionRequestContent) {
         String page;
         String login = servletSessionRequestContent

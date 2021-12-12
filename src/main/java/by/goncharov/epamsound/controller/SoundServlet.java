@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.servlet;
+package by.goncharov.epamsound.controller;
 
 import by.goncharov.epamsound.controller.command.AbstractCommand;
 import by.goncharov.epamsound.controller.command.CommandFactory;
@@ -6,7 +6,7 @@ import by.goncharov.epamsound.controller.command.DownloadErrorCommand;
 import by.goncharov.epamsound.controller.command.admin.AddTrackCommand;
 import by.goncharov.epamsound.controller.command.user.CommentCommand;
 import by.goncharov.epamsound.controller.command.user.DownloadCommand;
-import by.goncharov.epamsound.manager.ConnectionPool;
+import by.goncharov.epamsound.dao.ConnectionPool;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContextEvent;
@@ -54,8 +54,8 @@ public class SoundServlet extends HttpServlet
                                   final HttpServletResponse response)
             throws ServletException, IOException {
 
-        ServletSessionRequestContent servletSessionRequestContent
-                = new ServletSessionRequestContent();
+        SessionRequestContent servletSessionRequestContent
+                = new SessionRequestContent();
         servletSessionRequestContent.extractValues(request);
         CommandFactory client = new CommandFactory();
         AbstractCommand command = client.defineCommand(

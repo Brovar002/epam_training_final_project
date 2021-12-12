@@ -1,7 +1,8 @@
+/*
 package by.goncharov.epamsound;
 
-import by.goncharov.epamsound.manager.ConnectionPool;
-import by.goncharov.epamsound.manager.Transaction;
+import by.goncharov.epamsound.dao.ConnectionPool;
+import by.goncharov.epamsound.dao.Transaction;
 import org.junit.*;
 
 import java.sql.SQLException;
@@ -51,3 +52,4 @@ public class ConnectionPoolTest {
         Assert.assertEquals(connectionFirst, connectionSecond);
     }
 }
+*/

@@ -1,14 +1,14 @@
 package by.goncharov.epamsound.controller.command;
 
-import by.goncharov.epamsound.manager.ConfigurationManager;
-import by.goncharov.epamsound.servlet.ServletSessionRequestContent;
+import by.goncharov.epamsound.controller.ConfigurationManager;
+import by.goncharov.epamsound.controller.SessionRequestContent;
 
 public class ChangePageCommand extends AbstractCommand {
     private static final String PAGE_PARAM = "page";
     private static final String NUM_OF_PAGES = "number_of_pages";
 
     @Override
-    public String execute(final ServletSessionRequestContent
+    public String execute(final SessionRequestContent
                                       servletSessionRequestContent) {
         Object pageObj = servletSessionRequestContent
                 .getRequestParameter(PAGE_PARAM);

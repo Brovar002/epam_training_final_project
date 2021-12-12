@@ -2,8 +2,8 @@ package by.goncharov.epamsound.service;
 
 import by.goncharov.epamsound.dao.DAOException;
 import by.goncharov.epamsound.dao.UserDAO;
-import by.goncharov.epamsound.manager.ConnectionPool;
-import by.goncharov.epamsound.manager.Transaction;
+import by.goncharov.epamsound.dao.ConnectionPool;
+import by.goncharov.epamsound.dao.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class LoginService {

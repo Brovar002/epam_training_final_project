@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.manager;
+package by.goncharov.epamsound.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

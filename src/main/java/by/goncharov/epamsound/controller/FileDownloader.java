@@ -1,4 +1,4 @@
-package by.goncharov.epamsound.servlet;
+package by.goncharov.epamsound.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
