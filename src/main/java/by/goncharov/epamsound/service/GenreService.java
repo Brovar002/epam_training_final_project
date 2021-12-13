@@ -1,37 +1,28 @@
 package by.goncharov.epamsound.service;
 
-import by.goncharov.epamsound.dao.DAOException;
-import by.goncharov.epamsound.dao.GenreDAO;
-import by.goncharov.epamsound.dao.ConnectionPool;
-import by.goncharov.epamsound.dao.Transaction;
+import by.goncharov.epamsound.dao.DaoException;
+import by.goncharov.epamsound.dao.impl.GenreDaoImpl;
+
 import java.util.List;
 
 public class GenreService {
     public int findGenreId(final String genre) throws ServiceException {
         int id;
-        Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-        GenreDAO genreDAO = new GenreDAO(connection);
+        GenreDaoImpl genreDao = new GenreDaoImpl();
         try {
-            id = genreDAO.findGenreId(genre);
-        } catch (DAOException e) {
+            id = genreDao.findGenreId(genre);
+        } catch (DaoException e) {
 
             throw new ServiceException("Exception during genre id search", e);
-        } finally {
-            genreDAO.closeConnection(connection);
         }
         return id;
     }
     public List<String> findGenres() throws ServiceException {
-        Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-        GenreDAO genreDAO = new GenreDAO(connection);
+        GenreDaoImpl genreDao = new GenreDaoImpl();
         try {
-            return genreDAO.findGenres();
-        } catch (DAOException e) {
+            return genreDao.findGenres();
+        } catch (DaoException e) {
             throw new ServiceException("Exception during genre id search", e);
-        } finally {
-            genreDAO.closeConnection(connection);
         }
     }
 }

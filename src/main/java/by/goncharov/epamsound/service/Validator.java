@@ -1,11 +1,9 @@
 package by.goncharov.epamsound.service;
 
-import by.goncharov.epamsound.dao.DAOException;
-import by.goncharov.epamsound.dao.UserDAO;
-import by.goncharov.epamsound.dao.ConnectionPool;
+import by.goncharov.epamsound.dao.DaoException;
+import by.goncharov.epamsound.dao.impl.UserDaoImpl;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.dao.Transaction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,15 +42,11 @@ public class Validator implements Messenger {
         }
     }
     boolean isEmailUnique(final String email) throws ServiceException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Transaction connection = pool.getConnection();
-        UserDAO userDAO = new UserDAO(connection);
+        UserDaoImpl userDAOImpl = new UserDaoImpl();
         try {
-            return (userDAO.findUserByEmail(email) == null);
-        } catch (DAOException e) {
+            return (userDAOImpl.findByEmail(email) == null);
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        } finally {
-            userDAO.closeConnection(connection);
         }
     }
     boolean isEmailValid(final String email) {
@@ -61,16 +55,12 @@ public class Validator implements Messenger {
         return matcher.matches();
     }
     boolean isLoginUnique(final String login) throws ServiceException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Transaction connection = pool.getConnection();
-        UserDAO userDAO = new UserDAO(connection);
+        UserDaoImpl userDAOImpl = new UserDaoImpl();
         try {
-            return (userDAO.findUser(login) == null);
-        } catch (DAOException e) {
+            return (userDAOImpl.findByLogin(login) == null);
+        } catch (DaoException e) {
             throw new ServiceException("Error during checking login"
                     + " uniqueness", e);
-        } finally {
-            userDAO.closeConnection(connection);
         }
     }
     boolean isLoginValid(final String login) {

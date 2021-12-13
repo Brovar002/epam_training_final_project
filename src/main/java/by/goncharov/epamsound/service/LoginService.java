@@ -1,9 +1,7 @@
 package by.goncharov.epamsound.service;
 
-import by.goncharov.epamsound.dao.DAOException;
-import by.goncharov.epamsound.dao.UserDAO;
-import by.goncharov.epamsound.dao.ConnectionPool;
-import by.goncharov.epamsound.dao.Transaction;
+import by.goncharov.epamsound.dao.DaoException;
+import by.goncharov.epamsound.dao.impl.UserDaoImpl;
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class LoginService {
@@ -15,19 +13,15 @@ public class LoginService {
                 || !validator.isPasswordValid(password)) {
             return false;
         }
-        Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-        UserDAO userDAO = new UserDAO(connection);
+        UserDaoImpl userDao = new UserDaoImpl();
         String md5Pass = DigestUtils.md5Hex(password);
         try {
-            String dbPass = userDAO.findPassword(login);
+            String dbPass = userDao.findPassword(login);
             if (md5Pass.equals(dbPass)) {
                 return true;
             }
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during login", e);
-        } finally {
-            userDAO.closeConnection(connection);
         }
         return false;
     }

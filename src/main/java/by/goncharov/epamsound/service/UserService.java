@@ -1,39 +1,33 @@
 package by.goncharov.epamsound.service;
 
 import by.goncharov.epamsound.beans.User;
-import by.goncharov.epamsound.dao.DAOException;
-import by.goncharov.epamsound.dao.UserDAO;
-import by.goncharov.epamsound.dao.ConnectionPool;
+import by.goncharov.epamsound.dao.DaoException;
+import by.goncharov.epamsound.dao.impl.UserDaoImpl;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
-import by.goncharov.epamsound.dao.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("Duplicates")
 public class UserService implements Messenger {
     private final String SUCCESS = "Success";
+    UserDaoImpl userDao = new UserDaoImpl();
+
     public List<User> findClients() throws ServiceException {
-        Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-        UserDAO userDAO = new UserDAO(connection);
         try {
-            return userDAO.findClients();
-        } catch (DAOException e) {
-            throw new ServiceException("Exception during clients search", e);
-        } finally {
-            userDAO.closeConnection(connection);
+            return userDao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
         }
     }
 
     public List<User> findSuitableUsers(final String str)
             throws ServiceException {
-        Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-        UserDAO trackDAO = new UserDAO(connection);
+        UserDaoImpl trackDAO = new UserDaoImpl();
         try {
-            List<User> allClients = trackDAO.findClients();
+            List<User> allClients = trackDAO.findAll();
             List<User> res = new ArrayList<>();
             for (User temp : allClients) {
                 if (temp.getLogin().toLowerCase().contains(str.toLowerCase())) {
@@ -41,45 +35,37 @@ public class UserService implements Messenger {
                 }
             }
             return res;
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Exception during users search", e);
-        } finally {
-            trackDAO.closeConnection(connection);
         }
     }
 
     public User findUser(final String login) throws ServiceException {
         User user;
-        Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-        UserDAO userDAO = new UserDAO(connection);
         try {
-            user = userDAO.findUser(login);
-        } catch (DAOException e) {
+            user = userDao.findByLogin(login);
+        } catch (DaoException e) {
             throw new ServiceException("Error during user search", e);
-        } finally {
-            userDAO.closeConnection(connection);
         }
         return user;
     }
-        public String singUp(final String login, final String password,
+    public String singUp(final String login, final String password,
                              final String confirmPassword, final String email)
                 throws ServiceException {
         Validator validator = new Validator();
         String res = validator.isDataValid(login, password,
                 confirmPassword, email);
         if (SUCCESS.equals(res)) {
-            Transaction connection = ConnectionPool.getInstance()
-                    .getConnection();
-            UserDAO userDAO = new UserDAO(connection);
             String md5Pass = DigestUtils.md5Hex(password);
             try {
-                userDAO.addUser(login, md5Pass, email);
+                User user = new User();
+                user.setLogin(login);
+                user.setPassword(md5Pass);
+                user.setEmail(email);
+                userDao.add(user);
                 return SUCCESS;
-            } catch (DAOException e) {
+            } catch (DaoException e) {
                 throw new ServiceException("Error during signup", e);
-            } finally {
-                userDAO.closeConnection(connection);
             }
         } else {
             return res;
@@ -87,34 +73,27 @@ public class UserService implements Messenger {
     }
 
     private User findUserById(final int id) throws ServiceException {
-        User user;
 
-        Transaction connection = ConnectionPool.getInstance().getConnection();
-        UserDAO userDAO = new UserDAO(connection);
         try {
-            user = userDAO.findUserById(id);
-        } catch (DAOException e) {
+            Optional<User> user = userDao.findById(Long.valueOf(id));
+            if (user.isPresent()) {
+                return user.get();
+            }
+            throw new ServiceException();
+        } catch (DaoException e) {
             throw new ServiceException("Exception during user search", e);
-        } finally {
-            userDAO.closeConnection(connection);
         }
-        return user;
     }
     public String addComment(final User user, final String text,
                              final int trackId) throws ServiceException {
         Validator validator = new Validator();
         if (validator.isCommentValid(text)) {
-            Transaction connection = ConnectionPool.getInstance()
-                    .getConnection();
-            UserDAO userDAO = new UserDAO(connection);
             try {
-                userDAO.addComment(user.getId(), text, trackId);
+                userDao.addComment(user.getId(), text, trackId);
                 return SUCCESS;
-            } catch (DAOException e) {
+            } catch (DaoException e) {
                 throw new ServiceException("Error during comment"
                         + " addition", e);
-            } finally {
-                userDAO.closeConnection(connection);
             }
         } else {
             return messageManager.getProperty(MessageManager
@@ -125,23 +104,18 @@ public class UserService implements Messenger {
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isCashValid(newCash)) {
-            Transaction connection = ConnectionPool.getInstance()
-                    .getConnection();
-            UserDAO userDAO = new UserDAO(connection);
             try {
                 Double cash = Double.valueOf(newCash);
                 Double finalCash = user.getCash() + cash;
-                userDAO.changeCash(user.getId(), finalCash);
-                double newUserCash = userDAO.findCash(user.getId());
+                userDao.changeCash(user.getId(), finalCash);
+                double newUserCash = userDao.findCash(user.getId());
                 if (newUserCash > 0) {
                     user.setCash(newUserCash);
                 }
                 return SUCCESS;
-            } catch (DAOException e) {
+            } catch (DaoException e) {
                 throw new ServiceException("Exception during"
                         + " money addition", e);
-            } finally {
-                userDAO.closeConnection(connection);
             }
         } else {
             return messageManager.getProperty(MessageManager
@@ -153,17 +127,12 @@ public class UserService implements Messenger {
         Validator validator = new Validator();
         if (validator.isEmailValid(newEmail)) {
             if (validator.isEmailUnique(newEmail)) {
-                Transaction connection = ConnectionPool.getInstance()
-                        .getConnection();
-                UserDAO userDAO = new UserDAO(connection);
                 try {
-                    userDAO.changeEmail(userId, newEmail);
+                    userDao.changeEmail(userId, newEmail);
                     return SUCCESS;
-                } catch (DAOException e) {
+                } catch (DaoException e) {
                     throw new ServiceException("Error during changing"
                             + " email", e);
-                } finally {
-                    userDAO.closeConnection(connection);
                 }
             } else {
                 return messageManager.getProperty(MessageManager
@@ -174,23 +143,17 @@ public class UserService implements Messenger {
                     .CHANGE_EMAIL_ERROR);
         }
     }
-
     public String changeLogin(final int userId, final String newLogin)
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isLoginValid(newLogin)) {
             if (validator.isLoginUnique(newLogin)) {
-                Transaction connection = ConnectionPool.getInstance()
-                        .getConnection();
-                UserDAO userDAO = new UserDAO(connection);
                 try {
-                    userDAO.changeLogin(userId, newLogin);
+                    userDao.changeLogin(userId, newLogin);
                     return SUCCESS;
-                } catch (DAOException e) {
+                } catch (DaoException e) {
                     throw new ServiceException("Error during changing"
                             + " login", e);
-                } finally {
-                    userDAO.closeConnection(connection);
                 }
             } else {
                 return messageManager.getProperty(MessageManager
@@ -201,7 +164,6 @@ public class UserService implements Messenger {
                     .CHANGE_LOGIN_ERROR);
         }
     }
-
     public String changePass(final int userId, final String userPass,
                              final String password, final String newPassword,
                              final String confPassword)
@@ -211,18 +173,13 @@ public class UserService implements Messenger {
         if (userPass.equals(md5Pass)) {
             if (validator.isPasswordValid(newPassword)) {
                 if (validator.validateConfirmPass(confPassword, newPassword)) {
-                    Transaction connection = ConnectionPool.getInstance()
-                            .getConnection();
-                    UserDAO userDAO = new UserDAO(connection);
                     String md5NewPass = DigestUtils.md5Hex(newPassword);
                     try {
-                        userDAO.changePassword(userId, md5NewPass);
+                        userDao.changePassword(userId, md5NewPass);
                         return SUCCESS;
-                    } catch (DAOException e) {
+                    } catch (DaoException e) {
                         throw new ServiceException("Error during changing"
                                 + " password", e);
-                    } finally {
-                        userDAO.closeConnection(connection);
                     }
                 } else {
                     return messageManager.getProperty(MessageManager
@@ -244,17 +201,12 @@ public class UserService implements Messenger {
             int discount = Integer.valueOf(bonus);
             User client = findUserById(userId);
             if (discount != client.getDiscount()) {
-                Transaction connection = ConnectionPool.getInstance()
-                        .getConnection();
-                UserDAO userDAO = new UserDAO(connection);
                 try {
-                    userDAO.setBonus(userId, discount);
+                    userDao.setBonus(userId, discount);
                     return SUCCESS;
-                } catch (DAOException e) {
+                } catch (DaoException e) {
                     throw new ServiceException("Exception during bonus setting",
                             e);
-                } finally {
-                    userDAO.closeConnection(connection);
                 }
             } else {
                 return SUCCESS;
