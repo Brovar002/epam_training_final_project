@@ -13,24 +13,25 @@
 ### User roles and functions available to them:
 <br/>
 
-|Function| 	ADMIN | 	USER | GUEST |
-|---------|------|------|-------|
-change language | *    | *    | *     |
-view all users and their information | *    |      |       |
-recover deleted tracks | *    |      |      |
-add comments | *    | *     |      |
-download tracks |      | *     |      |
-delete tracks | *     |      |      |
-view all orders | *    | *    |       |
-view last orders | *    | *    | *     |
-add tracks | *    |      |       |	
-change tracks | *    |      |       |
-change account information | *    | *    |       |
-create orders |      |      | *     | 
-top up the balance | *    | *    |       |
-logout | *    | *    |       |
-sign in	|      |      | *     |
-create new account |      |            | *     | <br/>	
+| Function                             | 	ADMIN | 	USER | GUEST |
+|--------------------------------------|--------|-------|-------|
+| change language                      | *      | *     | *     |
+| view all users and their information | *      |       |       |
+| recover deleted tracks               | *      |       |       |
+| add comments                         | *      | *     |       |
+| download tracks                      |        | *     |       |
+| delete tracks                        | *      |       |       |
+| view all tracks                      | *      | *     |       |
+| view all genres                      | *      | *     | *     |
+| view last orders                     | *      | *     | *     |
+| add tracks                           | *      |       |       |	
+| change tracks                        | *      |       |       |
+| change account information           | *      | *     |       |
+| buy tracks                           |        | *     |       | 
+| top up the balance                   | *      | *     |       |
+| logout                               | *      | *     |       |
+| sign in	                             |        |       | *     |
+| create new account                   |        |       | *     | <br/>	
 
 ## Analogues:
 * iTunes Store
