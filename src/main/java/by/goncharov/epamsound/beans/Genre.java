@@ -1,6 +1,8 @@
 package by.goncharov.epamsound.beans;
 
 
+import java.util.Objects;
+
 /**
  * Class for describing the essence of a genre.
  * @author Goncharov Daniil
@@ -18,6 +20,27 @@ public class Genre extends Entity {
      */
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genre genre = (Genre) o;
+        return Objects.equals(name, genre.name) && Objects.equals(id, genre.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id);
     }
 
     /**

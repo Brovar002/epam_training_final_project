@@ -1,7 +1,10 @@
 package by.goncharov.epamsound.beans;
 
+import java.util.Objects;
+
 /**
  * Class for describing the essence of a user.
+ *
  * @author Goncharov Daniil
  * @version 1.0
  * @see Entity
@@ -55,6 +58,36 @@ public class User extends Entity {
         this.orderCount = orderCount;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", cash=" + cash +
+                ", role=" + role +
+                ", discount=" + discount +
+                ", email='" + email + '\'' +
+                ", orderCount=" + orderCount +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Double.compare(user.cash, cash) == 0 && role == user.role && discount == user.discount && orderCount == user.orderCount && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password, cash, role, discount, email, orderCount);
+    }
+
+    /**
+     * Instantiates a new User.
+     */
     public User() {
 
     }

@@ -1,6 +1,7 @@
 package by.goncharov.epamsound.beans;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Class for describing the essence of an order.
@@ -95,6 +96,30 @@ public class Order extends Entity {
      */
     public int getTrack() {
         return track;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", price=" + price +
+                ", date=" + date +
+                ", customer=" + customer +
+                ", track=" + track +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Double.compare(order.price, price) == 0 && track == order.track && Objects.equals(date, order.date) && Objects.equals(customer, order.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, price, date, customer, track);
     }
 
     /**

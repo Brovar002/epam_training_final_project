@@ -1,6 +1,8 @@
 package by.goncharov.epamsound.beans;
 
 
+import java.util.Objects;
+
 /**
  * Class for describing the essence of a track.
  * @author Goncharov Daniil
@@ -14,6 +16,31 @@ public class Track extends Entity {
     private String genre;
     private double price;
     private String path;
+
+    @Override
+    public String toString() {
+        return "Track{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", artist='" + artist + '\'' +
+                ", genre='" + genre + '\'' +
+                ", price=" + price +
+                ", path='" + path + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Track track = (Track) o;
+        return id == track.id && Double.compare(track.price, price) == 0 && Objects.equals(name, track.name) && Objects.equals(artist, track.artist) && Objects.equals(genre, track.genre) && Objects.equals(path, track.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, artist, genre, price, path);
+    }
 
     public Track() {
 
