@@ -9,6 +9,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Class of File downloader.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see File
+ */
 public class FileDownloader {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String MIME_TYPE = "application/octet-stream";
@@ -17,6 +23,15 @@ public class FileDownloader {
     private static final int END = -1;
     private static final int BUFFER_LENGTH = 4096;
     private static final int START_OFFSET = 0;
+
+    /**
+     * Download track boolean.
+     *
+     * @param filePath the file path
+     * @param response the response
+     * @param context  the context
+     * @return the boolean
+     */
     boolean downloadTrack(final String filePath,
                           final HttpServletResponse response,
                           final ServletContext context) {

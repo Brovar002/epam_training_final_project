@@ -4,6 +4,13 @@ import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.controller.SessionRequestContent;
 
+/**
+ * Class for execute command of changing language.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see SessionRequestContent
+ */
 public class ChangeLanguageCommand implements Command {
     private static final String LANGUAGE_ATTRIBUTE = "lang";
     @Override

@@ -19,6 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class of Controller.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see CommandFactory
+ * @see ConnectionPool
+ * @see HttpServlet
+ */
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 20,
         maxRequestSize = 1024 * 1024 * 50)
@@ -50,6 +59,14 @@ public class SoundServlet extends HttpServlet
     }
 
 
+    /**
+     * Process request.
+     *
+     * @param request  the request
+     * @param response the response
+     * @throws ServletException the servlet exception
+     * @throws IOException      the io exception
+     */
     protected void processRequest(final HttpServletRequest request,
                                   final HttpServletResponse response)
             throws ServletException, IOException {

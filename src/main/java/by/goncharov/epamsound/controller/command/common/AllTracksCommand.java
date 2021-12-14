@@ -11,7 +11,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class for execute command of showung all tracks.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see TrackService
+ * @see Track
+ * @see SessionRequestContent
+ */
 public class AllTracksCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger(AllTracksCommand.class);
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_DELETED = "is_deleted";

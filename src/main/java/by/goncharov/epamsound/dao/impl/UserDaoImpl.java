@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class for user DAO.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see UserDao
+ * @see User
+ * @see Transaction
+ * @see Comment
+ */
 @SuppressWarnings("Duplicates")
 public class UserDaoImpl implements UserDao {
     private static final String SQL_ADD_USER = "INSERT INTO user"
@@ -42,28 +51,38 @@ public class UserDaoImpl implements UserDao {
             + " FROM user WHERE id=?";
     private static final String SQL_SET_BONUS = "UPDATE user SET"
             + " discount=? WHERE id=?";
-    private static final String SQL_UPDATE_USER = "UPDATE user SET login = ?, password = ?," +
-            " email = ?, cash_account = ?, role = ? WHERE id = ?";
-    private static final String SQL_REMOVE_USER_BY_ID = "DELETE FROM users WHERE id = ?";
+    private static final String SQL_UPDATE_USER = "UPDATE user SET login = ?,"
+            + " password = ?, email = ?, cash_account = ?,"
+            + " role = ? WHERE id = ?";
+    private static final String SQL_REMOVE_USER_BY_ID = "DELETE FROM users"
+            + " WHERE id = ?";
 
 
 
-    private void fillUserData(User user, PreparedStatement statement) throws SQLException {
+    private void fillUserData(final User user,
+                              final PreparedStatement statement)
+            throws SQLException {
         statement.setString(1, user.getLogin());
         statement.setString(2, user.getPassword());
         statement.setString(3, user.getEmail());
     }
 
-    private void fillUpdatingUserData(User user, PreparedStatement statement) throws SQLException {
+    private void fillUpdatingUserData(final User user,
+                                      final PreparedStatement statement)
+            throws SQLException {
         fillUserData(user, statement);
         statement.setDouble(4, user.getCash());
         statement.setInt(5, user.getRole());
 
     }
 
-    private User findUserByParameter(String parameter, String findSQLScript) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(findSQLScript)) {
+    private User findUserByParameter(final String parameter,
+                                     final String findSQLScript)
+            throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(findSQLScript)) {
             statement.setString(1, parameter);
             ResultSet resultSet = statement.executeQuery();
             User user;
@@ -75,9 +94,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean add(User user) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_USER)) {
+    public boolean add(final User user) throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_ADD_USER)) {
             fillUserData(user, statement);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -86,9 +107,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean removeById(Long id) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_USER_BY_ID)) {
+    public boolean removeById(final Long id) throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_REMOVE_USER_BY_ID)) {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -134,9 +157,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean update(User user) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
+    public boolean update(final User user) throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_UPDATE_USER)) {
             statement.setLong(6, user.getId());
             fillUpdatingUserData(user, statement);
             return statement.executeUpdate() == 1;
@@ -147,9 +172,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findAll() throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_CLIENTS);
+            ResultSet resultSet = statement
+                    .executeQuery(SQL_SELECT_ALL_CLIENTS);
             List<User> users;
             users = createClientList(resultSet);
             return users;
@@ -160,8 +187,10 @@ public class UserDaoImpl implements UserDao {
 
     public String findPassword(final String login) throws DaoException {
         String password = null;
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PASSWORD_BY_LOGIN)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_PASSWORD_BY_LOGIN)) {
             statement.setString(1, login);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
@@ -174,20 +203,22 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) throws DaoException {
+    public User findByEmail(final String email) throws DaoException {
         return findUserByParameter(email, SQL_SELECT_USER_BY_EMAIL);
     }
 
     @Override
-    public User findByLogin(String login) throws DaoException {
+    public User findByLogin(final String login) throws DaoException {
         return findUserByParameter(login, SQL_SELECT_USER_BY_LOGIN);
     }
 
     @Override
-    public Optional<User> findById(Long id) throws DaoException {
+    public Optional<User> findById(final Long id) throws DaoException {
         User user;
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USER_BY_ID)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_USER_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             user = createUser(resultSet);
@@ -199,8 +230,10 @@ public class UserDaoImpl implements UserDao {
 
     public void changeCash(final int userId, final Double cash)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_CASH)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_CASH)) {
             statement.setDouble(1, cash);
             statement.setInt(2, userId);
             statement.executeUpdate();
@@ -210,8 +243,10 @@ public class UserDaoImpl implements UserDao {
     }
     public void addComment(final int userId, final String text,
                            final int trackId) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_COMMENT)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_ADD_COMMENT)) {
             Comment comment = new Comment(userId, trackId, text);
             statement.setInt(1, userId);
             statement.setInt(2, trackId);
@@ -224,8 +259,10 @@ public class UserDaoImpl implements UserDao {
     }
     public void changeEmail(final int userId, final String newEmail)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_EMAIL)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_EMAIL)) {
             statement.setString(1, newEmail);
             statement.setInt(2, userId);
             statement.executeUpdate();
@@ -235,8 +272,10 @@ public class UserDaoImpl implements UserDao {
     }
     public void changeLogin(final int userId, final String newLogin)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_LOGIN)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_LOGIN)) {
             statement.setString(1, newLogin);
             statement.setInt(2, userId);
             statement.executeUpdate();
@@ -247,8 +286,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void changePassword(final int userId, final String newPass)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_PASS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_PASS)) {
             statement.setString(1, newPass);
             statement.setInt(2, userId);
             statement.executeUpdate();
@@ -256,9 +297,19 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("Exception during changing password", e);
         }
     }
+
+    /**
+     * Find cash double.
+     *
+     * @param userId the user id
+     * @return the double
+     * @throws DaoException the dao exception
+     */
     public double findCash(final int userId) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_CASH)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_CASH)) {
             statement.setInt(1, userId);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
@@ -273,8 +324,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void setBonus(final int userId, final int bonus)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SET_BONUS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SET_BONUS)) {
             statement.setInt(1, bonus);
             statement.setInt(2, userId);
             statement.executeUpdate();

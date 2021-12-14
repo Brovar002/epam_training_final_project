@@ -10,7 +10,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
+/**
+ * Class for execute command of showing genre.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see Track
+ * @see TrackService
+ * @see SessionRequestContent
+ */
 public class ShowGenreCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_DELETED = "is_deleted";

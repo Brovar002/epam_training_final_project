@@ -10,7 +10,18 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of index page command.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see GenreService
+ * @see SessionRequestContent
+ */
 public class IndexCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String DEFAULT_LOCALE = "ru_RU";
     private static final String GENRES_ATTR = "genres";

@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class for track DAO.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see TrackDao
+ * @see Comment
+ * @see Track
+ * @see BaseDao
+ */
 @SuppressWarnings("Duplicates")
 public class TrackDaoImpl implements TrackDao {
     private static final String SQL_ADD_TRACK = "INSERT INTO audio_track "
@@ -66,7 +75,9 @@ public class TrackDaoImpl implements TrackDao {
             + " audio_track.deleted=0 WHERE id=?";
 
 
-    private void fillTrackData(Track track, PreparedStatement statement) throws SQLException {
+    private void fillTrackData(final Track track,
+                               final PreparedStatement statement)
+            throws SQLException {
         statement.setString(1, track.getName());
         statement.setString(2, track.getArtist());
         statement.setString(3, track.getGenre());
@@ -75,9 +86,11 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public boolean add(Track track) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_TRACK)) {
+    public boolean add(final Track track) throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_ADD_TRACK)) {
             fillTrackData(track, statement);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -85,9 +98,11 @@ public class TrackDaoImpl implements TrackDao {
         }
     }
     @Override
-    public boolean removeById(Long id) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE_TRACK)) {
+    public boolean removeById(final Long id) throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_DELETE_TRACK)) {
             statement.setLong(1, id);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -96,8 +111,10 @@ public class TrackDaoImpl implements TrackDao {
     }
     @Override
     public List<Track> findAll() throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_TRACKS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_ALL_TRACKS)) {
             ResultSet resultSet = statement.executeQuery();
             List<Track> tracks;
             tracks = formTrackList(resultSet);
@@ -108,13 +125,14 @@ public class TrackDaoImpl implements TrackDao {
     }
 
     @Override
-    public boolean update(Track entity) throws DaoException {
+    public boolean update(final Track entity) throws DaoException {
         return false;
     }
 
     public List<Track> findDeletedTracks() throws DaoException {
         List<Track> trackList;
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet set = statement.executeQuery(SQL_SELECT_DELETED_TRACKS);
             trackList = formTrackList(set);
@@ -127,8 +145,10 @@ public class TrackDaoImpl implements TrackDao {
     public List<Track> findTracksByGenre(final String genre)
             throws DaoException {
         List<Track> trackList;
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_TRACKS_BY_GENRE)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_TRACKS_BY_GENRE)) {
             statement.setString(1, genre.toUpperCase());
             ResultSet set = statement.executeQuery();
             trackList = formTrackList(set);
@@ -139,10 +159,12 @@ public class TrackDaoImpl implements TrackDao {
         return trackList;
     }
     @Override
-    public Optional<Track> findById(Long id) throws DaoException {
+    public Optional<Track> findById(final Long id) throws DaoException {
         Track track;
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_TRACK_BY_ID)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_TRACK_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             track = formTrackList(resultSet).get(0);
@@ -154,8 +176,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public String findTrackPath(final int trackId) throws DaoException {
         String path = "";
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_TRACK_PATH)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_TRACK_PATH)) {
             statement.setString(1, Integer.toString(trackId));
             ResultSet set = statement.executeQuery();
             if (set.next()) {
@@ -186,8 +210,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changeArtist(final int trackId, final String newArtist)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_ARTIST)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_ARTIST)) {
             statement.setString(1, newArtist);
             statement.setInt(2, trackId);
             statement.executeUpdate();
@@ -198,8 +224,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changeGenre(final int trackId, final int newGenreId)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_GENRE)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_GENRE)) {
             statement.setInt(1, newGenreId);
             statement.setInt(2, trackId);
             statement.executeUpdate();
@@ -210,8 +238,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changeName(final int trackId, final String newName)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_NAME)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_NAME)) {
             statement.setString(1, newName);
             statement.setInt(2, trackId);
             statement.executeUpdate();
@@ -222,8 +252,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changePrice(final int trackId, final double newPrice)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_CHANGE_PRICE)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_CHANGE_PRICE)) {
             statement.setDouble(1, newPrice);
             statement.setInt(2, trackId);
             statement.executeUpdate();
@@ -234,8 +266,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public List<Track> findLastOrderedTracks() throws DaoException {
         List<Track> trackList;
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_LAST_ORDERS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_LAST_ORDERS)) {
             ResultSet set = statement.executeQuery();
             trackList = formTrackList(set);
         } catch (SQLException e) {
@@ -248,8 +282,10 @@ public class TrackDaoImpl implements TrackDao {
     public List<Comment> findTrackComments(final int trackId)
             throws DaoException {
         List<Comment> comments = new ArrayList<>();
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_TRACK_COMMENTS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_TRACK_COMMENTS)) {
             statement.setInt(1, trackId);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -267,8 +303,10 @@ public class TrackDaoImpl implements TrackDao {
     }
     @Override
     public void recoverTrackById(final int id) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_RECOVER_TRACK)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_RECOVER_TRACK)) {
             statement.setString(1, Integer.toString(id));
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -1,68 +1,39 @@
 package by.goncharov.epamsound.dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import by.goncharov.epamsound.beans.Genre;
+
 import java.util.List;
 
-@SuppressWarnings("Duplicates")
-public class GenreDAO extends AbstractDAO {
-    private static final String SQL_INSERT_GENRE = "INSERT INTO"
-            + " genre (`genre`) VALUES (?);";
-    private static final String SQL_SELECT_GENRE_ID = "SELECT id"
-            + " FROM genre WHERE genre=?";
-    private static final String SQL_SELECT_GENRES = "SELECT `genre` FROM genre";
-    public GenreDAO(final Transaction connection) {
-        super(connection);
-    }
-    private int addGenre(final String genre) throws DAOException {
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(SQL_INSERT_GENRE);
-            statement.setString(1, genre.toUpperCase());
-            statement.executeUpdate();
-            return findGenreId(genre);
-        } catch (SQLException e) {
-            throw new DAOException("Exception during genre addition ", e);
-        } finally {
-            closeStatement(statement);
-        }
-    }
-    public int findGenreId(final String genre) throws DAOException {
-        int id;
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(SQL_SELECT_GENRE_ID);
-            statement.setString(1, genre.toUpperCase());
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                id = set.getInt("id");
-            } else {
-                id = addGenre(genre);
-            }
-        } catch (SQLException e) {
-            throw new DAOException("Exception during genre id search", e);
-        } finally {
-            closeStatement(statement);
-        }
-        return id;
-    }
-    public List<String> findGenres() throws DAOException {
-        List<String> genreList = new ArrayList<>();
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(SQL_SELECT_GENRES);
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                genreList.add(set.getString("genre"));
-            }
-        } catch (SQLException e) {
-            throw new DAOException("Exception during genre id search", e);
-        } finally {
-            closeStatement(statement);
-        }
-        return genreList;
-    }
+/**
+ * The interface Genre dao.
+ * @author Goncharov Daniil
+ * @see BaseDao
+ * @see Genre
+ */
+public interface GenreDao extends BaseDao<Long, Genre> {
+    /**
+     * Add genre int.
+     *
+     * @param genre the genre
+     * @return the int
+     * @throws DaoException the dao exception
+     */
+    int addGenre(String genre) throws DaoException;
 
+    /**
+     * Find genre id int.
+     *
+     * @param genre the genre
+     * @return the int
+     * @throws DaoException the dao exception
+     */
+    int findGenreId(String genre) throws DaoException;
+
+    /**
+     * Find genres list.
+     *
+     * @return the list
+     * @throws DaoException the dao exception
+     */
+    List<String> findGenres() throws DaoException;
 }

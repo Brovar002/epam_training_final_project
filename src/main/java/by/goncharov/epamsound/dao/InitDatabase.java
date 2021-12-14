@@ -1,6 +1,5 @@
 package by.goncharov.epamsound.dao;
 
-import by.goncharov.epamsound.dao.DatabaseManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,13 +9,33 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 
 
+/**
+ * The type Init database.
+ * @author Goncharov Daniil
+ *
+ */
 public class InitDatabase {
     private static final Logger LOGGER = LogManager.getLogger();
+    /**
+     * The Database login.
+     */
     final String DATABASE_LOGIN;
+    /**
+     * The Database pass.
+     */
     final String DATABASE_PASS;
+    /**
+     * The Database url.
+     */
     final String DATABASE_URL;
+    /**
+     * The Pool size.
+     */
     final int POOL_SIZE;
 
+    /**
+     * Instantiates a new Init database.
+     */
     InitDatabase() {
         Properties properties = new Properties();
         String propFileName = "database.properties";

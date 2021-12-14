@@ -10,7 +10,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
+/**
+ * Class for execute command of searching.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see TrackService
+ * @see Track
+ * @see SessionRequestContent
+ */
 public class SearchCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String FIND_PARAMETER = "find";
     private static final String SEARCH_ATTR = "search";

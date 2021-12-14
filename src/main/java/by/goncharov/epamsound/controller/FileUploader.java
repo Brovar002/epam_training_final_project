@@ -9,10 +9,27 @@ import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class of File uploader.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see File
+ */
 public class FileUploader {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String SAVE_DIR = "uploadTracks";
     private static final String PATH = "path";
+
+    /**
+     * Upload file boolean.
+     *
+     * @param request               the request
+     * @param sessionRequestContent the session request content
+     * @return the boolean
+     */
     public boolean uploadFile(final HttpServletRequest request,
                               final SessionRequestContent
                                       sessionRequestContent) {

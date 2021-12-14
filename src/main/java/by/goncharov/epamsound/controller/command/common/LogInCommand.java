@@ -11,7 +11,20 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class for execute command of logging in.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see UserService
+ * @see User
+ * @see LoginService
+ * @see SessionRequestContent
+ */
 public class LogInCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";

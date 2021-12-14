@@ -10,7 +10,19 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class for execute command of adding cash.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see User
+ * @see UserService
+ * @see SessionRequestContent
+ */
 public class AddCashCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String PARAM_CASH = "cash";
     @Override

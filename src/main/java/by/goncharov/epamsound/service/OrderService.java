@@ -13,13 +13,32 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Order service.
+ * @author Goncharov Daniil
+ * @see Order
+ * @see OrderDaoImpl
+ */
 public class OrderService {
+    /**
+     * The Order dao.
+     */
     OrderDaoImpl orderDao = new OrderDaoImpl();
+
+    /**
+     * Add order.
+     *
+     * @param trackId the track id
+     * @param price   the price
+     * @param user    the user
+     * @throws ServiceException the service exception
+     */
     public void addOrder(final int trackId, final double price,
                          final User user) throws ServiceException {
 
         UserDaoImpl userDao = new UserDaoImpl();
-        try (Transaction connection = ConnectionPool.getInstance().getConnection()) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection()) {
             try {
                 connection.setAutoCommit(false);
                 double money = user.getCash();
@@ -46,6 +65,14 @@ public class OrderService {
                     + " addition", e);
         }
     }
+
+    /**
+     * Find my tracks list.
+     *
+     * @param userId the user id
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<Track> findMyTracks(final int userId)
             throws ServiceException {
         try {
@@ -55,6 +82,15 @@ public class OrderService {
                     + " search", e);
         }
     }
+
+    /**
+     * Is ordered boolean.
+     *
+     * @param userId  the user id
+     * @param trackId the track id
+     * @return the boolean
+     * @throws ServiceException the service exception
+     */
     public boolean isOrdered(final int userId, final int trackId)
             throws ServiceException {
         try {

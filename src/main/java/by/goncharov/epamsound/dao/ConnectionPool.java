@@ -9,10 +9,17 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Object that contains all created connections and manages them.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Connection
+ */
 public final class ConnectionPool {
     private static final Logger LOGGER = LogManager.getLogger();
     private final ArrayBlockingQueue<Transaction> connectionQueue;
-    private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
+    private static final AtomicBoolean instanceCreated
+            = new AtomicBoolean(false);
     private static final ReentrantLock lock = new ReentrantLock();
     private static ConnectionPool instance;
     private static InitDatabase db;
@@ -52,6 +59,12 @@ public final class ConnectionPool {
                    + " addition to connection queue", e);
         }
     }
+
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ConnectionPool getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
@@ -66,6 +79,12 @@ public final class ConnectionPool {
         }
         return instance;
     }
+
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
     public Transaction getConnection() {
         Transaction connection = null;
         try {
@@ -75,6 +94,10 @@ public final class ConnectionPool {
         }
         return connection;
     }
+
+    /**
+     * Terminate pool.
+     */
     public void terminatePool() {
         try {
             for (int i = 0; i < db.POOL_SIZE; i++) {
@@ -84,6 +107,12 @@ public final class ConnectionPool {
             LOGGER.error("Exception during pool termination", e);
         }
     }
+
+    /**
+     * Return connection.
+     *
+     * @param connection the connection
+     */
     void returnConnection(final Transaction connection) {
         try {
             connectionQueue.put(connection);

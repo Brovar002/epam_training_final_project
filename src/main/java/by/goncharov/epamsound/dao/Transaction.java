@@ -1,16 +1,23 @@
 package by.goncharov.epamsound.dao;
 
-import by.goncharov.epamsound.dao.ConnectionPool;
-
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
 
+/**
+ * The type Transaction.
+ * @author Goncharov Daniil
+ */
 public class Transaction implements Connection {
     private Connection connection;
 
+    /**
+     * Instantiates a new Transaction.
+     *
+     * @param connection the connection
+     */
     Transaction(final Connection connection) {
         this.connection = connection;
     }
@@ -25,6 +32,11 @@ public class Transaction implements Connection {
         ConnectionPool.getInstance().returnConnection(this);
     }
 
+    /**
+     * Terminate connection.
+     *
+     * @throws SQLException the sql exception
+     */
     void terminateConnection() throws SQLException {
         connection.close();
     }
@@ -145,12 +157,13 @@ public class Transaction implements Connection {
     }
 
     @Override
-    public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+    public void setTypeMap(final Map<String, Class<?>> map)
+            throws SQLException {
         connection.setTypeMap(map);
     }
 
     @Override
-    public void setHoldability(int holdability) throws SQLException {
+    public void setHoldability(final int holdability) throws SQLException {
         connection.setHoldability(holdability);
     }
 
@@ -175,7 +188,8 @@ public class Transaction implements Connection {
     }
 
     @Override
-    public void releaseSavepoint(final Savepoint savepoint) throws SQLException {
+    public void releaseSavepoint(final Savepoint savepoint)
+            throws SQLException {
         connection.releaseSavepoint(savepoint);
     }
 

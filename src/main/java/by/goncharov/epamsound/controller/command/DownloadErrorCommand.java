@@ -4,6 +4,14 @@ import by.goncharov.epamsound.controller.ConfigurationManager;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.controller.SessionRequestContent;
 
+/**
+ * Class for execute command of downloading error.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see ConfigurationManager
+ * @see SessionRequestContent
+ */
 public class DownloadErrorCommand implements Command {
     @Override
     public String execute(final SessionRequestContent

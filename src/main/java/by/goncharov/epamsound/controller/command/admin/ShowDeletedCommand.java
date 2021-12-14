@@ -11,7 +11,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.List;
 
+/**
+ * Class for execute command of showing deleted track.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see TrackService
+ * @see Track
+ * @see User
+ * @see SessionRequestContent
+ */
 public class ShowDeletedCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_DELETED = "is_deleted";

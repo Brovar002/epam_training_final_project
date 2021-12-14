@@ -10,7 +10,19 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class for execute command of buying track.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see User
+ * @see OrderService
+ * @see SessionRequestContent
+ */
 public class BuyTrackCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ID_ATTR = "track_id";
     private static final String PRICE_ATTR = "price";

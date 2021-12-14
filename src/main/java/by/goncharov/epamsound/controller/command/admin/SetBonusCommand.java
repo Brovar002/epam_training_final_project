@@ -10,7 +10,19 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class for execute command of setting bonus.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see UserService
+ * @see User
+ * @see SessionRequestContent
+ */
 public class SetBonusCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String USER_ID_ATTR = "user_id";
     private static final String BONUS_ATTR = "bonus";

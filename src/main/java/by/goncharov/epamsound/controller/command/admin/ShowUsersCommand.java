@@ -11,7 +11,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The type Show users command.
+ */
 public class ShowUsersCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private final String USER_LIST_ATTR = "users";
     @Override

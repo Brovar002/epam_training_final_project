@@ -3,6 +3,10 @@ package by.goncharov.epamsound.view.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+/**
+ * The type Not deleted tag.
+ * @author Goncharov Daniil
+ */
 public class NotDeletedTag extends TagSupport {
     private static final String IS_DELETED = "is_deleted";
     @Override

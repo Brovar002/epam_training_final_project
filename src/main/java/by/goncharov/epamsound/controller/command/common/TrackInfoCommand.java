@@ -12,7 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class for execute command of showing track information.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see TrackService
+ * @see Track
+ * @see Comment
+ * @see SessionRequestContent
+ */
 public class TrackInfoCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ID = "track_id";
     private static final String TRACK_ATTRIBUTE = "track";

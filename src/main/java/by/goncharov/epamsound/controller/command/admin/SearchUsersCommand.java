@@ -11,7 +11,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class for execute command of searching users.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see UserService
+ * @see User
+ * @see SessionRequestContent
+ */
 public class SearchUsersCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String FIND_PARAMETER = "find";
     private static final String USER_LIST_ATTR = "users";

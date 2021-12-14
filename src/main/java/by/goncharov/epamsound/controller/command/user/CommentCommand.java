@@ -14,7 +14,21 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class for execute command of adding comment.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see User
+ * @see Comment
+ * @see TrackService
+ * @see UserService
+ * @see SessionRequestContent
+ */
 public class CommentCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ID_PARAM = "track_id";
     private static final String COMMENT_PARAM = "comment_area";

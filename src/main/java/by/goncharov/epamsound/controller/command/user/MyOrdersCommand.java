@@ -12,7 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class for execute command of showing user orders.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see OrderService
+ * @see Track
+ * @see User
+ * @see SessionRequestContent
+ */
 public class MyOrdersCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_LIST_ATTR = "track_list";
     private static final String IS_MY_ORDERS = "is_my_orders";

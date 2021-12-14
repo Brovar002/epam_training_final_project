@@ -14,7 +14,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class for execute command of editing track.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see Track
+ * @see TrackService
+ * @see Comment
+ * @see SessionRequestContent
+ */
 public class EditTrackCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String TRACK_ATTR = "track";
     private static final String COMMENTS_ATTRIBUTE = "comments";

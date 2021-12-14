@@ -3,6 +3,10 @@ package by.goncharov.epamsound.view.tag;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+/**
+ * The type Login tag.
+ * @author Goncharov Daniil
+ */
 public class LoginTag extends TagSupport {
     private static final String IS_LOGIN = "is_login";
     @Override

@@ -10,11 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type User service.
+ * @author Goncharov Daniil
+ * @see User
+ * @see UserDaoImpl
+ */
 @SuppressWarnings("Duplicates")
 public class UserService implements Messenger {
     private final String SUCCESS = "Success";
+    /**
+     * The User dao.
+     */
     UserDaoImpl userDao = new UserDaoImpl();
 
+    /**
+     * Find clients list.
+     *
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<User> findClients() throws ServiceException {
         try {
             return userDao.findAll();
@@ -23,6 +38,13 @@ public class UserService implements Messenger {
         }
     }
 
+    /**
+     * Find suitable users list.
+     *
+     * @param str the str
+     * @return the list
+     * @throws ServiceException the service exception
+     */
     public List<User> findSuitableUsers(final String str)
             throws ServiceException {
         UserDaoImpl trackDAO = new UserDaoImpl();
@@ -40,6 +62,13 @@ public class UserService implements Messenger {
         }
     }
 
+    /**
+     * Find user user.
+     *
+     * @param login the login
+     * @return the user
+     * @throws ServiceException the service exception
+     */
     public User findUser(final String login) throws ServiceException {
         User user;
         try {
@@ -49,6 +78,17 @@ public class UserService implements Messenger {
         }
         return user;
     }
+
+    /**
+     * Sing up string.
+     *
+     * @param login           the login
+     * @param password        the password
+     * @param confirmPassword the confirm password
+     * @param email           the email
+     * @return the string
+     * @throws ServiceException the service exception
+     */
     public String singUp(final String login, final String password,
                              final String confirmPassword, final String email)
                 throws ServiceException {
@@ -84,6 +124,16 @@ public class UserService implements Messenger {
             throw new ServiceException("Exception during user search", e);
         }
     }
+
+    /**
+     * Add comment string.
+     *
+     * @param user    the user
+     * @param text    the text
+     * @param trackId the track id
+     * @return the string
+     * @throws ServiceException the service exception
+     */
     public String addComment(final User user, final String text,
                              final int trackId) throws ServiceException {
         Validator validator = new Validator();
@@ -100,6 +150,15 @@ public class UserService implements Messenger {
                     .ADD_COMMENT_ERROR);
         }
     }
+
+    /**
+     * Add cash string.
+     *
+     * @param user    the user
+     * @param newCash the new cash
+     * @return the string
+     * @throws ServiceException the service exception
+     */
     public String addCash(final User user, final String newCash)
             throws ServiceException {
         Validator validator = new Validator();
@@ -122,6 +181,15 @@ public class UserService implements Messenger {
                     .CHANGE_CASH_ERROR);
         }
     }
+
+    /**
+     * Change email string.
+     *
+     * @param userId   the user id
+     * @param newEmail the new email
+     * @return the string
+     * @throws ServiceException the service exception
+     */
     public String changeEmail(final int userId, final String newEmail)
             throws ServiceException {
         Validator validator = new Validator();
@@ -143,6 +211,15 @@ public class UserService implements Messenger {
                     .CHANGE_EMAIL_ERROR);
         }
     }
+
+    /**
+     * Change login string.
+     *
+     * @param userId   the user id
+     * @param newLogin the new login
+     * @return the string
+     * @throws ServiceException the service exception
+     */
     public String changeLogin(final int userId, final String newLogin)
             throws ServiceException {
         Validator validator = new Validator();
@@ -164,6 +241,18 @@ public class UserService implements Messenger {
                     .CHANGE_LOGIN_ERROR);
         }
     }
+
+    /**
+     * Change pass string.
+     *
+     * @param userId       the user id
+     * @param userPass     the user pass
+     * @param password     the password
+     * @param newPassword  the new password
+     * @param confPassword the conf password
+     * @return the string
+     * @throws ServiceException the service exception
+     */
     public String changePass(final int userId, final String userPass,
                              final String password, final String newPassword,
                              final String confPassword)
@@ -194,6 +283,15 @@ public class UserService implements Messenger {
                     .CHANGE_PASS_EQUAL_ERROR);
         }
     }
+
+    /**
+     * Sets bonus.
+     *
+     * @param userId the user id
+     * @param bonus  the bonus
+     * @return the bonus
+     * @throws ServiceException the service exception
+     */
     public String setBonus(final int userId, final String bonus)
             throws ServiceException {
         Validator validator = new Validator();

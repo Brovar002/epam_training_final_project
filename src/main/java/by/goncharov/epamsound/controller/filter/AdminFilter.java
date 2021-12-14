@@ -13,6 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Admin filter.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Filter
+ */
+
 @WebFilter(urlPatterns = {"/jsp/admin/*"},
         initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
 public class AdminFilter implements Filter {

@@ -11,6 +11,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class for order DAO.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see OrderDao
+ * @see Order
+ * @see Track
+ * @see BaseDao
+ */
 public class OrderDaoImpl implements OrderDao {
     private final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static final String SQL_ADD_ORDER = "INSERT INTO"
@@ -26,7 +35,9 @@ public class OrderDaoImpl implements OrderDao {
     private static final String SQL_SELECT_EXISTS = "SELECT EXISTS(SELECT"
             + " id FROM `order` WHERE user_id = ? AND audio_track_id=?)";
 
-    private void fillOrderData(Order order, PreparedStatement statement) throws SQLException {
+    private void fillOrderData(final Order order,
+                               final PreparedStatement statement)
+            throws SQLException {
         statement.setInt(1, order.getTrack());
         statement.setInt(2, order.getCustomer().getId());
         statement.setDouble(3, order.getPrice());
@@ -34,9 +45,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean add(Order order) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_ADD_ORDER)) {
+    public boolean add(final Order order) throws DaoException {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_ADD_ORDER)) {
             fillOrderData(order, statement);
             return statement.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -45,8 +58,10 @@ public class OrderDaoImpl implements OrderDao {
     }
     @Override
     public List<Track> findOrders(final int userId) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USER_ORDERS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_USER_ORDERS)) {
             statement.setInt(1, userId);
             ResultSet set = statement.executeQuery();
             TrackDaoImpl trackDAOImpl = new TrackDaoImpl();
@@ -58,8 +73,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean isOrdered(final int userId, final int trackId)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_EXISTS)) {
+        try (Transaction connection = ConnectionPool.getInstance()
+                .getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement(SQL_SELECT_EXISTS)) {
             statement.setInt(1, userId);
             statement.setInt(2, trackId);
             ResultSet set = statement.executeQuery();
@@ -75,18 +92,18 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> findById(Long id) throws DaoException {
+    public Optional<Order> findById(final Long id) throws DaoException {
         return Optional.empty();
     }
 
 
     @Override
-    public boolean removeById(Long id) throws DaoException {
+    public boolean removeById(final Long id) throws DaoException {
         return false;
     }
 
     @Override
-    public boolean update(Order entity) throws DaoException {
+    public boolean update(final Order entity) throws DaoException {
         return false;
     }
 }

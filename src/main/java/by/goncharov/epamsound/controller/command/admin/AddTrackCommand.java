@@ -14,7 +14,20 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for execute command of adding track.
+ * @author Goncharov Daniil
+ * @version 1.0
+ * @see Command
+ * @see TrackService
+ * @see User
+ * @see GenreService
+ * @see SessionRequestContent
+ */
 public class AddTrackCommand implements Command {
+    /**
+     * The Logger.
+     */
     static final Logger LOGGER = LogManager.getLogger();
     private static final String RESULT_ATTR = "result";
     private static final String REAL_PATH_ATTRIBUTE = "path";
@@ -23,6 +36,12 @@ public class AddTrackCommand implements Command {
     private static final String GENRE_PARAM = "genre";
     private static final String GENRES_ATTR = "genres";
     private static final String PRICE_PARAM = "price";
+    /**
+     * Execute string.
+     *
+     * @param sessionRequestContent the session request content
+     * @return the string
+     */
     @Override
     public String execute(final SessionRequestContent
                                       sessionRequestContent) {
