@@ -20,7 +20,6 @@
     <div class="row col-md-offset-2  col-sm-offset-3">
        <h3><fmt:message key="about"/></h3>
         <hr>
-        <h3>+37544696969</h3>
     </div>
 </div>
 <%@include file="footer.jsp"%>

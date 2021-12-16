@@ -12,6 +12,11 @@
         <body-content>scriptless</body-content>
     </tag>
     <tag>
+        <name>isNotAdmin</name>
+        <tag-class>by.goncharov.epamsound.view.tag.NotAdminTag</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+    <tag>
         <name>isLoggedIn</name>
         <tag-class>by.goncharov.epamsound.view.tag.LoginTag</tag-class>
         <body-content>scriptless</body-content>

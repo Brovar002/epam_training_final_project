@@ -7,7 +7,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Load soundtracks site">
-    <meta name="author" content="Lavrenteva">
     <link rel="icon" href="${pageContext.request.contextPath}/images/vinyl.ico">
 
     <title><fmt:message key="menu.brand"/></title>

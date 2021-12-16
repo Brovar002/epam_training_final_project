@@ -66,6 +66,7 @@
                             </td>
                             <td>
                                 <ctg:isLoggedIn>
+                                    <ctg:isNotAdmin>
                                     <c:choose>
                                         <c:when test="${not empty is_my_orders}">
                                             <button class="btn btn-primary"
@@ -82,6 +83,7 @@
                                             </button>
                                         </c:otherwise>
                                     </c:choose>
+                                    </ctg:isNotAdmin>
                                 </ctg:isLoggedIn>
                             </td>
                         </ctg:notDeleted>
