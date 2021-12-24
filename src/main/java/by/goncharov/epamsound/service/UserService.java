@@ -22,7 +22,7 @@ public class UserService implements Messenger {
     /**
      * The User dao.
      */
-    UserDaoImpl userDao = new UserDaoImpl();
+    private final UserDaoImpl userDao = new UserDaoImpl();
 
     /**
      * Find clients list.

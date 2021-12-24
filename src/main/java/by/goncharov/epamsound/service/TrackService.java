@@ -21,7 +21,7 @@ public class TrackService implements Messenger {
     /**
      * The Track dao.
      */
-    TrackDaoImpl trackDao = new TrackDaoImpl();
+    private final TrackDaoImpl trackDao = new TrackDaoImpl();
 
     /**
      * Add track string.

@@ -23,7 +23,7 @@ public class OrderService {
     /**
      * The Order dao.
      */
-    OrderDaoImpl orderDao = new OrderDaoImpl();
+    private final OrderDaoImpl orderDao = new OrderDaoImpl();
 
     /**
      * Add order.
