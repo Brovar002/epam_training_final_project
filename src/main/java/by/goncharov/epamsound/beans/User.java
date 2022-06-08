@@ -1,7 +1,10 @@
 package by.goncharov.epamsound.beans;
 
 import java.util.Objects;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 /**
  * Class for describing the essence of a user.
  *
@@ -9,20 +12,38 @@ import java.util.Objects;
  * @version 1.0
  * @see Entity
  */
-public class User extends Entity {
+@Entity
+@Table(name = "user")
+public class User extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
     private int id;
+    @Column(name = "login")
     private String login;
+    @Column(name = "password")
     private String password;
+    @Column(name = "cash_account")
     private double cash;
+    @Column(name = "role")
     private int role;
+    @Column(name = "discount")
     private int discount;
+    @Column(name = "email")
     private String email;
+    //@Column(name = "orderCount")
     private int orderCount;
 
     /**
      * Instantiates a new User.
+     */
+    public User() {
+
+    }
+
+    /**
+     * Instantiates a new User.
      *
-     * @param id       the id
+     //* @param id       the id
      * @param login    the login
      * @param password the password
      * @param cash     the cash
@@ -30,10 +51,10 @@ public class User extends Entity {
      * @param discount the discount
      * @param email    the email
      */
-    public User(final int id, final String login, final String password,
+    public User(final String login, final String password,
                 final double cash, final int role, final int discount,
                 final String email) {
-        this.id = id;
+        //this.id = id;
         this.login = login;
         this.password = password;
         this.cash = cash;
@@ -85,12 +106,7 @@ public class User extends Entity {
         return Objects.hash(id, login, password, cash, role, discount, email, orderCount);
     }
 
-    /**
-     * Instantiates a new User.
-     */
-    public User() {
 
-    }
 
     /**
      * Gets id.

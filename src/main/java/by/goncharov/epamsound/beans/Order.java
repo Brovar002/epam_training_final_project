@@ -2,6 +2,10 @@ package by.goncharov.epamsound.beans;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Class for describing the essence of an order.
@@ -10,12 +14,45 @@ import java.util.Objects;
  * @see LocalDate
  * @see Entity
  */
-public class Order extends Entity {
+@Entity
+@Table(name = "order")
+public class Order extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
     private long id;
+    @Column(name = "price")
     private double price;
+    @Column(name = "date")
     private LocalDate date;
+    @Column(name = "user_id")
     private User customer;
+    @Column(name = "audio_track_id")
     private int track;
+
+
+    /**
+     * Instantiates a new Order.
+     */
+    public Order() {
+    }
+
+    /**
+     * Instantiates a new Order.
+     *
+     * @param id       the id
+     * @param track    the track
+     * @param customer the customer
+     * @param price    the price
+     * @param date     the date
+     */
+    public Order(final long id, final int track, final User customer,
+                 final double price, final LocalDate date) {
+        this.id = id;
+        this.track = track;
+        this.price = price;
+        this.date = date;
+        this.customer = customer;
+    }
 
     /**
      * Gets id.
@@ -129,29 +166,5 @@ public class Order extends Entity {
      */
     public void setTrack(final int track) {
         this.track = track;
-    }
-
-    /**
-     * Instantiates a new Order.
-     */
-    public Order() {
-    }
-
-    /**
-     * Instantiates a new Order.
-     *
-     * @param id       the id
-     * @param track    the track
-     * @param customer the customer
-     * @param price    the price
-     * @param date     the date
-     */
-    public Order(final long id, final int track, final User customer,
-                 final double price, final LocalDate date) {
-        this.id = id;
-        this.track = track;
-        this.price = price;
-        this.date = date;
-        this.customer = customer;
     }
 }

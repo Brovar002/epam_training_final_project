@@ -2,16 +2,38 @@ package by.goncharov.epamsound.beans;
 
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Class for describing the essence of a genre.
+ *
  * @author Goncharov Daniil
  * @version 1.0
  * @see Entity
  */
-public class Genre extends Entity {
+@Entity
+@Table(name = "genre")
+public class Genre extends by.goncharov.epamsound.beans.Entity {
+    @Column(name = "genre")
     private String name;
+    @Id
+    @Column(name = "id")
     private Long id;
+
+    /**
+     * Instantiates a new Genre.
+     */
+    public Genre() {
+
+    }
+
+    public Genre(final Long id, final String name) {
+        this.name = name;
+        this.id = id;
+    }
 
     /**
      * Gets name.
@@ -53,13 +75,6 @@ public class Genre extends Entity {
     }
 
     /**
-     * Instantiates a new Genre.
-     */
-    public Genre() {
-
-    }
-
-    /**
      * Gets id.
      *
      * @return the id
@@ -83,8 +98,4 @@ public class Genre extends Entity {
      * @param id   the id
      * @param name the name
      */
-    public Genre(final Long id, final String name) {
-        this.name = name;
-        this.id = id;
-    }
 }

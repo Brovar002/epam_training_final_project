@@ -3,6 +3,10 @@ package by.goncharov.epamsound.beans;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Class for describing the essence of a comment.
@@ -11,37 +15,23 @@ import java.util.Objects;
  * @see DateTimeFormatter
  * @see Entity
  */
-public class Comment extends Entity {
+@Entity
+@Table(name = "comment")
+public class Comment extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
+    private long id;
+    @Column(name = "user_id")
     private int userId;
+    @Column(name = "audio_track_id")
     private int trackId;
+    @Column(name = "text")
     private String text;
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "userId=" + userId +
-                ", trackId=" + trackId +
-                ", text='" + text + '\'' +
-                ", userLogin='" + userLogin + '\'' +
-                ", dateTime='" + dateTime + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return userId == comment.userId && trackId == comment.trackId && Objects.equals(text, comment.text) && Objects.equals(userLogin, comment.userLogin) && Objects.equals(dateTime, comment.dateTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, trackId, text, userLogin, dateTime);
-    }
-
+    //@Column
     private String userLogin;
+    @Column(name = "date")
     private String dateTime;
+
 
     /**
      * Instantiates a new Comment.
@@ -72,6 +62,33 @@ public class Comment extends Entity {
         this.userLogin = userLogin;
         this.dateTime = dateTime;
         this.text = text;
+    }
+
+    public Comment() {
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "userId=" + userId +
+                ", trackId=" + trackId +
+                ", text='" + text + '\'' +
+                ", userLogin='" + userLogin + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return userId == comment.userId && trackId == comment.trackId && Objects.equals(text, comment.text) && Objects.equals(userLogin, comment.userLogin) && Objects.equals(dateTime, comment.dateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, trackId, text, userLogin, dateTime);
     }
 
     /**

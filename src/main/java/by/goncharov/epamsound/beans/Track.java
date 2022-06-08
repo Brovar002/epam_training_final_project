@@ -1,7 +1,10 @@
 package by.goncharov.epamsound.beans;
 
-
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Class for describing the essence of a track.
@@ -9,12 +12,21 @@ import java.util.Objects;
  * @version 1.0
  * @see Entity
  */
-public class Track extends Entity {
+@Entity
+@Table(name = "audio_track")
+public class Track extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "artist_name")
     private String artist;
+    @Column(name = "genre_id")
     private String genre;
+    @Column(name = "price")
     private double price;
+    @Column(name = "path")
     private String path;
 
     @Override
@@ -46,14 +58,6 @@ public class Track extends Entity {
 
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     /**
      * Instantiates a new Track.
      *
@@ -70,6 +74,14 @@ public class Track extends Entity {
         this.artist = artist;
         this.genre = genre;
         this.price = price;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     /**
