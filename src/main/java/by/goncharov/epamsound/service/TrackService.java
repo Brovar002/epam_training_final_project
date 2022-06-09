@@ -69,7 +69,7 @@ public class TrackService implements Messenger {
      */
     public void deleteTrackById(final int id) throws ServiceException {
         try {
-            trackDao.remove((long) id);
+            trackDao.remove(id);
         } catch (DaoException e) {
             throw new ServiceException("Exception during track removal", e);
         }
@@ -139,7 +139,7 @@ public class TrackService implements Messenger {
      */
     public Track findTrackById(final int id) throws ServiceException {
         try {
-            Optional<Track> track = trackDao.findById(Long.valueOf(id));
+            Optional<Track> track = trackDao.findById(id);
             if (track.isPresent()) {
                 return track.get();
             }

@@ -6,11 +6,12 @@ import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.dao.DaoException;
 import by.goncharov.epamsound.dao.impl.OrderDaoImpl;
 import by.goncharov.epamsound.dao.impl.UserDaoImpl;
-import by.goncharov.epamsound.dao.ConnectionPool;
-import by.goncharov.epamsound.dao.Transaction;
-import java.sql.SQLException;
 import java.time.Clock;
 import java.time.LocalDate;
+
+import by.goncharov.epamsound.util.HibernateUtil;
+import org.hibernate.Transaction;
+import org.hibernate.Session;
 import java.util.List;
 
 /**
@@ -37,10 +38,10 @@ public class OrderService {
                          final User user) throws ServiceException {
 
         UserDaoImpl userDao = new UserDaoImpl();
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection()) {
+        Transaction transaction;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
             try {
-                connection.setAutoCommit(false);
                 double money = user.getCash();
                 userDao.changeCash(user.getId(), money - price);
                 Order order = new Order();
@@ -49,20 +50,12 @@ public class OrderService {
                 order.setPrice(price);
                 order.setDate(LocalDate.now(Clock.systemDefaultZone()));
                 orderDao.add(order);
-                connection.commit();
-            } catch (SQLException e) {
-                throw new ServiceException("Exception during order"
-                        + " addition", e);
+                transaction.commit();
             } catch (DaoException e) {
-                connection.rollback();
+                transaction.rollback();
                 throw new ServiceException("Exception during order"
                         + " addition", e);
-            } finally {
-                connection.setAutoCommit(true);
             }
-        } catch (SQLException e) {
-            throw new ServiceException("Exception during order"
-                    + " addition", e);
         }
     }
 

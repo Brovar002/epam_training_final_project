@@ -6,8 +6,6 @@ import by.goncharov.epamsound.controller.command.DownloadErrorCommand;
 import by.goncharov.epamsound.controller.command.admin.AddTrackCommand;
 import by.goncharov.epamsound.controller.command.user.CommentCommand;
 import by.goncharov.epamsound.controller.command.user.DownloadCommand;
-import by.goncharov.epamsound.dao.ConnectionPool;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -25,7 +23,6 @@ import java.io.IOException;
  * @version 1.0
  * @see Command
  * @see CommandFactory
- * @see ConnectionPool
  * @see HttpServlet
  */
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
@@ -41,7 +38,6 @@ public class SoundServlet extends HttpServlet
     @Override
     public void contextDestroyed(final ServletContextEvent
                                              servletContextEvent) {
-        ConnectionPool.getInstance().terminatePool();
     }
 
     @Override
