@@ -69,7 +69,7 @@ public class TrackService implements Messenger {
      */
     public void deleteTrackById(final int id) throws ServiceException {
         try {
-            trackDao.removeById((long) id);
+            trackDao.remove((long) id);
         } catch (DaoException e) {
             throw new ServiceException("Exception during track removal", e);
         }

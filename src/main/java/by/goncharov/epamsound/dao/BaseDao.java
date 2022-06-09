@@ -37,7 +37,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    boolean add(T entity) throws DaoException;
+    void add(T entity) throws DaoException;
 
     /**
      * Remove by id boolean.
@@ -46,7 +46,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    boolean removeById(K id) throws DaoException;
+    void remove(K id) throws DaoException;
 
     /**
      * Update boolean.
@@ -55,5 +55,5 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    boolean update(T entity) throws DaoException;
+    void update(T entity) throws DaoException;
 }
