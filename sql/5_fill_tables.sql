@@ -40,7 +40,7 @@ VALUES
 (3, "RAP");
 
 INSERT INTO `comment` 
-(`id`,`audio_track_id`,`user_id`,`text`, `date`) 
+(`id`,`audio_track_id`,`user_id`,`user_login` ,`text`, `date`) 
 VALUES 
-(1, 2, 2, "Metallica one love <3", "2021-10-22 17:07:21"),
-(2, 1, 1, "This track is the top", "2021-10-23 17:04:52");
+(1, 2, 2, "user1", "Metallica one love <3", "2021-10-22 17:07:21"),
+(2, 1, 1,"admin" , "This track is the top", "2021-10-23 17:04:52");

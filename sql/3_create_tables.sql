@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `track_db`.`user` (
   `cash_account` INT DEFAULT '0' NOT NULL,
   `discount` INT DEFAULT '0' NOT NULL,
   `role` TINYINT DEFAULT '0' NOT NULL,
+  `order_count` BIGINT DEFAULT '0' NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -58,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `track_db`.`comment` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
   `audio_track_id` BIGINT NOT NULL,
   `user_id` INT NOT NULL,
+  `user_login` VARCHAR(20) NOT NULL,
   `text` VARCHAR(1000) NOT NULL,
   `date` VARCHAR(100) NOT NULL,
   INDEX `Comment_User1_idx` (`user_id` ASC),
