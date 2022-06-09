@@ -67,6 +67,17 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
     public Comment() {
     }
 
+    public Comment(String text, User user, Track track) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        this.text = text;
+        this.userId = user.getId();
+        this.trackId = track.getId();
+        this.dateTime = now.format(formatter);
+
+    }
+
     @Override
     public String toString() {
         return "Comment{" +

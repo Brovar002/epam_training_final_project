@@ -28,6 +28,8 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
     private double price;
     @Column(name = "path")
     private String path;
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @Override
     public String toString() {
@@ -38,6 +40,7 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
                 ", genre='" + genre + '\'' +
                 ", price=" + price +
                 ", path='" + path + '\'' +
+                ", deleted=" + deleted +
                 '}';
     }
 
@@ -46,12 +49,12 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Track track = (Track) o;
-        return id == track.id && Double.compare(track.price, price) == 0 && Objects.equals(name, track.name) && Objects.equals(artist, track.artist) && Objects.equals(genre, track.genre) && Objects.equals(path, track.path);
+        return id == track.id && Double.compare(track.price, price) == 0 && deleted == track.deleted && Objects.equals(name, track.name) && Objects.equals(artist, track.artist) && Objects.equals(genre, track.genre) && Objects.equals(path, track.path);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, artist, genre, price, path);
+        return Objects.hash(id, name, artist, genre, price, path, deleted);
     }
 
     public Track() {
@@ -172,5 +175,13 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
      */
     public void setGenre(final String genre) {
         this.genre = genre;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
