@@ -31,15 +31,12 @@ public class UserDaoImpl implements UserDao {
             session.save(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
 
     @Override
-    public void remove(final Long id) throws DaoException {
+    public void remove(final int id) throws DaoException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
@@ -47,9 +44,6 @@ public class UserDaoImpl implements UserDao {
             session.delete(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -61,9 +55,6 @@ public class UserDaoImpl implements UserDao {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -77,15 +68,12 @@ public class UserDaoImpl implements UserDao {
             transaction.commit();
             return userList;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
 
     @Override
-    public Optional<User> findById(Long id) throws DaoException {
+    public Optional<User> findById(final int id) throws DaoException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
@@ -93,65 +81,56 @@ public class UserDaoImpl implements UserDao {
             transaction.commit();
             return Optional.ofNullable(user);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
 
     public String findPassword(final String login) throws DaoException {
         String password;
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
-            User user = session.get(User.class, login);
+            User user = session.createQuery("FROM User WHERE login = :login", User.class)
+                    .setParameter("login", login)
+                    .uniqueResult();
             password = user.getPassword();
             transaction.commit();
+            return password;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
-        return password;
+
     }
 
     @Override
     public User findByEmail(final String email) throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
-            User user = session.get(User.class, email);
+            User user = session.createQuery("FROM User WHERE email = :email", User.class).setParameter("email", email).uniqueResult();
             transaction.commit();
             return user;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
 
     @Override
     public User findByLogin(final String login) throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
-            User user = session.get(User.class, login);
-            transaction.commit();
+            User user = session.createQuery("FROM User WHERE login = :login", User.class)
+                    .setParameter("login", login).uniqueResult();
             return user;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
 
     public void changeCash(final int userId, final Double cash)
             throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
             User user = session.get(User.class, userId);
@@ -159,9 +138,6 @@ public class UserDaoImpl implements UserDao {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -177,9 +153,6 @@ public class UserDaoImpl implements UserDao {
             session.save(comment);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -194,9 +167,6 @@ public class UserDaoImpl implements UserDao {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -229,9 +199,6 @@ public class UserDaoImpl implements UserDao {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -252,9 +219,6 @@ public class UserDaoImpl implements UserDao {
             transaction.commit();
             return cash;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
@@ -270,9 +234,6 @@ public class UserDaoImpl implements UserDao {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }

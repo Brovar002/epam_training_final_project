@@ -23,32 +23,26 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void add(final Order order) throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
     @Override
     public List<Track> findOrders(final int userId) throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         List<Track> tracks;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            tracks = session.createQuery("FROM Track WHERE id IN "
-                    + "(SELECT audio_track_id FROM Order WHERE user_id = :userId)",
-                    Track.class).setParameter("userId", userId).list();
+            tracks = session.createQuery("FROM Order WHERE userId = :userId", Track.class) //TODO: проверить на правильност
+                    .setParameter("userId", userId)
+                    .list();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
         return tracks;
@@ -56,19 +50,14 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean isOrdered(final int userId, final int trackId)
             throws DaoException {
-        Transaction transaction = null;
         boolean isOrdered;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            isOrdered = session.createQuery("SELECT EXISTS(SELECT"
-                    + " id FROM `order` WHERE user_id = :userId AND audio_track_id=:trackId)",
-                    Boolean.class).setParameter("userId", userId)
-                    .setParameter("trackId", trackId).getSingleResult();
+            isOrdered = session.createQuery("FROM Order WHERE user_id = :userId AND audio_track_id = :trackId",
+                    Order.class).setParameter("userId", userId).setParameter("trackId", trackId).list().size() > 0;    //TODO: написать булевое выражание
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
         return isOrdered;
@@ -83,16 +72,13 @@ public class OrderDaoImpl implements OrderDao {
             orders = session.createQuery("FROM Order", Order.class).list();
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
         return orders;
     }
 
     @Override
-    public Optional<Order> findById(final Long id) throws DaoException {
+    public Optional<Order> findById(final int id) throws DaoException {
         Transaction transaction = null;
         Order order;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -100,9 +86,6 @@ public class OrderDaoImpl implements OrderDao {
             order = session.get(Order.class, id);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
         return Optional.ofNullable(order);
@@ -110,31 +93,25 @@ public class OrderDaoImpl implements OrderDao {
 
 
     @Override
-    public void remove(final Long id) throws DaoException {
-        Transaction transaction = null;
+    public void remove(final int id) throws DaoException {
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.delete(session.get(Order.class, id));
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }
 
     @Override
     public void update(final Order entity) throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(entity);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DaoException(e);
         }
     }

@@ -11,14 +11,6 @@ import java.util.List;
  * @see Genre
  */
 public interface GenreDao extends BaseDao<Long, Genre> {
-    /**
-     * Add genre int.
-     *
-     * @param genre the genre
-     * @return the int
-     * @throws DaoException the dao exception
-     */
-    int addGenre(String genre) throws DaoException;
 
     /**
      * Find genre id int.

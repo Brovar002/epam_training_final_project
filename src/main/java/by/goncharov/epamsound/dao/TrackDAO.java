@@ -40,15 +40,6 @@ public interface TrackDao extends BaseDao<Long, Track> {
     String findTrackPath(int trackId) throws DaoException;
 
     /**
-     * Form track list list.
-     *
-     * @param set the set
-     * @return the list
-     * @throws DaoException the dao exception
-     */
-    List<Track> formTrackList(ResultSet set) throws DaoException;
-
-    /**
      * Change artist.
      *
      * @param trackId   the track id

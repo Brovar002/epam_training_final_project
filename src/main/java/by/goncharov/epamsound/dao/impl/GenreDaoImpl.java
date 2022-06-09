@@ -44,13 +44,13 @@ public class GenreDaoImpl implements GenreDao {
             transaction = session.beginTransaction();
             genres = session.createQuery("SELECT genre FROM Genre").list();
             transaction.commit();
-            return genres;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             throw new DaoException(e);
         }
+        return genres;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public Optional<Genre> findById(final Long id) throws DaoException {
+    public Optional<Genre> findById(final int id) throws DaoException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();
@@ -102,7 +102,7 @@ public class GenreDaoImpl implements GenreDao {
     }
 
     @Override
-    public void remove(final Long id) throws DaoException {
+    public void remove(final int id) throws DaoException {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
             transaction = session.beginTransaction();

@@ -28,7 +28,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the optional
      * @throws DaoException the dao exception
      */
-    Optional<T> findById(K id) throws DaoException;
+    Optional<T> findById(int id) throws DaoException;
 
     /**
      * Add boolean.
@@ -46,7 +46,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    void remove(K id) throws DaoException;
+    void remove(int id) throws DaoException;
 
     /**
      * Update boolean.
