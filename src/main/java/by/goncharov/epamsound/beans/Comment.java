@@ -20,14 +20,14 @@ import javax.persistence.Table;
 public class Comment extends by.goncharov.epamsound.beans.Entity {
     @Id
     @Column(name = "id")
-    private long id;
+    private int id;
     @Column(name = "user_id")
     private int userId;
     @Column(name = "audio_track_id")
     private int trackId;
     @Column(name = "text")
     private String text;
-    //@Column
+    @Column(name = "user_login")
     private String userLogin;
     @Column(name = "date")
     private String dateTime;

@@ -30,7 +30,7 @@ public class User extends by.goncharov.epamsound.beans.Entity {
     private int discount;
     @Column(name = "email")
     private String email;
-    //@Column(name = "orderCount")
+    @Column(name = "order_count")
     private int orderCount;
 
     /**

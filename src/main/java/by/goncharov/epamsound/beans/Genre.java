@@ -21,7 +21,7 @@ public class Genre extends by.goncharov.epamsound.beans.Entity {
     private String name;
     @Id
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     /**
      * Instantiates a new Genre.
@@ -30,7 +30,7 @@ public class Genre extends by.goncharov.epamsound.beans.Entity {
 
     }
 
-    public Genre(final Long id, final String name) {
+    public Genre(final int id, final String name) {
         this.name = name;
         this.id = id;
     }
@@ -79,7 +79,7 @@ public class Genre extends by.goncharov.epamsound.beans.Entity {
      *
      * @return the id
      */
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -88,7 +88,7 @@ public class Genre extends by.goncharov.epamsound.beans.Entity {
      *
      * @param id the id
      */
-    public void setId(final Long id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
