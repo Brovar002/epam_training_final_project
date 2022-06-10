@@ -29,12 +29,11 @@ public class OrderService {
     /**
      * Add order.
      *
-     * @param trackId the track id
      * @param price   the price
      * @param user    the user
      * @throws ServiceException the service exception
      */
-    public void addOrder(final int trackId, final double price,
+    public void addOrder(final Track track, final double price,
                          final User user) throws ServiceException {
 
         UserDaoImpl userDao = new UserDaoImpl();
@@ -45,7 +44,7 @@ public class OrderService {
                 double money = user.getCash();
                 userDao.changeCash(user.getId(), money - price);
                 Order order = new Order();
-                order.setTrack(trackId);
+                order.setTrack(track);
                 order.setCustomer(user);
                 order.setPrice(price);
                 order.setDate(LocalDate.now(Clock.systemDefaultZone()));
