@@ -2,10 +2,8 @@ package by.goncharov.epamsound.beans;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Class for describing the essence of an order.
@@ -15,19 +13,22 @@ import javax.persistence.Table;
  * @see Entity
  */
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order extends by.goncharov.epamsound.beans.Entity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private int id;
     @Column(name = "price")
     private double price;
     @Column(name = "date")
     private LocalDate date;
-    @Column(name = "user_id")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User customer;
-    @Column(name = "audio_track_id")
-    private int track;
+    @OneToOne
+    @JoinColumn(name = "audio_track_id")
+    private Track track;
 
 
     /**
@@ -39,19 +40,25 @@ public class Order extends by.goncharov.epamsound.beans.Entity {
     /**
      * Instantiates a new Order.
      *
-     * @param id       the id
      * @param track    the track
      * @param customer the customer
      * @param price    the price
      * @param date     the date
      */
-    public Order(final long id, final int track, final User customer,
+    public Order(final Track track, final User customer,
                  final double price, final LocalDate date) {
-        this.id = id;
         this.track = track;
         this.price = price;
         this.date = date;
         this.customer = customer;
+    }
+
+    public Order(int id, double price, LocalDate date, User customer, Track track) {
+        this.id = id;
+        this.price = price;
+        this.date = date;
+        this.customer = customer;
+        this.track = track;
     }
 
     /**
@@ -59,7 +66,7 @@ public class Order extends by.goncharov.epamsound.beans.Entity {
      *
      * @return the id
      */
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -68,7 +75,7 @@ public class Order extends by.goncharov.epamsound.beans.Entity {
      *
      * @param id the id
      */
-    public void setId(final long id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -131,7 +138,7 @@ public class Order extends by.goncharov.epamsound.beans.Entity {
      *
      * @return the track
      */
-    public int getTrack() {
+    public Track getTrack() {
         return track;
     }
 
@@ -164,7 +171,7 @@ public class Order extends by.goncharov.epamsound.beans.Entity {
      *
      * @param track the track
      */
-    public void setTrack(final int track) {
+    public void setTrack(final Track track) {
         this.track = track;
     }
 }

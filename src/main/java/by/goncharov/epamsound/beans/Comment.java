@@ -71,12 +71,14 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
+        this.userLogin = user.getLogin();
         this.text = text;
         this.userId = user.getId();
         this.trackId = track.getId();
         this.dateTime = now.format(formatter);
 
     }
+
 
     @Override
     public String toString() {
