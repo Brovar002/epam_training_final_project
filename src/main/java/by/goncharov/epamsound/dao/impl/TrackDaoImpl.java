@@ -6,6 +6,10 @@ import by.goncharov.epamsound.dao.*;
 import by.goncharov.epamsound.util.HibernateUtil;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -194,6 +198,21 @@ public class TrackDaoImpl implements TrackDao {
             throw new DaoException("Error while finding last ordered tracks", e);
         }
         return tracks;
+    }
+    public List<Track> formTrackList(final ResultSet set) throws DaoException {
+        List<Track> trackList = new ArrayList<>();
+        try {
+            while (set.next()) {
+                String name = set.getString("name");
+                String artist = set.getString("artist_name");
+                String genre = set.getString("genre");
+                double price = set.getDouble("price");
+                trackList.add(new Track(name, artist, genre, price));
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception during track list formation ", e);
+        }
+        return trackList;
     }
     @Override
     public List<Comment> findTrackComments(final int trackId)
