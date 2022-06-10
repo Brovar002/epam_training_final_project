@@ -33,6 +33,10 @@ public interface Command extends Messenger {
      */
     String USER_ATTRIBUTE = "user";
     /**
+     * The constant TRACK_ATTRIBUTE.
+     */
+    String TRACK_ATTRIBUTE = "track";
+    /**
      * The constant IS_LOGIN.
      */
     String IS_LOGIN = "is_login";
