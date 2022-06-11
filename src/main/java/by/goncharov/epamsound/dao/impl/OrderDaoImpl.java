@@ -19,7 +19,6 @@ import java.util.Optional;
  * @see BaseDao
  */
 public class OrderDaoImpl implements OrderDao {
-    private final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Override
     public void add(final Order order) throws DaoException {
@@ -32,40 +31,38 @@ public class OrderDaoImpl implements OrderDao {
             throw new DaoException(e);
         }
     }
-    @Override
-    public List<Track> findOrders(final int userId) throws DaoException {
+
+    public int getOrderCount(final int userId) throws DaoException {
         Transaction transaction;
-        List<Track> tracks;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            tracks = session.createQuery("FROM Order WHERE userId = :userId", Track.class) //TODO: проверить на правильност
+            int count = session.createQuery("SELECT orderCount FROM User WHERE id = :userId", Integer.class)
                     .setParameter("userId", userId)
-                    .list();
+                    .getSingleResult();
             transaction.commit();
+            return count;
         } catch (Exception e) {
             throw new DaoException(e);
         }
-        return tracks;
+
     }
     @Override
     public boolean isOrdered(final int userId, final int trackId)
             throws DaoException {
-        boolean isOrdered;
         Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            isOrdered = session.createQuery("FROM Order WHERE user_id = :userId AND audio_track_id = :trackId",
-                    Order.class).setParameter("userId", userId).setParameter("trackId", trackId).list().size() > 0;    //TODO: написать булевое выражание
+            boolean isExist = getOrderCount(userId) > 0;
             transaction.commit();
+            return isExist;
         } catch (Exception e) {
             throw new DaoException(e);
         }
-        return isOrdered;
     }
 
     @Override
     public List<Order> findAll() throws DaoException {
-        Transaction transaction = null;
+        Transaction transaction;
         List<Order> orders;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -90,7 +87,19 @@ public class OrderDaoImpl implements OrderDao {
         }
         return Optional.ofNullable(order);
     }
-
+    public List<Track> findOrders(final int userId) throws DaoException {
+        Transaction transaction;
+        List<Track> tracks;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            tracks = session.createQuery("SELECT track FROM Order WHERE user_id = :userId",
+                    Track.class).setParameter("userId", userId).list();
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+        return tracks;
+    }
 
     @Override
     public void remove(final int id) throws DaoException {

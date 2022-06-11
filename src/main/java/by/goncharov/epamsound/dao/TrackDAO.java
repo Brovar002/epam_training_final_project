@@ -3,7 +3,6 @@ package by.goncharov.epamsound.dao;
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.Track;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -24,11 +23,11 @@ public interface TrackDao extends BaseDao<Long, Track> {
     /**
      * Find tracks by genre list.
      *
-     * @param genre the genre
+     * @param genreId the genre
      * @return the list
      * @throws DaoException the dao exception
      */
-    List<Track> findTracksByGenre(String genre) throws DaoException;
+    List<Track> findTracksByGenre(int genreId) throws DaoException;
 
     /**
      * Find track path string.

@@ -7,9 +7,6 @@ import by.goncharov.epamsound.util.HibernateUtil;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,14 +86,14 @@ public class TrackDaoImpl implements TrackDao {
         return tracks;
     }
     @Override
-    public List<Track> findTracksByGenre(final String genre)
+    public List<Track> findTracksByGenre(final int genreId)
             throws DaoException {
         Transaction transaction;
         List<Track> tracks;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            tracks = session.createQuery("FROM Track WHERE genre = :genre AND deleted = 0",
-                    Track.class).setParameter("genre", genre).list();
+            tracks = session.createQuery("FROM Track WHERE genreId = :genreId AND deleted = 0",
+                    Track.class).setParameter("genreId", genreId).list();
             transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding tracks by genre", e);
@@ -122,8 +119,8 @@ public class TrackDaoImpl implements TrackDao {
         String path;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            path = session.createQuery("SELECT path FROM Track WHERE id = ?",
-                    String.class).setParameter(0, trackId).getSingleResult();
+            path = session.createQuery("SELECT path FROM Track WHERE id = :trackId",
+                    String.class).setParameter("trackId", trackId).uniqueResult();
             transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding track path", e);
@@ -198,21 +195,6 @@ public class TrackDaoImpl implements TrackDao {
             throw new DaoException("Error while finding last ordered tracks", e);
         }
         return tracks;
-    }
-    public List<Track> formTrackList(final ResultSet set) throws DaoException {
-        List<Track> trackList = new ArrayList<>();
-        try {
-            while (set.next()) {
-                String name = set.getString("name");
-                String artist = set.getString("artist_name");
-                String genre = set.getString("genre");
-                double price = set.getDouble("price");
-                trackList.add(new Track(name, artist, genre, price));
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Exception during track list formation ", e);
-        }
-        return trackList;
     }
     @Override
     public List<Comment> findTrackComments(final int trackId)
