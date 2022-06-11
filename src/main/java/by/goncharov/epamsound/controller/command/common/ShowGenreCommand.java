@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.controller.command.common;
 
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
@@ -32,11 +33,11 @@ public class ShowGenreCommand implements Command {
     public String execute(final SessionRequestContent
                                       sessionRequestContent) {
         String page;
-        String genre = sessionRequestContent.getRequestParameter(
+        Genre genre = (Genre) sessionRequestContent.getRequestAttribute(
                 GENRE_PARAMETER);
         if (genre == null) {
-            genre = sessionRequestContent.getSessionAttribute(
-                    GENRE_PARAMETER).toString();
+            genre = (Genre) sessionRequestContent.getSessionAttribute(
+                    GENRE_PARAMETER);
         }
         TrackService trackService = new TrackService();
         try {
