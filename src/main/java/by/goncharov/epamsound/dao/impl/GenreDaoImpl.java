@@ -19,7 +19,7 @@ import java.util.Optional;
 @SuppressWarnings("Duplicates")
 public class GenreDaoImpl implements GenreDao {
     @Override
-    public int findGenreId(final String genre) throws DaoException {
+    public int findGenreId(final Genre genre) throws DaoException {
         Transaction transaction = null;
         int genreId;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

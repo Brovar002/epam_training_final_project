@@ -26,25 +26,17 @@ CREATE TABLE IF NOT EXISTS `track_db`.`audio_track` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE IF NOT EXISTS `track_db`.`order` (
+CREATE TABLE IF NOT EXISTS `track_db`.`orders` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `audio_track_id` BIGINT NOT NULL,
   `user_id` INT NOT NULL,
   `price` DECIMAL NOT NULL,
   `date` VARCHAR(100) NOT NULL,
-  INDEX `fk_Order_User1_idx` (`user_id` ASC),
-  INDEX `fk_Order_AudioTrack1_idx` (`audio_track_id` ASC),
-  PRIMARY KEY (`id`,`user_id`, `audio_track_id`),
- CONSTRAINT `Order_User1`
+   PRIMARY KEY (`id`,`user_id`, `audio_track_id`),
     FOREIGN KEY (`user_id`)
-    REFERENCES `track_db`.`user` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-    CONSTRAINT `Order_AudioTrack1`
+    REFERENCES `track_db`.`user` (`id`),
     FOREIGN KEY (`audio_track_id`)
-    REFERENCES `track_db`.`audio_track` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    REFERENCES `track_db`.`audio_track` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -61,19 +53,11 @@ CREATE TABLE IF NOT EXISTS `track_db`.`comment` (
   `user_id` INT NOT NULL,
   `user_login` VARCHAR(20) NOT NULL,
   `text` VARCHAR(1000) NOT NULL,
-  `date` VARCHAR(100) NOT NULL,
-  INDEX `Comment_User1_idx` (`user_id` ASC),
-  INDEX `Comment_AudioTrack1_idx` (`audio_track_id` ASC),
+  `date` date NOT NULL,
   PRIMARY KEY (`id`,`user_id`, `audio_track_id`),
- CONSTRAINT `fk_Comment_User1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `track_db`.`user` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-    CONSTRAINT `fk_Comment_AudioTrack1`
+    REFERENCES `track_db`.`user` (`id`),
     FOREIGN KEY (`audio_track_id`)
-    REFERENCES `track_db`.`audio_track` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    REFERENCES `track_db`.`audio_track` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

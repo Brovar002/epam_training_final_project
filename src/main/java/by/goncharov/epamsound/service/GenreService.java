@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.service;
 
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.dao.DaoException;
 import by.goncharov.epamsound.dao.impl.GenreDaoImpl;
 
@@ -19,7 +20,7 @@ public class GenreService {
      * @return the int
      * @throws ServiceException the service exception
      */
-    public int findGenreId(final String genre) throws ServiceException {
+    public int findGenreId(final Genre genre) throws ServiceException {
         int id;
         GenreDaoImpl genreDao = new GenreDaoImpl();
         try {

@@ -19,7 +19,7 @@ public interface GenreDao extends BaseDao<Long, Genre> {
      * @return the int
      * @throws DaoException the dao exception
      */
-    int findGenreId(String genre) throws DaoException;
+    int findGenreId(Genre genre) throws DaoException;
 
     /**
      * Find genres list.

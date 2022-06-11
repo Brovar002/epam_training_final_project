@@ -1,10 +1,8 @@
 package by.goncharov.epamsound.beans;
 
 import java.util.Objects;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Class for describing the essence of a track.
@@ -22,8 +20,9 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
     private String name;
     @Column(name = "artist_name")
     private String artist;
-    @Column(name = "genre_id")
-    private String genre;
+    @OneToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
     @Column(name = "price")
     private double price;
     @Column(name = "path")
@@ -70,14 +69,14 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
      * @param price  the price
      */
     public Track(final String name, final String artist,
-                 final String genre, final double price) {
+                 final Genre genre, final double price) {
         this.name = name;
         this.artist = artist;
         this.genre = genre;
         this.price = price;
     }
 
-    public Track(String name, String artist, String genre, double price, String path, boolean deleted) {
+    public Track(String name, String artist, Genre genre, double price, String path, boolean deleted) {
         this.name = name;
         this.artist = artist;
         this.genre = genre;
@@ -171,7 +170,7 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
      *
      * @return the genre
      */
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
@@ -180,7 +179,7 @@ public class Track extends by.goncharov.epamsound.beans.Entity {
      *
      * @param genre the genre
      */
-    public void setGenre(final String genre) {
+    public void setGenre(final Genre genre) {
         this.genre = genre;
     }
 
