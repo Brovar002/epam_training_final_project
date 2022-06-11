@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.service;
 
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.dao.DaoException;
 import by.goncharov.epamsound.dao.impl.UserDaoImpl;
 import by.goncharov.epamsound.manager.MessageManager;
@@ -136,7 +137,7 @@ public class Validator implements Messenger {
      * @throws ServiceException the service exception
      */
     public boolean isTrackValid(final String name, final String artist,
-                                final String price, final String genre)
+                                final String price, final Genre genre)
             throws ServiceException {
         return  (isTrackNameValid(name) && isTrackArtistValid(artist)
                 && isGenreValid(genre) && isPriceValid(price));
@@ -168,8 +169,8 @@ public class Validator implements Messenger {
      * @param genre the genre
      * @return the boolean
      */
-    boolean isGenreValid(final String genre) {
-        return genre.length() > ZERO && genre.length() < MAX_GENRE_LENGTH;
+    boolean isGenreValid(final Genre genre) {
+        return genre.getName().length() > ZERO && genre.getName().length() < MAX_GENRE_LENGTH;
     }
 
     /**

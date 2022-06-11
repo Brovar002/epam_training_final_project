@@ -1,6 +1,7 @@
 package by.goncharov.epamsound.service;
 
 import by.goncharov.epamsound.beans.Comment;
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.dao.DaoException;
 import by.goncharov.epamsound.dao.impl.GenreDaoImpl;
@@ -35,19 +36,18 @@ public class TrackService implements Messenger {
      * @throws ServiceException the service exception
      */
     public String addTrack(final String name, final String artist,
-                           final String price, final String genre,
+                           final String price, final Genre genre,
                            final String path) throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackValid(name, artist, price, genre)) {
             GenreService GenreService = new GenreService();
             try {
-                int genreId = GenreService.findGenreId(genre);
                 double doublePrice = Double.parseDouble(price);
                 Track track = new Track();
                 track.setName(name);
                 track.setArtist(artist);
                 track.setPrice(doublePrice);
-                track.setGenre(String.valueOf(genreId));
+                track.setGenre(genre);
                 track.setPath(path);
                 trackDao.add(track);
                 return SUCCESS;
@@ -157,10 +157,10 @@ public class TrackService implements Messenger {
      * @return the list
      * @throws ServiceException the service exception
      */
-    public List<Track> findTracksByGenre(final String genre)
+    public List<Track> findTracksByGenre(final Genre genre)
             throws ServiceException {
         try {
-            return trackDao.findTracksByGenre(genre);
+            return trackDao.findTracksByGenre(genre.getId());
         } catch (DaoException e) {
             throw new ServiceException("Exception during track list by"
                     + " genre search", e);
@@ -217,7 +217,7 @@ public class TrackService implements Messenger {
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String changeGenre(final int trackId, final String newGenre)
+    public String changeGenre(final int trackId, final Genre newGenre)
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isGenreValid(newGenre)) {
