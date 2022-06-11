@@ -117,9 +117,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByLogin(final String login) throws DaoException {
-        Transaction transaction;
         try (Session session = HibernateUtil.getSessionFactory().openSession();) {
-            transaction = session.beginTransaction();
+            session.beginTransaction();
             User user = session.createQuery("FROM User WHERE login = :login", User.class)
                     .setParameter("login", login).uniqueResult();
             return user;

@@ -25,7 +25,6 @@ public class BuyTrackCommand implements Command {
      * The Logger.
      */
     static final Logger LOGGER = LogManager.getLogger();
-    private static final String TRACK_ID_ATTR = "track_id";
     private static final String PRICE_ATTR = "price";
 
     @Override

@@ -43,7 +43,6 @@ public class User extends by.goncharov.epamsound.beans.Entity {
     /**
      * Instantiates a new User.
      *
-     //* @param id       the id
      * @param login    the login
      * @param password the password
      * @param cash     the cash
@@ -54,7 +53,6 @@ public class User extends by.goncharov.epamsound.beans.Entity {
     public User(final String login, final String password,
                 final double cash, final int role, final int discount,
                 final String email) {
-        //this.id = id;
         this.login = login;
         this.password = password;
         this.cash = cash;

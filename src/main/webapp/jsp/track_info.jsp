@@ -5,7 +5,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="content"/>
-<html>
+<!DOCTYPE html>
+<html lang="en">>
 <head>
     <link rel="icon" href="${pageContext.request.contextPath}/images/vinyl.ico">
     <title><fmt:message key="track.more"/></title>
@@ -28,7 +29,7 @@
             <h3><b><fmt:message key="add.track.artist"/></b> ${track.artist}</h3>
         </div>
         <div>
-            <h3><b><fmt:message key="add.track.genre"/></b> ${track.genre}</h3>
+            <h3><b><fmt:message key="add.track.genre"/></b> ${track.genre.getName()}</h3>
         </div>
         <div>
             <h3><b><fmt:message key="add.track.price"/></b> ${track.price}</h3>

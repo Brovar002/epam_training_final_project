@@ -5,7 +5,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="content"/>
-<html>
+<!DOCTYPE html>
+<html lang="en">>
 <head>
     <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 </head>

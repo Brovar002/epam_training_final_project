@@ -7,12 +7,10 @@ import java.util.Optional;
 
 /**
  * The interface Base dao.
- *
- * @param <K> the type parameter
  * @param <T> the type parameter
  * @author Goncharov Daniil
  */
-public interface BaseDao<K, T extends Entity> {
+public interface BaseDao<T extends Entity> {
     /**
      * Find all list.
      *

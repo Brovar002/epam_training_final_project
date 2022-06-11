@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @SuppressWarnings("Duplicates")
 public class UserService implements Messenger {
-    private final String SUCCESS = "Success";
+    private static final String SUCCESS = "Success";
     /**
      * The User dao.
      */

@@ -20,12 +20,12 @@ public class Validator implements Messenger {
     private final int MAX_PASS_LENGTH = 10;
     private final int MIN_PASS_LENGTH = 6;
     private final String REGEX_LOGIN = "(\\w){6,10}";
-    private final String REGEX_EMAIL = "(\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6})";
-    private final String SIGNUP_SUCCESS = "Success";
-    private final int ZERO = 0;
-    private final int MAX_BONUS = 100;
-    private final int MAX_CASH_LENGTH = 5;
-    private final int MAX_COMMENT_LENGTH = 65_535;
+    private static final String REGEX_EMAIL = "(\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6})";
+    private static final String SIGNUP_SUCCESS = "Success";
+    private static final int ZERO = 0;
+    private static final int MAX_BONUS = 100;
+    private static final int MAX_CASH_LENGTH = 5;
+    private static final int MAX_COMMENT_LENGTH = 65_535;
 
     /**
      * Is data valid string.

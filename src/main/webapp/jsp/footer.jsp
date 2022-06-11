@@ -2,7 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="content" />
-<html>
+<!DOCTYPE html>
+<html lang="en">>
 <head>
   <meta charset="UTF-8">
   <link href="${pageContext.request.contextPath}/css/footer_ST.css" rel="stylesheet">

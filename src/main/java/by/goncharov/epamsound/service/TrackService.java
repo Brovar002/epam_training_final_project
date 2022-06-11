@@ -40,7 +40,6 @@ public class TrackService implements Messenger {
                            final String path) throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackValid(name, artist, price, genre)) {
-            GenreService GenreService = new GenreService();
             try {
                 double doublePrice = Double.parseDouble(price);
                 Track track = new Track();
