@@ -11,7 +11,7 @@ import java.util.List;
  * @see BaseDao
  * @see Order
  */
-public interface OrderDao extends BaseDao<Long, Order> {
+public interface OrderDao extends BaseDao<Order> {
     /**
      * Find orders list.
      *

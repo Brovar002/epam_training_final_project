@@ -11,7 +11,7 @@ import java.util.List;
  * @see BaseDao
  * @see Track
  */
-public interface TrackDao extends BaseDao<Long, Track> {
+public interface TrackDao extends BaseDao<Track> {
     /**
      * Find deleted tracks list.
      *

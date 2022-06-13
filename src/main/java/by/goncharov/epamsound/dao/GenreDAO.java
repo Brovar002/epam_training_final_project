@@ -10,7 +10,7 @@ import java.util.List;
  * @see BaseDao
  * @see Genre
  */
-public interface GenreDao extends BaseDao<Long, Genre> {
+public interface GenreDao extends BaseDao<Genre> {
 
     /**
      * Find genre id int.
