@@ -33,13 +33,13 @@
                 </c:forEach>
             </ul>
         </li>
-        <li><a href="${pageContext.request.contextPath}/jsp/about.jsp"><fmt:message key="sidebar.about"/> </a></li>
+        <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/about.jsp"><fmt:message key="sidebar.about"/> </a></li>
         <li>
             <hr>
         </li>
         <li>
             <ctg:isAdmin>
-                <a href="${pageContext.request.contextPath}/jsp/admin/add_track.jsp">
+                <a href="${pageContext.request.contextPath}/WEB-INF/jsp/admin/add_track.jsp">
                     <fmt:message key="sidebar.add"/>
                 </a>
             </ctg:isAdmin>

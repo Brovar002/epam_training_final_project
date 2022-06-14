@@ -36,9 +36,9 @@
   </form>
   <div class="form-group">
   <%@include file="../footer.jsp"%>
-    <script src="${pageContext.request.contextPath}/js/parsley.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/i18n/ruu.js"></script>
-    <script src="${pageContext.request.contextPath}/js/i18n/enn.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/js/parsley.min.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/js/i18n/ruu.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/js/i18n/enn.js"></script>
     <script>
       $(document).ready(function(){
         $('#add_funds').parsley();

@@ -11,7 +11,7 @@
     <title><fmt:message key="sidebar.about"/></title>
 
     <!-- Custom styles for this template -->
-    <link href="${pageContext.request.contextPath}/css/stdashboard.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/WEB-INF/css/stdashboard.css" rel="stylesheet">
 </head>
 <body>
 <c:set var="page" value="path.page.about" scope="session"/>

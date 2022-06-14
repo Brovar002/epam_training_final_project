@@ -13,7 +13,7 @@
     <title><fmt:message key="menu.brand"/></title>
 
     <!-- Custom styles for this template -->
-    <link href="${pageContext.request.contextPath}/css/stdashboard.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/WEB-INF/css/stdashboard.css" rel="stylesheet">
 </head>
 <body>
     <%@ include file="menu.jsp"%>

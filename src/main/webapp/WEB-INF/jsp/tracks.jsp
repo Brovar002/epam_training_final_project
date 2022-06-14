@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">>
 <head>
-    <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/WEB-INF/js/jquery.min.js"></script>
 </head>
 <body>
 <%--begin="${num_page * 10}" end="${num_page * 10 + 9}"--%>

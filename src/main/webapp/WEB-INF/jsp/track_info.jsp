@@ -41,7 +41,7 @@
             </button>
             <ctg:isAdmin>
                 <button class="btn btn-lg btn-info"
-                        onclick='location.href="jsp/admin/track_edit.jsp"'>
+                        onclick='location.href="admin/track_edit.jsp"'>
                     <i class="glyphicon glyphicon-edit"></i>
                     <fmt:message key="track.edit"/>
                 </button>

@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/WEB-INF/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -28,12 +28,12 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                     <ctg:isLoggedIn>
-                        <li><a href="${pageContext.request.contextPath}/jsp/user/profile.jsp"><span class="glyphicon glyphicon-user" style="color: gainsboro"></span> ${user.login}</a></li>
+                        <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/user/profile.jsp"><span class="glyphicon glyphicon-user" style="color: gainsboro"></span> ${user.login}</a></li>
                         <li><a href="${pageContext.request.contextPath}/controller?command=logout"><span class="glyphicon glyphicon-log-out" style="color: gainsboro"></span> <fmt:message key="menu.logout"/></a></li>
                     </ctg:isLoggedIn>
                     <ctg:notLoggedIn>
-                        <li><a href="${pageContext.request.contextPath}/jsp/login.jsp"><fmt:message key="menu.login"/></a></li>
-                        <li><a href="${pageContext.request.contextPath}/jsp/signup.jsp"><fmt:message key="menu.signup"/></a></li>
+                        <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/login.jsp"><fmt:message key="menu.login"/></a></li>
+                        <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/signup.jsp"><fmt:message key="menu.signup"/></a></li>
                     </ctg:notLoggedIn>
             </ul>
             <form class="navbar-form navbar-right" name="search" action="${pageContext.request.contextPath}/controller">

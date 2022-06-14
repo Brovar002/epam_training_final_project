@@ -6,7 +6,7 @@
 <html lang="en">>
 <head>
   <meta charset="UTF-8">
-  <link href="${pageContext.request.contextPath}/css/footer_ST.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/WEB-INF/css/footer_ST.css" rel="stylesheet">
 </head>
 <body>
   <footer class="footer">
@@ -28,8 +28,8 @@
   </footer>
 
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+  <script src="${pageContext.request.contextPath}/WEB-INF/js/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="../js/vendor/jquery.min.js"><\/script>')</script>
-  <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+  <script src="${pageContext.request.contextPath}/WEB-INF/js/bootstrap.min.js"></script>
 </body>
 </html>

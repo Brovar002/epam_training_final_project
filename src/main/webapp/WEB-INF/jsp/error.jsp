@@ -15,7 +15,7 @@
     <title><fmt:message key="error.title"/></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/WEB-INF/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <c:set var="page" value="path.page.error" scope="session"/>
