@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.service;
 
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.dao.DaoException;
 import by.goncharov.epamsound.dao.impl.UserDaoImpl;
 import by.goncharov.epamsound.manager.MessageManager;
@@ -19,12 +20,12 @@ public class Validator implements Messenger {
     private final int MAX_PASS_LENGTH = 10;
     private final int MIN_PASS_LENGTH = 6;
     private final String REGEX_LOGIN = "(\\w){6,10}";
-    private final String REGEX_EMAIL = "(\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6})";
-    private final String SIGNUP_SUCCESS = "Success";
-    private final int ZERO = 0;
-    private final int MAX_BONUS = 100;
-    private final int MAX_CASH_LENGTH = 5;
-    private final int MAX_COMMENT_LENGTH = 65_535;
+    private static final String REGEX_EMAIL = "(\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6})";
+    private static final String SIGNUP_SUCCESS = "Success";
+    private static final int ZERO = 0;
+    private static final int MAX_BONUS = 100;
+    private static final int MAX_CASH_LENGTH = 5;
+    private static final int MAX_COMMENT_LENGTH = 65_535;
 
     /**
      * Is data valid string.
@@ -136,7 +137,7 @@ public class Validator implements Messenger {
      * @throws ServiceException the service exception
      */
     public boolean isTrackValid(final String name, final String artist,
-                                final String price, final String genre)
+                                final String price, final Genre genre)
             throws ServiceException {
         return  (isTrackNameValid(name) && isTrackArtistValid(artist)
                 && isGenreValid(genre) && isPriceValid(price));
@@ -168,8 +169,8 @@ public class Validator implements Messenger {
      * @param genre the genre
      * @return the boolean
      */
-    boolean isGenreValid(final String genre) {
-        return genre.length() > ZERO && genre.length() < MAX_GENRE_LENGTH;
+    boolean isGenreValid(final Genre genre) {
+        return genre.getName().length() > ZERO && genre.getName().length() < MAX_GENRE_LENGTH;
     }
 
     /**

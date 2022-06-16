@@ -1,7 +1,8 @@
 package by.goncharov.epamsound.beans;
 
-
 import java.util.Objects;
+import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * Class for describing the essence of a track.
@@ -9,13 +10,25 @@ import java.util.Objects;
  * @version 1.0
  * @see Entity
  */
-public class Track extends Entity {
+@Entity
+@Table(name = "audio_track")
+public class Track extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "artist_name")
     private String artist;
-    private String genre;
+    @OneToOne
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
+    @Column(name = "price")
     private double price;
+    @Column(name = "path")
     private String path;
+    @Column(name = "deleted")
+    private boolean deleted;
 
     @Override
     public String toString() {
@@ -26,6 +39,7 @@ public class Track extends Entity {
                 ", genre='" + genre + '\'' +
                 ", price=" + price +
                 ", path='" + path + '\'' +
+                ", deleted=" + deleted +
                 '}';
     }
 
@@ -34,16 +48,41 @@ public class Track extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Track track = (Track) o;
-        return id == track.id && Double.compare(track.price, price) == 0 && Objects.equals(name, track.name) && Objects.equals(artist, track.artist) && Objects.equals(genre, track.genre) && Objects.equals(path, track.path);
+        return id == track.id && Double.compare(track.price, price) == 0 && deleted == track.deleted && Objects.equals(name, track.name) && Objects.equals(artist, track.artist) && Objects.equals(genre, track.genre) && Objects.equals(path, track.path);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, artist, genre, price, path);
+        return Objects.hash(id, name, artist, genre, price, path, deleted);
     }
 
     public Track() {
 
+    }
+
+    /**
+     * Instantiates a new Track.
+     *
+     * @param name   the name
+     * @param artist the artist
+     * @param genre  the genre
+     * @param price  the price
+     */
+    public Track(final String name, final String artist,
+                 final Genre genre, final double price) {
+        this.name = name;
+        this.artist = artist;
+        this.genre = genre;
+        this.price = price;
+    }
+
+    public Track(String name, String artist, Genre genre, double price, String path, boolean deleted) {
+        this.name = name;
+        this.artist = artist;
+        this.genre = genre;
+        this.price = price;
+        this.path = path;
+        this.deleted = deleted;
     }
 
     public String getPath() {
@@ -52,24 +91,6 @@ public class Track extends Entity {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    /**
-     * Instantiates a new Track.
-     *
-     * @param id     the id
-     * @param name   the name
-     * @param artist the artist
-     * @param genre  the genre
-     * @param price  the price
-     */
-    public Track(final int id, final String name, final String artist,
-                 final String genre, final double price) {
-        this.id = id;
-        this.name = name;
-        this.artist = artist;
-        this.genre = genre;
-        this.price = price;
     }
 
     /**
@@ -149,7 +170,7 @@ public class Track extends Entity {
      *
      * @return the genre
      */
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
@@ -158,7 +179,15 @@ public class Track extends Entity {
      *
      * @param genre the genre
      */
-    public void setGenre(final String genre) {
+    public void setGenre(final Genre genre) {
         this.genre = genre;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

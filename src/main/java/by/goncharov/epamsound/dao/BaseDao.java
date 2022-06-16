@@ -7,12 +7,10 @@ import java.util.Optional;
 
 /**
  * The interface Base dao.
- *
- * @param <K> the type parameter
  * @param <T> the type parameter
  * @author Goncharov Daniil
  */
-public interface BaseDao<K, T extends Entity> {
+public interface BaseDao<T extends Entity> {
     /**
      * Find all list.
      *
@@ -28,7 +26,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the optional
      * @throws DaoException the dao exception
      */
-    Optional<T> findById(K id) throws DaoException;
+    Optional<T> findById(int id) throws DaoException;
 
     /**
      * Add boolean.
@@ -37,7 +35,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    boolean add(T entity) throws DaoException;
+    void add(T entity) throws DaoException;
 
     /**
      * Remove by id boolean.
@@ -46,7 +44,7 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    boolean removeById(K id) throws DaoException;
+    void remove(int id) throws DaoException;
 
     /**
      * Update boolean.
@@ -55,5 +53,5 @@ public interface BaseDao<K, T extends Entity> {
      * @return the boolean
      * @throws DaoException the dao exception
      */
-    boolean update(T entity) throws DaoException;
+    void update(T entity) throws DaoException;
 }

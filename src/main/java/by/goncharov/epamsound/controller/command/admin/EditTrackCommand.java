@@ -1,6 +1,7 @@
 package by.goncharov.epamsound.controller.command.admin;
 
 import by.goncharov.epamsound.beans.Comment;
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.controller.command.Command;
@@ -50,8 +51,8 @@ public class EditTrackCommand implements Command {
                     .getRequestParameter(ARTIST_PARAM);
             String price = sessionRequestContent
                     .getRequestParameter(PRICE_PARAM);
-            String genre = sessionRequestContent
-                    .getRequestParameter(GENRE_PARAM);
+            Genre genre = (Genre) sessionRequestContent
+                    .getRequestAttribute(GENRE_PARAM);
             TrackService trackService = new TrackService();
             String res;
             try {
@@ -80,7 +81,7 @@ public class EditTrackCommand implements Command {
                 if (!genre.equals(track.getGenre())) {
                     res = trackService.changeGenre(track.getId(), genre);
                     if (SUCCESS.equals(res)) {
-                        track.setGenre(genre.toUpperCase());
+                        track.setGenre(genre);
                     } else {
                         sessionRequestContent.setRequestAttribute(
                                 ERROR, res);

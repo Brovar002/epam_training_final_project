@@ -3,11 +3,9 @@ package by.goncharov.epamsound.dao.impl;
 import by.goncharov.epamsound.beans.Order;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.dao.*;
-
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import by.goncharov.epamsound.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,89 +19,109 @@ import java.util.Optional;
  * @see BaseDao
  */
 public class OrderDaoImpl implements OrderDao {
-    private final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    private static final String SQL_ADD_ORDER = "INSERT INTO"
-            + " `order`(audio_track_id, user_id, price,`date`)"
-            + " VALUES(?,?,?,?);";
-    private static final String SQL_SELECT_USER_ORDERS = "SELECT"
-            + " audio_track.id, audio_track.name, genre.genre, "
-            + "audio_track.artist_name, audio_track.price FROM `order`\n"
-            + "JOIN audio_track ON audio_track.id=`order`.audio_track_id\n"
-            + "LEFT JOIN genre ON audio_track.genre_id=genre.id\n"
-            + "WHERE `order`.user_id=?\n"
-            + "ORDER BY audio_track.name";
-    private static final String SQL_SELECT_EXISTS = "SELECT EXISTS(SELECT"
-            + " id FROM `order` WHERE user_id = ? AND audio_track_id=?)";
-
-    private void fillOrderData(final Order order,
-                               final PreparedStatement statement)
-            throws SQLException {
-        statement.setInt(1, order.getTrack());
-        statement.setInt(2, order.getCustomer().getId());
-        statement.setDouble(3, order.getPrice());
-        statement.setDate(4, Date.valueOf(order.getDate()));
-    }
 
     @Override
-    public boolean add(final Order order) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(SQL_ADD_ORDER)) {
-            fillOrderData(order, statement);
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            throw new DaoException("Exception during track addition", e);
-        }
-    }
-    @Override
-    public List<Track> findOrders(final int userId) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(SQL_SELECT_USER_ORDERS)) {
-            statement.setInt(1, userId);
-            ResultSet set = statement.executeQuery();
-            TrackDaoImpl trackDAOImpl = new TrackDaoImpl();
-            return trackDAOImpl.formTrackList(set);
-        } catch (SQLException e) {
+    public void add(final Order order) throws DaoException {
+        Transaction transaction;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(order);
+            transaction.commit();
+        } catch (Exception e) {
             throw new DaoException(e);
         }
+    }
+
+    public int getOrderCount(final int userId) throws DaoException {
+        Transaction transaction;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            int count = session.createQuery("SELECT orderCount FROM User WHERE id = :userId", Integer.class)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+            transaction.commit();
+            return count;
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+
     }
     @Override
     public boolean isOrdered(final int userId, final int trackId)
             throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(SQL_SELECT_EXISTS)) {
-            statement.setInt(1, userId);
-            statement.setInt(2, trackId);
-            ResultSet set = statement.executeQuery();
-            return set.next() && set.getInt(1) == 1;
-        } catch (SQLException e) {
+        Transaction transaction;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            boolean isExist = getOrderCount(userId) > 0;
+            transaction.commit();
+            return isExist;
+        } catch (Exception e) {
             throw new DaoException(e);
         }
     }
 
     @Override
     public List<Order> findAll() throws DaoException {
-        return null;
+        Transaction transaction;
+        List<Order> orders;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            orders = session.createQuery("FROM Order", Order.class).list();
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+        return orders;
     }
 
     @Override
-    public Optional<Order> findById(final Long id) throws DaoException {
-        return Optional.empty();
+    public Optional<Order> findById(final int id) throws DaoException {
+        Transaction transaction = null;
+        Order order;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            order = session.get(Order.class, id);
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+        return Optional.ofNullable(order);
+    }
+    public List<Track> findOrders(final int userId) throws DaoException {
+        Transaction transaction;
+        List<Track> tracks;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            tracks = session.createQuery("SELECT track FROM Order WHERE user_id = :userId",
+                    Track.class).setParameter("userId", userId).list();
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
+        return tracks;
     }
 
-
     @Override
-    public boolean removeById(final Long id) throws DaoException {
-        return false;
+    public void remove(final int id) throws DaoException {
+        Transaction transaction;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.delete(session.get(Order.class, id));
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public boolean update(final Order entity) throws DaoException {
-        return false;
+    public void update(final Order entity) throws DaoException {
+        Transaction transaction;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.update(entity);
+            transaction.commit();
+        } catch (Exception e) {
+            throw new DaoException(e);
+        }
     }
 }

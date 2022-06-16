@@ -2,11 +2,9 @@ package by.goncharov.epamsound.dao.impl;
 
 import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.dao.*;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import by.goncharov.epamsound.util.HibernateUtil;
+import org.hibernate.Transaction;
+import org.hibernate.Session;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,84 +18,117 @@ import java.util.Optional;
  */
 @SuppressWarnings("Duplicates")
 public class GenreDaoImpl implements GenreDao {
-    private static final String SQL_INSERT_GENRE = "INSERT INTO"
-            + " genre (`genre`) VALUES (?);";
-    private static final String SQL_SELECT_GENRE_ID = "SELECT id"
-            + " FROM genre WHERE genre=?";
-    private static final String SQL_SELECT_GENRES = "SELECT `genre` FROM genre";
     @Override
-    public int addGenre(final String genre) throws DaoException {
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(SQL_INSERT_GENRE)) {
-            statement.setString(1, genre.toUpperCase());
-            statement.executeUpdate();
-            return findGenreId(genre);
-        } catch (SQLException e) {
-            throw new DaoException("Exception during genre addition ", e);
-        }
-    }
-
-    @Override
-    public int findGenreId(final String genre) throws DaoException {
-        int id;
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(SQL_SELECT_GENRE_ID)) {
-            statement.setString(1, genre.toUpperCase());
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                id = set.getInt("id");
-            } else {
-                id = addGenre(genre);
+    public int findGenreId(final Genre genre) throws DaoException {
+        Transaction transaction = null;
+        int genreId;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            genreId = session.createQuery("SELECT id FROM Genre WHERE genre = :genre",
+                    Integer.class).setParameter("genre", genre).getSingleResult();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
-        } catch (SQLException e) {
-            throw new DaoException("Exception during genre id search", e);
+            throw new DaoException(e);
         }
-        return id;
+        return genreId;
     }
 
     @Override
     public List<String> findGenres() throws DaoException {
-        List<String> genreList = new ArrayList<>();
-        try (Transaction connection = ConnectionPool.getInstance()
-                .getConnection();
-             PreparedStatement statement = connection
-                     .prepareStatement(SQL_SELECT_GENRES)) {
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                genreList.add(set.getString("genre"));
+        Transaction transaction = null;
+        List<String> genres;
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            transaction = session.beginTransaction();
+            genres = session.createQuery("SELECT genre FROM Genre").list();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
             }
-        } catch (SQLException e) {
-            throw new DaoException("Exception during genre id search", e);
+            throw new DaoException(e);
         }
-        return genreList;
+        return genres;
     }
 
     @Override
     public List<Genre> findAll() throws DaoException {
-        return null;
+        Transaction transaction = null;
+        List<Genre> genreList;
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            transaction = session.beginTransaction();
+            genreList = session.createQuery("FROM Genre").list();
+            transaction.commit();
+            return genreList;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public Optional<Genre> findById(final Long id) throws DaoException {
-        return Optional.empty();
+    public Optional<Genre> findById(final int id) throws DaoException {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            transaction = session.beginTransaction();
+            Genre genre = session.get(Genre.class, id);
+            transaction.commit();
+            return Optional.of(genre);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public boolean add(final Genre entity) throws DaoException {
-        return false;
+    public void add(final Genre genre) throws DaoException {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            transaction = session.beginTransaction();
+            session.save(genre);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public boolean removeById(final Long id) throws DaoException {
-        return false;
+    public void remove(final int id) throws DaoException {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            transaction = session.beginTransaction();
+            Genre genre = session.get(Genre.class, id);
+            session.delete(genre);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException(e);
+        }
     }
 
     @Override
-    public boolean update(final Genre entity) throws DaoException {
-        return false;
+    public void update(final Genre genre) throws DaoException {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession();) {
+            transaction = session.beginTransaction();
+            session.update(genre);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DaoException(e);
+        }
     }
 }

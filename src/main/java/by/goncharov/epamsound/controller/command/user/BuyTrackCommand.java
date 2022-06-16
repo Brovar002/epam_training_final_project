@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.controller.command.user;
 
+import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
@@ -24,7 +25,6 @@ public class BuyTrackCommand implements Command {
      * The Logger.
      */
     static final Logger LOGGER = LogManager.getLogger();
-    private static final String TRACK_ID_ATTR = "track_id";
     private static final String PRICE_ATTR = "price";
 
     @Override
@@ -36,19 +36,21 @@ public class BuyTrackCommand implements Command {
         if (Boolean.parseBoolean(logined)) {
             User user = (User) sessionRequestContent
                     .getSessionAttribute(USER_ATTRIBUTE);
-            int trackId = Integer.parseInt(sessionRequestContent
-                    .getRequestParameter(TRACK_ID_ATTR));
+            Track track = (Track) sessionRequestContent
+                    .getSessionAttribute(TRACK_ATTRIBUTE);
             double price = Double.parseDouble(sessionRequestContent
                     .getRequestParameter(PRICE_ATTR));
             price -= price * user.getDiscount() / 100;
             OrderService orderService = new OrderService();
             try {
-                if (!orderService.isOrdered(user.getId(), trackId)) {
+                if (!orderService.isOrdered (user.getId(), track.getId())) {
                     if (user.getCash() - price >= 0) {
-                        orderService.addOrder(trackId, price, user);
+                        orderService.addOrder(track, price, user);
                         user.setCash(user.getCash() - price);
                         sessionRequestContent.setSessionAttribute(
                                 USER_ATTRIBUTE, user);
+                        sessionRequestContent.setSessionAttribute(
+                                TRACK_ATTRIBUTE, track);
                         sessionRequestContent.setRequestAttribute(
                                 SUCCESS, messageManager.getProperty(
                                         MessageManager.ORDER_SUCCESS));

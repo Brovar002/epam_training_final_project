@@ -8,7 +8,7 @@ import by.goncharov.epamsound.beans.User;
  * @see BaseDao
  * @see User
  */
-public interface UserDao extends BaseDao<Long, User> {
+public interface UserDao extends BaseDao<User> {
 
     /**
      * Find by email user.

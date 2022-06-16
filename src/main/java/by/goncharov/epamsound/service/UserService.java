@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @SuppressWarnings("Duplicates")
 public class UserService implements Messenger {
-    private final String SUCCESS = "Success";
+    private static final String SUCCESS = "Success";
     /**
      * The User dao.
      */
@@ -115,7 +115,7 @@ public class UserService implements Messenger {
     private User findUserById(final int id) throws ServiceException {
 
         try {
-            Optional<User> user = userDao.findById(Long.valueOf(id));
+            Optional<User> user = userDao.findById(id);
             if (user.isPresent()) {
                 return user.get();
             }

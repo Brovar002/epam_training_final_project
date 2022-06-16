@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.controller.command.admin;
 
+import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.controller.command.Command;
 import by.goncharov.epamsound.controller.ConfigurationManager;
@@ -11,7 +12,6 @@ import by.goncharov.epamsound.controller.SessionRequestContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,8 +58,8 @@ public class AddTrackCommand implements Command {
                         .getRequestParameter(NAME_PARAM);
                 String artist = sessionRequestContent
                         .getRequestParameter(ARTIST_PARAM);
-                String genre = sessionRequestContent
-                        .getRequestParameter(GENRE_PARAM);
+                Genre genre = (Genre) sessionRequestContent
+                        .getRequestAttribute(GENRE_PARAM);
                 String price = sessionRequestContent
                         .getRequestParameter(PRICE_PARAM);
                 String realPath = sessionRequestContent
@@ -69,7 +69,7 @@ public class AddTrackCommand implements Command {
                             genre, realPath);
                     if (SUCCESS.equals(res)) {
                         GenreService genreService = new GenreService();
-                        List<String> genreList = new ArrayList<>();
+                        List<String> genreList;
                         genreList = genreService.findGenres();
                         sessionRequestContent.setSessionAttribute(
                                 GENRES_ATTR, genreList);

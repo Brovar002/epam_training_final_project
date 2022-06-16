@@ -3,7 +3,6 @@ package by.goncharov.epamsound.dao;
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.Track;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -12,7 +11,7 @@ import java.util.List;
  * @see BaseDao
  * @see Track
  */
-public interface TrackDao extends BaseDao<Long, Track> {
+public interface TrackDao extends BaseDao<Track> {
     /**
      * Find deleted tracks list.
      *
@@ -24,11 +23,11 @@ public interface TrackDao extends BaseDao<Long, Track> {
     /**
      * Find tracks by genre list.
      *
-     * @param genre the genre
+     * @param genreId the genre
      * @return the list
      * @throws DaoException the dao exception
      */
-    List<Track> findTracksByGenre(String genre) throws DaoException;
+    List<Track> findTracksByGenre(int genreId) throws DaoException;
 
     /**
      * Find track path string.
@@ -38,15 +37,6 @@ public interface TrackDao extends BaseDao<Long, Track> {
      * @throws DaoException the dao exception
      */
     String findTrackPath(int trackId) throws DaoException;
-
-    /**
-     * Form track list list.
-     *
-     * @param set the set
-     * @return the list
-     * @throws DaoException the dao exception
-     */
-    List<Track> formTrackList(ResultSet set) throws DaoException;
 
     /**
      * Change artist.

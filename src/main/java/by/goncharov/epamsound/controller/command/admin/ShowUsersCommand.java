@@ -19,7 +19,7 @@ public class ShowUsersCommand implements Command {
      * The Logger.
      */
     static final Logger LOGGER = LogManager.getLogger();
-    private final String USER_LIST_ATTR = "users";
+    private static final String USER_LIST_ATTR = "users";
     @Override
     public String execute(final SessionRequestContent
                                       sessionRequestContent) {

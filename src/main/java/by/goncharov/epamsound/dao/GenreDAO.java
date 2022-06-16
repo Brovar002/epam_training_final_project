@@ -10,15 +10,7 @@ import java.util.List;
  * @see BaseDao
  * @see Genre
  */
-public interface GenreDao extends BaseDao<Long, Genre> {
-    /**
-     * Add genre int.
-     *
-     * @param genre the genre
-     * @return the int
-     * @throws DaoException the dao exception
-     */
-    int addGenre(String genre) throws DaoException;
+public interface GenreDao extends BaseDao<Genre> {
 
     /**
      * Find genre id int.
@@ -27,7 +19,7 @@ public interface GenreDao extends BaseDao<Long, Genre> {
      * @return the int
      * @throws DaoException the dao exception
      */
-    int findGenreId(String genre) throws DaoException;
+    int findGenreId(Genre genre) throws DaoException;
 
     /**
      * Find genres list.
