@@ -14,9 +14,9 @@
         <li><a href="${pageContext.request.contextPath}/controller?command=main"><fmt:message key="sidebar.home"/></a>
         </li>
         <li>
-            <ctg:isLoggedIn>
+            <security:authorize access="hasRole('USER')">
                 <a href="${pageContext.request.contextPath}/controller?command=my_orders"><fmt:message key="sidebar.orders"/></a>
-            </ctg:isLoggedIn>
+            </security:authorize>
         </li>
         <li>
             <a href="${pageContext.request.contextPath}/controller?command=all"><fmt:message key="sidebar.all"/></a>
@@ -38,25 +38,25 @@
             <hr>
         </li>
         <li>
-            <ctg:isAdmin>
+            <security:authorize access="hasRole('ADMIN')">
                 <a href="${pageContext.request.contextPath}/WEB-INF/jsp/admin/add_track.jsp">
                     <fmt:message key="sidebar.add"/>
                 </a>
-            </ctg:isAdmin>
+            </security:authorize>
         </li>
         <li>
-            <ctg:isAdmin>
+            <security:authorize access="hasRole('ADMIN')">
                 <a href="${pageContext.request.contextPath}/controller?command=deleted">
                     <fmt:message key="sidebar.recover"/>
                 </a>
-            </ctg:isAdmin>
+            </security:authorize>
         </li>
         <li>
-            <ctg:isAdmin>
+            <security:authorize access="hasRole('ADMIN')">
                 <a href="${pageContext.request.contextPath}/controller?command=show_users">
                     <fmt:message key="sidebar.bonus"/>
                 </a>
-            </ctg:isAdmin>
+            </security:authorize>
         </li>
     </ul>
 </div>

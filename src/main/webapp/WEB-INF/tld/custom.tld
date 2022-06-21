@@ -7,26 +7,6 @@
     <short-name>ctg</short-name>
     <uri>customtags</uri>
     <tag>
-        <name>isAdmin</name>
-        <tag-class>by.goncharov.epamsound.view.tag.AdminTag</tag-class>
-        <body-content>scriptless</body-content>
-    </tag>
-    <tag>
-        <name>isNotAdmin</name>
-        <tag-class>by.goncharov.epamsound.view.tag.NotAdminTag</tag-class>
-        <body-content>scriptless</body-content>
-    </tag>
-    <tag>
-        <name>isLoggedIn</name>
-        <tag-class>by.goncharov.epamsound.view.tag.LoginTag</tag-class>
-        <body-content>scriptless</body-content>
-    </tag>
-    <tag>
-        <name>notLoggedIn</name>
-        <tag-class>by.goncharov.epamsound.view.tag.NotLoginTag</tag-class>
-        <body-content>scriptless</body-content>
-    </tag>
-    <tag>
         <name>isDeleted</name>
         <tag-class>by.goncharov.epamsound.view.tag.DeletedTag</tag-class>
         <body-content>scriptless</body-content>

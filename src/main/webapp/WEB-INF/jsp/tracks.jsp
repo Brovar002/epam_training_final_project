@@ -57,17 +57,16 @@
                                 </button>
                             </td>
                             <td>
-                                <ctg:isAdmin>
+                                <security:authorize access="ADMIN">
                                     <button class="btn btn-info"
                                             onclick='location.href="${pageContext.request.contextPath}/controller?command=delete&track_id=${track.id}"'>
                                         <i class="glyphicon glyphicon-trash"></i>
                                         <fmt:message key="track.delete"/>
                                     </button>
-                                </ctg:isAdmin>
+                                </security:authorize>
                             </td>
                             <td>
-                                <ctg:isLoggedIn>
-                                    <ctg:isNotAdmin>
+                                <security:authorize access="USER">
                                     <c:choose>
                                         <c:when test="${not empty is_my_orders}">
                                             <button class="btn btn-primary"
@@ -84,8 +83,7 @@
                                             </button>
                                         </c:otherwise>
                                     </c:choose>
-                                    </ctg:isNotAdmin>
-                                </ctg:isLoggedIn>
+                                </security:authorize>
                             </td>
                         </ctg:notDeleted>
                     </tr>

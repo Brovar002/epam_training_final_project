@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="ctg" uri="customtags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="content" />
@@ -27,14 +27,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                    <ctg:isLoggedIn>
+                    <security:authorize>
                         <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/user/profile.jsp"><span class="glyphicon glyphicon-user" style="color: gainsboro"></span> ${user.login}</a></li>
                         <li><a href="${pageContext.request.contextPath}/controller?command=logout"><span class="glyphicon glyphicon-log-out" style="color: gainsboro"></span> <fmt:message key="menu.logout"/></a></li>
-                    </ctg:isLoggedIn>
-                    <ctg:notLoggedIn>
+                    </security:authorize>
                         <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/login.jsp"><fmt:message key="menu.login"/></a></li>
                         <li><a href="${pageContext.request.contextPath}/WEB-INF/jsp/signup.jsp"><fmt:message key="menu.signup"/></a></li>
-                    </ctg:notLoggedIn>
             </ul>
             <form class="navbar-form navbar-right" name="search" action="${pageContext.request.contextPath}/controller">
                 <input type="text" name="find" class="form-control" placeholder=<fmt:message key="menu.search"/>>

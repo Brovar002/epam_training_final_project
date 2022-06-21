@@ -39,13 +39,13 @@
                     onClick='location.href="${pageContext.request.contextPath}/controller?command=main"'>
                 <fmt:message key="track.back"/>
             </button>
-            <ctg:isAdmin>
+            <security:authorize access="hasRole('ADMIN')">
                 <button class="btn btn-lg btn-info"
                         onclick='location.href="admin/track_edit.jsp"'>
                     <i class="glyphicon glyphicon-edit"></i>
                     <fmt:message key="track.edit"/>
                 </button>
-            </ctg:isAdmin>
+            </security:authorize>
         </div>
     </div>
     <h2 class="sub-header"><fmt:message key="comment"/>
@@ -53,7 +53,7 @@
     </h2>
     <hr>
     <div class="col-sm-8" style="padding-bottom: 20px">
-        <ctg:isLoggedIn>
+        <security:authorize>
             <form method="post" id="comment_form"
                   action="${pageContext.request.contextPath}/controller?track_id=${track.id}">
                 <div class="form-group">
@@ -64,7 +64,7 @@
                 <button type="submit" name="command" value="comment" class="btn btn-default"><fmt:message
                         key="comment.send"/></button>
             </form>
-        </ctg:isLoggedIn>
+        </security:authorize>
 
         <c:forEach var="comment" items="${comments}">
             <div class="panel panel-default">
