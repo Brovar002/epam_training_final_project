@@ -3,6 +3,9 @@ package by.goncharov.epamsound.service;
 import by.goncharov.epamsound.beans.Genre;
 import by.goncharov.epamsound.dao.DaoException;
 import by.goncharov.epamsound.dao.impl.GenreDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,7 +15,10 @@ import java.util.List;
  * @see by.goncharov.epamsound.beans.Genre
  * @see GenreDaoImpl
  */
+@Service
 public class GenreService {
+    @Autowired
+    GenreDaoImpl genreDao;
     /**
      * Find genre id int.
      *
@@ -20,9 +26,9 @@ public class GenreService {
      * @return the int
      * @throws ServiceException the service exception
      */
+    @Transactional
     public int findGenreId(final Genre genre) throws ServiceException {
         int id;
-        GenreDaoImpl genreDao = new GenreDaoImpl();
         try {
             id = genreDao.findGenreId(genre);
         } catch (DaoException e) {
@@ -38,8 +44,8 @@ public class GenreService {
      * @return the list
      * @throws ServiceException the service exception
      */
+    @Transactional
     public List<String> findGenres() throws ServiceException {
-        GenreDaoImpl genreDao = new GenreDaoImpl();
         try {
             return genreDao.findGenres();
         } catch (DaoException e) {

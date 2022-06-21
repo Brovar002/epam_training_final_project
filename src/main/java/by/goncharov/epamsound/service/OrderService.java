@@ -8,10 +8,10 @@ import by.goncharov.epamsound.dao.impl.OrderDaoImpl;
 import by.goncharov.epamsound.dao.impl.UserDaoImpl;
 import java.time.Clock;
 import java.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import by.goncharov.epamsound.util.HibernateUtil;
-import org.hibernate.Transaction;
-import org.hibernate.Session;
 import java.util.List;
 
 /**
@@ -20,12 +20,15 @@ import java.util.List;
  * @see Order
  * @see OrderDaoImpl
  */
+@Service
 public class OrderService {
     /**
      * The Order dao.
      */
-    private final OrderDaoImpl orderDao = new OrderDaoImpl();
-
+    @Autowired
+    private OrderDaoImpl orderDao;
+    @Autowired
+    UserDaoImpl userDao;
     /**
      * Add order.
      *
@@ -33,42 +36,36 @@ public class OrderService {
      * @param user    the user
      * @throws ServiceException the service exception
      */
+    @Transactional
     public void addOrder(final Track track, final double price,
                          final User user) throws ServiceException {
-
-        UserDaoImpl userDao = new UserDaoImpl();
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            try {
-                double money = user.getCash();
-                userDao.changeCash(user.getId(), money - price);
-                Order order = new Order();
-                order.setTrack(track);
-                order.setCustomer(user);
-                order.setPrice(price);
-                order.setDate(LocalDate.now(Clock.systemDefaultZone()));
-                orderDao.add(order);
-                transaction.commit();
-            } catch (DaoException e) {
-                transaction.rollback();
+        try {
+            double money = user.getCash();
+            userDao.changeCash(user.getId(), money - price);
+            Order order = new Order();
+            order.setTrack(track);
+            order.setCustomer(user);
+            order.setPrice(price);
+            order.setDate(LocalDate.now(Clock.systemDefaultZone()));
+            orderDao.add(order);
+        } catch (DaoException e) {
                 throw new ServiceException("Exception during order"
                         + " addition", e);
-            }
         }
     }
 
     /**
      * Find my tracks list.
      *
-     * @param userId the user id
+     * @param user the user
      * @return the list
      * @throws ServiceException the service exception
      */
-    public List<Track> findMyTracks(final int userId)
+    @Transactional
+    public List<Track> findMyTracks(final User user)
             throws ServiceException {
         try {
-            return orderDao.findOrders(userId);
+            return orderDao.findOrders(user.getId());
         } catch (DaoException e) {
             throw new ServiceException("Exception during my tracks"
                     + " search", e);
@@ -78,15 +75,16 @@ public class OrderService {
     /**
      * Is ordered boolean.
      *
-     * @param userId  the user id
-     * @param trackId the track id
+     * @param user  the user
+     * @param track the track
      * @return the boolean
      * @throws ServiceException the service exception
      */
-    public boolean isOrdered(final int userId, final int trackId)
+    @Transactional
+    public boolean isOrdered(final User user, final Track track)
             throws ServiceException {
         try {
-            return orderDao.isOrdered(userId, trackId);
+            return orderDao.isOrdered(user.getId(), track.getId());
         } catch (DaoException e) {
             throw new ServiceException("Can't find is order exist", e);
         }

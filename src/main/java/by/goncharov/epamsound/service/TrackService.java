@@ -8,6 +8,10 @@ import by.goncharov.epamsound.dao.impl.GenreDaoImpl;
 import by.goncharov.epamsound.dao.impl.TrackDaoImpl;
 import by.goncharov.epamsound.manager.MessageManager;
 import by.goncharov.epamsound.manager.Messenger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,58 +21,42 @@ import java.util.Optional;
  * @author Goncharov Daniil
  * @see TrackDaoImpl
  */
+@Service
 public class TrackService implements Messenger {
     private final String SUCCESS = "Success";
     /**
      * The Track dao.
      */
-    private final TrackDaoImpl trackDao = new TrackDaoImpl();
+    @Autowired
+    private TrackDaoImpl trackDao;
 
     /**
      * Add track string.
-     *
-     * @param name   the name
-     * @param artist the artist
-     * @param price  the price
-     * @param genre  the genre
-     * @param path   the path
+     * @param track the track
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String addTrack(final String name, final String artist,
-                           final String price, final Genre genre,
-                           final String path) throws ServiceException {
-        Validator validator = new Validator();
-        if (validator.isTrackValid(name, artist, price, genre)) {
+    @Transactional
+    public String addTrack(final Track track) throws ServiceException {
             try {
-                double doublePrice = Double.parseDouble(price);
-                Track track = new Track();
-                track.setName(name);
-                track.setArtist(artist);
-                track.setPrice(doublePrice);
-                track.setGenre(genre);
-                track.setPath(path);
                 trackDao.add(track);
                 return SUCCESS;
             } catch (DaoException e) {
                 throw new ServiceException("Exception during track addition",
                         e);
-            }
-        } else {
-            return messageManager.getProperty(MessageManager.
-                    ADD_TRACK_DATA_ERROR);
         }
     }
 
     /**
      * Delete track by id.
      *
-     * @param id the id
+     * @param track the track
      * @throws ServiceException the service exception
      */
-    public void deleteTrackById(final int id) throws ServiceException {
+    @Transactional
+    public void deleteTrackById(final Track track) throws ServiceException {
         try {
-            trackDao.remove(id);
+            trackDao.remove(track.getId());
         } catch (DaoException e) {
             throw new ServiceException("Exception during track removal", e);
         }
@@ -80,6 +68,7 @@ public class TrackService implements Messenger {
      * @return the list
      * @throws ServiceException the service exception
      */
+    @Transactional
     public List<Track> findAllTracks() throws ServiceException {
         try {
             return trackDao.findAll();
@@ -95,6 +84,7 @@ public class TrackService implements Messenger {
      * @return the list
      * @throws ServiceException the service exception
      */
+    @Transactional
     public List<Track> findSuitableTracks(final String str)
             throws ServiceException {
         try {
@@ -120,6 +110,7 @@ public class TrackService implements Messenger {
      * @return the list
      * @throws ServiceException the service exception
      */
+    @Transactional
     public List<Track> findDeletedTracks() throws ServiceException {
         try {
             return trackDao.findDeletedTracks();
@@ -132,15 +123,16 @@ public class TrackService implements Messenger {
     /**
      * Find track by id track.
      *
-     * @param id the id
+     * @param track the track
      * @return the track
      * @throws ServiceException the service exception
      */
-    public Track findTrackById(final int id) throws ServiceException {
+    @Transactional
+    public Track findTrackById(final Track track) throws ServiceException {
         try {
-            Optional<Track> track = trackDao.findById(id);
-            if (track.isPresent()) {
-                return track.get();
+            Optional<Track> tracks = trackDao.findById(track.getId());
+            if (tracks.isPresent()) {
+                return tracks.get();
             }
             throw new ServiceException();
         } catch (DaoException e) {
@@ -156,6 +148,7 @@ public class TrackService implements Messenger {
      * @return the list
      * @throws ServiceException the service exception
      */
+    @Transactional
     public List<Track> findTracksByGenre(final Genre genre)
             throws ServiceException {
         try {
@@ -169,14 +162,15 @@ public class TrackService implements Messenger {
     /**
      * Find track path string.
      *
-     * @param trackId the track id
+     * @param track the track
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String findTrackPath(final int trackId)
+    @Transactional
+    public String findTrackPath(final Track track)
             throws ServiceException {
         try {
-            return trackDao.findTrackPath(trackId);
+            return trackDao.findTrackPath(track.getId());
         } catch (DaoException e) {
             throw new ServiceException("Exception during track"
                     + " path search", e);
@@ -186,17 +180,18 @@ public class TrackService implements Messenger {
     /**
      * Change artist string.
      *
-     * @param trackId   the track id
+     * @param track   the track
      * @param newArtist the new artist
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String changeArtist(final int trackId, final String newArtist)
+    @Transactional
+    public String changeArtist(final Track track, final String newArtist)
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackArtistValid(newArtist)) {
             try {
-                trackDao.changeArtist(trackId, newArtist);
+                trackDao.changeArtist(track.getId(), newArtist);
                 return SUCCESS;
             } catch (DaoException e) {
                 throw new ServiceException("Error during changing"
@@ -211,19 +206,19 @@ public class TrackService implements Messenger {
     /**
      * Change genre string.
      *
-     * @param trackId  the track id
      * @param newGenre the new genre
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String changeGenre(final int trackId, final Genre newGenre)
+    @Transactional
+    public String changeGenre(final Track track, final Genre newGenre)
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isGenreValid(newGenre)) {
             GenreDaoImpl genreDao = new GenreDaoImpl();
             try {
                 int genreId = genreDao.findGenreId(newGenre);
-                trackDao.changeGenre(trackId, genreId);
+                trackDao.changeGenre(track.getId(), genreId);
                 return SUCCESS;
             } catch (DaoException e) {
                 throw new ServiceException("Error during changing"
@@ -238,17 +233,18 @@ public class TrackService implements Messenger {
     /**
      * Change name string.
      *
-     * @param trackId the track id
+     * @param track the track id
      * @param newName the new name
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String changeName(final int trackId, final String newName)
+    @Transactional
+    public String changeName(final Track track, final String newName)
             throws ServiceException {
         Validator validator = new Validator();
         if (validator.isTrackNameValid(newName)) {
             try {
-                trackDao.changeName(trackId, newName);
+                trackDao.changeName(track.getId(), newName);
                 return SUCCESS;
             } catch (DaoException e) {
                 throw new ServiceException("Error during changing track"
@@ -263,19 +259,18 @@ public class TrackService implements Messenger {
     /**
      * Change price string.
      *
-     * @param trackId   the track id
-     * @param prevPrice the prev price
+     * @param track the track
      * @param newPrice  the new price
      * @return the string
      * @throws ServiceException the service exception
      */
-    public String changePrice(final int trackId, final double prevPrice,
-                              final String newPrice) throws ServiceException {
+    @Transactional
+    public String changePrice(final Track track, final String newPrice) throws ServiceException {
         Validator validator = new Validator();
         if (validator.isPriceValid(newPrice)) {
-            if (!Double.valueOf(newPrice).equals(prevPrice)) {
+            if (!Double.valueOf(newPrice).equals(track.getPrice())) {
                 try {
-                    trackDao.changePrice(trackId, Double.valueOf(newPrice));
+                    trackDao.changePrice(track.getId(), Double.valueOf(newPrice));
                     return SUCCESS;
                 } catch (DaoException e) {
                     throw new ServiceException("Error during changing track"
@@ -293,14 +288,15 @@ public class TrackService implements Messenger {
     /**
      * Find track comments list.
      *
-     * @param trackId the track id
+     * @param track the track
      * @return the list
      * @throws ServiceException the service exception
      */
-    public List<Comment> findTrackComments(final int trackId)
+    @Transactional
+    public List<Comment> findTrackComments(final Track track)
             throws ServiceException {
         try {
-            return trackDao.findTrackComments(trackId);
+            return trackDao.findTrackComments(track.getId());
         } catch (DaoException e) {
             throw new ServiceException("Exception during all comments"
                     + " by track id search", e);
@@ -313,6 +309,7 @@ public class TrackService implements Messenger {
      * @return the list
      * @throws ServiceException the service exception
      */
+    @Transactional
     public List<Track> lastTracks() throws ServiceException {
         try {
             return trackDao.findLastOrderedTracks();
@@ -325,12 +322,12 @@ public class TrackService implements Messenger {
     /**
      * Recover track by id.
      *
-     * @param id the id
      * @throws ServiceException the service exception
      */
-    public void recoverTrackById(final int id) throws ServiceException {
+    @Transactional
+    public void recoverTrackById(final Track track) throws ServiceException {
         try {
-            trackDao.recoverTrackById(id);
+            trackDao.recoverTrackById(track.getId());
         } catch (DaoException e) {
             throw new ServiceException("Exception during track recover", e);
         }
