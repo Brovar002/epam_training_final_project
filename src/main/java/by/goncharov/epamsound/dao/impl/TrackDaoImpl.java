@@ -3,12 +3,14 @@ package by.goncharov.epamsound.dao.impl;
 import by.goncharov.epamsound.beans.Comment;
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.dao.*;
-import by.goncharov.epamsound.util.HibernateUtil;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 
 /**
  * Class for track DAO.
@@ -19,41 +21,34 @@ import java.util.Optional;
  * @see Track
  * @see BaseDao
  */
-@SuppressWarnings("Duplicates")
+@Repository
 public class TrackDaoImpl implements TrackDao {
+    @Autowired
+    private SessionFactory sessionFactory;
     @Override
     public void add(final Track track) throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.save(track);
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while adding track", e);
         }
     }
     @Override
     public void remove(final int id) throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             Track track = session.get(Track.class, id);
             track.setDeleted(true);
             session.update(track);
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while removing track", e);
         }
     }
     @Override
     public List<Track> findAll() throws DaoException {
-        Transaction transaction;
         List<Track> tracks;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             tracks = session.createQuery("FROM Track WHERE deleted = 0",
                     Track.class).list();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding all tracks", e);
         }
@@ -62,24 +57,18 @@ public class TrackDaoImpl implements TrackDao {
 
     @Override
     public void update(final Track entity) throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.update(entity);
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while updating track", e);
         }
     }
 
     public List<Track> findDeletedTracks() throws DaoException {
-        Transaction transaction;
         List<Track> tracks;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             tracks = session.createQuery("FROM Track WHERE deleted = 1",
                     Track.class).list();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding all deleted tracks", e);
         }
@@ -88,13 +77,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public List<Track> findTracksByGenre(final int genreId)
             throws DaoException {
-        Transaction transaction;
         List<Track> tracks;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             tracks = session.createQuery("FROM Track WHERE genreId = :genreId AND deleted = 0",
                     Track.class).setParameter("genreId", genreId).list();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding tracks by genre", e);
         }
@@ -102,12 +88,9 @@ public class TrackDaoImpl implements TrackDao {
     }
     @Override
     public Optional<Track> findById(final int id) throws DaoException {
-        Transaction transaction;
         Track track;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             track = session.get(Track.class, id);
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding track by id", e);
         }
@@ -115,13 +98,10 @@ public class TrackDaoImpl implements TrackDao {
     }
     @Override
     public String findTrackPath(final int trackId) throws DaoException {
-        Transaction transaction;
         String path;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             path = session.createQuery("SELECT path FROM Track WHERE id = :trackId",
                     String.class).setParameter("trackId", trackId).uniqueResult();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding track path", e);
         }
@@ -130,13 +110,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changeArtist(final int trackId, final String newArtist)
             throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.createQuery("UPDATE Track SET artist_name = ? WHERE id = ?")
                     .setParameter(0, newArtist).setParameter(1, trackId)
                     .executeUpdate();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while changing artist", e);
         }
@@ -144,13 +121,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changeGenre(final int trackId, final int newGenreId)
             throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.createQuery("UPDATE Track SET genre_id = ? WHERE id = ?")
                     .setParameter(0, newGenreId).setParameter(1, trackId)
                     .executeUpdate();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while changing genre", e);
         }
@@ -158,13 +132,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changeName(final int trackId, final String newName)
             throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.createQuery("UPDATE Track SET name = ? WHERE id = ?")
                     .setParameter(0, newName).setParameter(1, trackId)
                     .executeUpdate();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while changing name", e);
         }
@@ -172,13 +143,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public void changePrice(final int trackId, final double newPrice)
             throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.createQuery("UPDATE Track SET price = ? WHERE id = ?")
                     .setParameter(0, newPrice).setParameter(1, trackId)
                     .executeUpdate();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while changing price", e);
         }
@@ -186,11 +154,9 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public List<Track> findLastOrderedTracks() throws DaoException {
         List<Track> tracks;
-        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-            session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             tracks = session.createQuery("from Track ORDER BY id DESC",
                     Track.class).setMaxResults(10).list();
-            session.getTransaction().commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding last ordered tracks", e);
         }
@@ -199,13 +165,10 @@ public class TrackDaoImpl implements TrackDao {
     @Override
     public List<Comment> findTrackComments(final int trackId)
             throws DaoException {
-        Transaction transaction;
         List<Comment> comments;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             comments = session.createQuery("FROM Comment WHERE audio_track_id = :trackId",
                     Comment.class).setParameter("trackId", trackId).list();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while finding track comments", e);
         }
@@ -213,12 +176,9 @@ public class TrackDaoImpl implements TrackDao {
     }
     @Override
     public void recoverTrackById(final int id) throws DaoException {
-        Transaction transaction;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.createQuery("UPDATE Track SET deleted = 0 WHERE id = :id")
                     .setParameter("id", id).executeUpdate();
-            transaction.commit();
         } catch (Exception e) {
             throw new DaoException("Error while recovering track by id", e);
         }
