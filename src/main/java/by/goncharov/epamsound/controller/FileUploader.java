@@ -3,6 +3,7 @@ package by.goncharov.epamsound.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -27,12 +28,12 @@ public class FileUploader {
      * Upload file boolean.
      *
      * @param request               the request
-     * @param sessionRequestContent the session request content
+     * @param servletContext the session request content
      * @return the boolean
      */
     public boolean uploadFile(final HttpServletRequest request,
-                              final SessionRequestContent
-                                      sessionRequestContent) {
+                              final ServletContext
+                                      servletContext) {
         try {
             String appPath = request.getServletContext().getRealPath("");
             String savePath = appPath + File.separator + SAVE_DIR;
@@ -49,7 +50,7 @@ public class FileUploader {
                     fileName = new File(fileName).getName();
                     String path = savePath + File.separator + fileName;
                     part.write(path);
-                    sessionRequestContent.setRequestAttribute(PATH,
+                    servletContext.setAttribute(PATH,
                             path);
                 }
             }
