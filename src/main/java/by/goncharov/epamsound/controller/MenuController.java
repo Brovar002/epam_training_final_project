@@ -2,8 +2,8 @@ package by.goncharov.epamsound.controller;
 
 import by.goncharov.epamsound.beans.Track;
 import by.goncharov.epamsound.manager.MessageManager;
-import by.goncharov.epamsound.service.GenreService;
-import by.goncharov.epamsound.service.TrackService;
+import by.goncharov.epamsound.service.impl.GenreServiceImpl;
+import by.goncharov.epamsound.service.impl.TrackServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +19,15 @@ import java.util.List;
 public class MenuController {
     private static final Logger LOGGER = LogManager.getLogger();
     @Autowired
-    private TrackService trackService;
+    private TrackServiceImpl trackService;
     @Autowired
-    private GenreService genreService;
+    private GenreServiceImpl genreService;
     private MessageManager messageManager;
 
     @RequestMapping("/main")
     public String main(Model model) {
         try {
-            List<Track> trackList = trackService.lastTracks();
+            List<Track> trackList = trackService.findAllTracks();
             model.addAttribute("track_list", trackList);
         } catch (Exception e) {
             LOGGER.error("Exception during all tracks search", e);
@@ -43,7 +43,6 @@ public class MenuController {
         }
         return "main";
     }
-    //TODO: добавить смену страниц
 
     @RequestMapping("/")
     public String index() {
