@@ -3,10 +3,8 @@ package by.goncharov.epamsound.beans;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Class for describing the essence of a comment.
@@ -23,8 +21,9 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
     private int id;
     @Column(name = "user_id")
     private int userId;
-    @Column(name = "audio_track_id")
-    private int trackId;
+    @JoinColumn(name = "audio_track_id")
+    @ManyToOne
+    private Track track;
     @Column(name = "text")
     private String text;
     @Column(name = "user_login")
@@ -37,16 +36,16 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
      * Instantiates a new Comment.
      *
      * @param userId  the user id
-     * @param trackId the track id
+     * @param track the track id
      * @param text    the text
      */
-    public Comment(final int userId, final int trackId, final String text) {
+    public Comment(final int userId, final Track track, final String text) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         this.userId = userId;
         this.text = text;
-        this.trackId = trackId;
+        this.track = track;
         this.dateTime = now.format(formatter);
     }
 
@@ -74,7 +73,7 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
         this.userLogin = user.getLogin();
         this.text = text;
         this.userId = user.getId();
-        this.trackId = track.getId();
+        this.track = track;
         this.dateTime = now.format(formatter);
 
     }
@@ -84,7 +83,7 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
     public String toString() {
         return "Comment{" +
                 "userId=" + userId +
-                ", trackId=" + trackId +
+                ", trackId=" + track +
                 ", text='" + text + '\'' +
                 ", userLogin='" + userLogin + '\'' +
                 ", dateTime='" + dateTime + '\'' +
@@ -96,12 +95,12 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment = (Comment) o;
-        return userId == comment.userId && trackId == comment.trackId && Objects.equals(text, comment.text) && Objects.equals(userLogin, comment.userLogin) && Objects.equals(dateTime, comment.dateTime);
+        return userId == comment.userId && track == comment.track && Objects.equals(text, comment.text) && Objects.equals(userLogin, comment.userLogin) && Objects.equals(dateTime, comment.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, trackId, text, userLogin, dateTime);
+        return Objects.hash(userId, track, text, userLogin, dateTime);
     }
 
     /**
@@ -181,16 +180,16 @@ public class Comment extends by.goncharov.epamsound.beans.Entity {
      *
      * @return the audio track id
      */
-    public int getAudioTrackId() {
-        return trackId;
+    public Track getAudioTrackId() {
+        return track;
     }
 
     /**
      * Sets audio track id.
      *
-     * @param trackId the track id
+     * @param track the track id
      */
-    public void setAudioTrackId(final int trackId) {
-        this.trackId = trackId;
+    public void setAudioTrackId(final Track track) {
+        this.track = track;
     }
 }
