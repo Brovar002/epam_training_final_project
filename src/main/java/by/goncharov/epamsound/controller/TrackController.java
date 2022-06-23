@@ -25,20 +25,20 @@ public class TrackController {
     static final Logger LOGGER = LogManager.getLogger();
 
     @PostMapping("/admin/add_track")
-    public String AddTrack(@RequestBody Track track) throws ServiceException {
+    public String addTrack(@RequestBody Track track) throws ServiceException {
         trackService.save(track);
         return "main";
     }
 
     @PutMapping("/admin/recover")
-    public String RecoverTrack(@RequestBody Track track) throws ServiceException {
+    public String recoverTrack(@RequestBody Track track) throws ServiceException {
         track.setDeleted(false);
         trackService.save(track);
         return "main";
     }
 
     @PutMapping("/admin/edit")
-    public String EditTrack(@RequestBody Track track, @RequestParam String name,
+    public String editTrack(@RequestBody Track track, @RequestParam String name,
                             @RequestParam String artist, @RequestParam Genre genre,
                             @RequestParam String price) throws ServiceException {
         track.setName(name);
@@ -49,7 +49,7 @@ public class TrackController {
         return "main";
     }
     @GetMapping("/tracks")
-    public String AllTracks() {
+    public String allTracks() {
         try {
             trackService.findAllTracks();
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class TrackController {
         return "tracks";
     }
     @GetMapping("/track_info")
-    public String TrackInfo(@RequestBody Track track) {
+    public String trackInfo(@RequestBody Track track) {
         try {
             trackService.findTrackById(track);
         } catch (Exception e) {
@@ -67,18 +67,18 @@ public class TrackController {
         return "track_info";
     }
     @GetMapping("/user/my_orders")
-    public String DownloadTrack(@RequestBody Track track) {
-        //fileDownloader.downloadTrack(track.getPath());
+    public String downloadTrack(@RequestBody Track track) {
+        fileDownloader.downloadTrack(track.getPath());
         return "my_orders";
     }
     @PutMapping("/tracks")
-    public String DeleteTrack(@RequestBody Track track) throws ServiceException {
+    public String deleteTrack(@RequestBody Track track) throws ServiceException {
         track.setDeleted(true);
         trackService.save(track);
         return "tracks";
     }
     @GetMapping("main/search")
-    public String SearchTrack(@RequestParam String search, Model model) {
+    public String searchTrack(@RequestParam String search, Model model) {
         try {
             List<Track> trackList = trackService.findTracksByName(search);
             model.addAttribute("track_list", trackList);
@@ -88,7 +88,7 @@ public class TrackController {
         return "main";
     }
     @GetMapping("/main/search_genre")
-    public String SearchGenre(@RequestParam Genre genre, Model model) {
+    public String searchGenre(@RequestParam Genre genre, Model model) {
         try {
             List<Track> trackList = trackService.findTracksByGenre(genre);
             model.addAttribute("track_list", trackList);
@@ -98,7 +98,7 @@ public class TrackController {
         return "main";
     }
     @GetMapping("tracks/buy")
-    public String BuyTrack(@RequestBody Track track, @RequestBody User user,
+    public String buyTrack(@RequestBody Track track, @RequestBody User user,
                            @RequestBody Order order, @RequestParam int price) throws ServiceException {
         order.setTrack(track);
         order.setCustomer(user);
@@ -108,13 +108,13 @@ public class TrackController {
         return "main";
     }
     @PostMapping("/track/set_comment")
-    public String SetComment(@RequestBody Track track, @RequestBody User user,
+    public String setComment(@RequestBody Track track, @RequestBody User user,
                              @RequestBody Comment comment,
-                             @RequestParam String Text) {
+                             @RequestParam String text) {
         try {
             comment.setAudioTrackId(track);
             comment.setUserId(user.getId());
-            comment.setText(Text);
+            comment.setText(text);
             commentService.save(comment);
         } catch (Exception e) {
             LOGGER.error("Exception during comment adding", e);
@@ -122,7 +122,7 @@ public class TrackController {
         return "track_info";
     }
     @GetMapping("/track/get_comment")
-    public String GetComment(@RequestBody Track track, Model model) {
+    public String getComment(@RequestBody Track track, Model model) {
         try {
             List<Comment> commentList = commentService.findCommentsByTrack(track);
             model.addAttribute("comment_list", commentList);

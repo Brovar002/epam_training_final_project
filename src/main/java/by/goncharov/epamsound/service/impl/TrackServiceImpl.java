@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @Service
 public class TrackServiceImpl implements TrackService {
-    private final String SUCCESS = "Success";
+    private static final String SUCCESS = "Success";
     /**
      * The Track dao.
      */

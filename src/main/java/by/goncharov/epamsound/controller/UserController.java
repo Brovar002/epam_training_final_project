@@ -33,14 +33,14 @@ public class UserController {
         return "redirect:/main";
     }
     @PutMapping("/user/add_funds")
-    public String AddCash(@RequestBody User user, @RequestParam int cash)
+    public String addCash(@RequestBody User user, @RequestParam int cash)
             throws ServiceException {
         user.setCash(user.getCash() + cash);
         userService.save(user);
         return "main";
     }
     @PutMapping("/user/change")
-    public String ChangeData(@RequestBody User user, @RequestParam String login,
+    public String changeData(@RequestBody User user, @RequestParam String login,
                              @RequestParam String email) throws ServiceException {
         user.setLogin(login);
         user.setEmail(email);
@@ -48,7 +48,7 @@ public class UserController {
         return "main";
     }
     @PutMapping("/user/password")
-    public String ChangePassword(@RequestBody User user,
+    public String changePassword(@RequestBody User user,
                                  @RequestParam String newPassword)
             throws ServiceException {
         user.setPassword(DigestUtils.md5Hex(newPassword));
@@ -56,13 +56,13 @@ public class UserController {
         return "main";
     }
     @PutMapping("/admin/set_bonus")
-    public String SetBonus(@RequestBody User user, @RequestParam int bonus) throws ServiceException {
+    public String setBonus(@RequestBody User user, @RequestParam int bonus) throws ServiceException {
         user.setDiscount(bonus);
         userService.save(user);
         return "main";
     }
     @GetMapping("/admin/show_users")
-    public String ShowUsers(Model model) {
+    public String showUsers(Model model) {
         try {
             model.addAttribute("users", userService.findClients());
         } catch (ServiceException e) {
@@ -71,7 +71,7 @@ public class UserController {
         return "main";
     }
     @GetMapping("/admin/search_user")
-    public String SearchUser(@PathVariable String login, Model model) {
+    public String searchUser(@PathVariable String login, Model model) {
         try {
             List<User> users = userService.findUserByLogin(login);
             model.addAttribute("users", users);

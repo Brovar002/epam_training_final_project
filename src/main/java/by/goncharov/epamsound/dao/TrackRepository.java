@@ -1,7 +1,6 @@
 package by.goncharov.epamsound.dao;
 
 import by.goncharov.epamsound.beans.Track;
-import by.goncharov.epamsound.beans.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
