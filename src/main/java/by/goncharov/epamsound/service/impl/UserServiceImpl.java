@@ -1,5 +1,6 @@
 package by.goncharov.epamsound.service.impl;
 
+import by.goncharov.epamsound.beans.Role;
 import by.goncharov.epamsound.beans.User;
 import by.goncharov.epamsound.dao.UserRepository;
 import by.goncharov.epamsound.service.ServiceException;
@@ -86,7 +87,7 @@ public class UserServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Данный пользователь не зарегестрирован!");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRole()));
+        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
