@@ -32,7 +32,7 @@ public class MenuController {
         } catch (Exception e) {
             LOGGER.error("Exception during all tracks search", e);
         }
-        return "main";
+        return "redirect:/main";
     }
     @RequestMapping("main/change_language")
     public String changeLanguage(@RequestParam String locale) {
@@ -52,7 +52,7 @@ public class MenuController {
         } catch (Exception e) {
             LOGGER.error("Exception during all genres search", e);
         }
-        return "main";
+        return "tracks";
     }
 
 }

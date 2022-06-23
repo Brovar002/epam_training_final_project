@@ -24,13 +24,13 @@ public class UserController {
 
     @GetMapping("/registration")
     public String getRegistrationView(){
-        return "registration";
+        return "singup";
     }
 
     @PostMapping("/registration")
     public String registration(User user) throws ServiceException {
         userService.save(user);
-        return "redirect:/login";
+        return "redirect:/main";
     }
     @PutMapping("/user/add_funds")
     public String AddCash(@RequestBody User user, @RequestParam int cash)
