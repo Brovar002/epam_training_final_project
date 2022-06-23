@@ -22,14 +22,15 @@ public class UserController {
     private UserServiceImpl userService;
     static final Logger LOGGER = LogManager.getLogger();
 
-    @PostMapping("/singup")
-    public String SingUp(@RequestBody User user) {
-        try {
-            userService.save(user);
-        } catch (ServiceException e) {
-            LOGGER.error("Exception during sign up command", e);
-        }
-        return "singup";
+    @GetMapping("/registration")
+    public String getRegistrationView(){
+        return "registration";
+    }
+
+    @PostMapping("/registration")
+    public String registration(User user) throws ServiceException {
+        userService.save(user);
+        return "redirect:/login";
     }
     @PutMapping("/user/add_funds")
     public String AddCash(@RequestBody User user, @RequestParam int cash)
