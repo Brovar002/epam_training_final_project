@@ -26,11 +26,11 @@ VALUES
 (1, 1, "One", "Metallica", 1, 3, '/Users/brovar/Downloads/WALL.mp3', 0),
 (2, 1, "To live is to die", "Metallica", 1, 3, '/Users/brovar/Downloads/WALL.mp3', 0);
  
-INSERT INTO `order` 
+INSERT INTO `orders` 
 (`id`,`audio_track_id`,`user_id`,`price`, `date`) 
 VALUES 
-(1, 2, 2, 3, "2021-10-22 17:04:52"),
-(2, 1, 1, 3, "2021-10-23 15:04:52");
+(1, 2, 2, 3, "2021-10-22"),
+(2, 1, 1, 3, "2021-10-23");
 
 INSERT INTO `genre` 
 (`id`,`genre`) 
@@ -40,7 +40,7 @@ VALUES
 (3, "RAP");
 
 INSERT INTO `comment` 
-(`id`,`audio_track_id`,`user_id`,`text`, `date`) 
+(`id`,`audio_track_id`,`user_id`,`user_login` ,`text`, `date`) 
 VALUES 
-(1, 2, 2, "Metallica one love <3", "2021-10-22 17:07:21"),
-(2, 1, 1, "This track is the top", "2021-10-23 17:04:52");
+(1, 2, 2, "user1", "Metallica one love <3", "2021-10-22"),
+(2, 1, 1,"admin" , "This track is the top", "2021-10-23");

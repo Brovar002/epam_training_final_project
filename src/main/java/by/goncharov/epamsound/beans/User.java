@@ -1,6 +1,9 @@
 package by.goncharov.epamsound.beans;
 
 import java.util.Objects;
+import java.util.Set;
+import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * Class for describing the essence of a user.
@@ -9,37 +12,54 @@ import java.util.Objects;
  * @version 1.0
  * @see Entity
  */
-public class User extends Entity {
+@Entity
+@Table(name = "user")
+public class User extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
     private int id;
+    @Column(name = "login")
     private String login;
+    @Column(name = "password")
     private String password;
+    @Column(name = "cash_account")
     private double cash;
-    private int role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+    @Column(name = "discount")
     private int discount;
+    @Column(name = "email")
     private String email;
+    @Column(name = "order_count")
     private int orderCount;
 
     /**
      * Instantiates a new User.
+     */
+    public User() {
+
+    }
+
+    /**
+     * Instantiates a new User.
      *
-     * @param id       the id
      * @param login    the login
      * @param password the password
      * @param cash     the cash
-     * @param role     the role
+     * @param roles    the role
      * @param discount the discount
      * @param email    the email
      */
-    public User(final int id, final String login, final String password,
-                final double cash, final int role, final int discount,
-                final String email) {
-        this.id = id;
+    public User(String login, String password, double cash, Set<Role> roles, int discount, String email, int orderCount) {
         this.login = login;
         this.password = password;
         this.cash = cash;
-        this.role = role;
+        this.roles = roles;
         this.discount = discount;
         this.email = email;
+        this.orderCount = orderCount;
     }
 
     /**
@@ -65,7 +85,7 @@ public class User extends Entity {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", cash=" + cash +
-                ", role=" + role +
+                ", role=" + roles +
                 ", discount=" + discount +
                 ", email='" + email + '\'' +
                 ", orderCount=" + orderCount +
@@ -77,20 +97,15 @@ public class User extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Double.compare(user.cash, cash) == 0 && role == user.role && discount == user.discount && orderCount == user.orderCount && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(email, user.email);
+        return id == user.id && Double.compare(user.cash, cash) == 0 && roles == user.roles && discount == user.discount && orderCount == user.orderCount && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, cash, role, discount, email, orderCount);
+        return Objects.hash(id, login, password, cash, roles, discount, email, orderCount);
     }
 
-    /**
-     * Instantiates a new User.
-     */
-    public User() {
 
-    }
 
     /**
      * Gets id.
@@ -151,8 +166,12 @@ public class User extends Entity {
      *
      * @return the role
      */
-    public int getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     /**

@@ -3,6 +3,8 @@ package by.goncharov.epamsound.beans;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * Class for describing the essence of a comment.
@@ -11,52 +13,39 @@ import java.util.Objects;
  * @see DateTimeFormatter
  * @see Entity
  */
-public class Comment extends Entity {
+@Entity
+@Table(name = "comment")
+public class Comment extends by.goncharov.epamsound.beans.Entity {
+    @Id
+    @Column(name = "id")
+    private int id;
+    @Column(name = "user_id")
     private int userId;
-    private int trackId;
+    @JoinColumn(name = "audio_track_id")
+    @ManyToOne
+    private Track track;
+    @Column(name = "text")
     private String text;
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "userId=" + userId +
-                ", trackId=" + trackId +
-                ", text='" + text + '\'' +
-                ", userLogin='" + userLogin + '\'' +
-                ", dateTime='" + dateTime + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return userId == comment.userId && trackId == comment.trackId && Objects.equals(text, comment.text) && Objects.equals(userLogin, comment.userLogin) && Objects.equals(dateTime, comment.dateTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, trackId, text, userLogin, dateTime);
-    }
-
+    @Column(name = "user_login")
     private String userLogin;
+    @Column(name = "date")
     private String dateTime;
+
 
     /**
      * Instantiates a new Comment.
      *
      * @param userId  the user id
-     * @param trackId the track id
+     * @param track the track id
      * @param text    the text
      */
-    public Comment(final int userId, final int trackId, final String text) {
+    public Comment(final int userId, final Track track, final String text) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         this.userId = userId;
         this.text = text;
-        this.trackId = trackId;
+        this.track = track;
         this.dateTime = now.format(formatter);
     }
 
@@ -72,6 +61,46 @@ public class Comment extends Entity {
         this.userLogin = userLogin;
         this.dateTime = dateTime;
         this.text = text;
+    }
+
+    public Comment() {
+    }
+
+    public Comment(String text, User user, Track track) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        this.userLogin = user.getLogin();
+        this.text = text;
+        this.userId = user.getId();
+        this.track = track;
+        this.dateTime = now.format(formatter);
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "userId=" + userId +
+                ", trackId=" + track +
+                ", text='" + text + '\'' +
+                ", userLogin='" + userLogin + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return userId == comment.userId && track == comment.track && Objects.equals(text, comment.text) && Objects.equals(userLogin, comment.userLogin) && Objects.equals(dateTime, comment.dateTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, track, text, userLogin, dateTime);
     }
 
     /**
@@ -151,16 +180,16 @@ public class Comment extends Entity {
      *
      * @return the audio track id
      */
-    public int getAudioTrackId() {
-        return trackId;
+    public Track getAudioTrackId() {
+        return track;
     }
 
     /**
      * Sets audio track id.
      *
-     * @param trackId the track id
+     * @param track the track id
      */
-    public void setAudioTrackId(final int trackId) {
-        this.trackId = trackId;
+    public void setAudioTrackId(final Track track) {
+        this.track = track;
     }
 }
