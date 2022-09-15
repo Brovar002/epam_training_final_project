@@ -34,6 +34,6 @@ public class Admin {
 	String password;
 	
 	@Column(name="role")
-    private final String role = "admin";
+	private static final String role = "admin";
 	
 }

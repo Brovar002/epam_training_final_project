@@ -32,7 +32,7 @@ public class BillingInfoController {
 		
 		logger.info(billingInfo.toString());
 		billingInfoService.saveBillingInfo(billingInfo);
-		return new ResponseEntity<BillingInfo>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 		
 	}
 	
@@ -69,7 +69,7 @@ public class BillingInfoController {
 		editedBillingInfo.setStreetName(billingInfo.getStreetName());
 		billingInfoService.updateBillingInfo(editedBillingInfo);
 		
-		return new ResponseEntity<BillingInfo>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

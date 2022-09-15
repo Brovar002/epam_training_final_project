@@ -22,12 +22,9 @@ public class AdminController {
 
 		Admin admin = adminService.findByUsername(username);
 
-		if(adminService.validateAdmin(admin)) {
-			if(admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
-				return ResponseEntity.ok(admin);
-			}
+		if(adminService.validateAdmin(admin) & admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
+			return ResponseEntity.ok(admin);
 		}
-
 		return ResponseEntity.badRequest().body("Invalid admin credentials");
 	}
 

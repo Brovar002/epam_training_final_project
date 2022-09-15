@@ -22,6 +22,6 @@ public class ConditionType {
 	int id;
 	
 	@Column(name="condition_namee")
-	String condition_name;
+	String conditionName;
 	
 }

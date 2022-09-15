@@ -29,7 +29,7 @@ public class GenreController {
 	@PostMapping("/savegenre")
 	public ResponseEntity<Genre> saveGenre(@RequestBody Genre genre){
 		genreService.saveAndUpdateGenre(genre);
-		return new ResponseEntity<Genre>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/genre")
@@ -65,7 +65,7 @@ public class GenreController {
 		editedGenre.setImage(genre.getImage());
 		genreService.updateGenre(editedGenre);
 		
-		return new ResponseEntity<Genre>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

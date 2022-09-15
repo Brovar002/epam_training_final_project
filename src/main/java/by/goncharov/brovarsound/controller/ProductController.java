@@ -24,7 +24,7 @@ public class ProductController {
 	@PostMapping("/saveproduct")
 	public ResponseEntity<Album> saveProduct(@RequestBody Product product){
 		productService.addProduct(product);
-		return new ResponseEntity<Album>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/product")
@@ -67,7 +67,7 @@ public class ProductController {
 		editedProduct.setPrice(product.getPrice());
 		productService.updateProduct(editedProduct);
 		
-		return new ResponseEntity<Product>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

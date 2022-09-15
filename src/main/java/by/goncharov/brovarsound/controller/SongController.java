@@ -23,7 +23,7 @@ public class SongController {
 	@PostMapping("/savesong")
 	public ResponseEntity<Song> saveSong(@RequestBody Song song){
 		songService.saveAndUpdateSong(song);
-		return new ResponseEntity<Song>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/song")
@@ -66,7 +66,7 @@ public class SongController {
 		editedSong.setSongName(song.getSongName());
 		songService.updateSong(editedSong);
 		
-		return new ResponseEntity<Song>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

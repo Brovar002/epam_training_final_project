@@ -30,7 +30,7 @@ public class ReceiptController {
 	@PostMapping("/savereceipt")
 	public ResponseEntity<Receipt> saveReceipt(@RequestBody Receipt receipt){
 		receiptService.saveReceipt(receipt);
-		return new ResponseEntity<Receipt>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/receipt/{id}")
@@ -64,7 +64,7 @@ public class ReceiptController {
 		editedReceipt.setReceiptName(receipt.getReceiptName());
 		receiptService.updateReceipt(editedReceipt);
 		
-		return new ResponseEntity<Receipt>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

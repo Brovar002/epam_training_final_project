@@ -29,7 +29,7 @@ public class AlbumController {
 	@PostMapping("/savealbum")
 	public ResponseEntity<Album> saveAlbum(@RequestBody Album album){
 		albumService.saveAlbum(album);
-		return new ResponseEntity<Album>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/album")
@@ -52,7 +52,7 @@ public class AlbumController {
 	
 	@DeleteMapping("/deletealbum/{id}")
 	public ResponseEntity<String> deleteAlbum(@PathVariable Integer id) throws Exception{
-		logger.info("Deleting album with id: "+ id);
+		logger.info("Deleting album with id: " + id);
 		boolean isRemoved = albumService.deleteAlbumById(id);
 		
 		if(!isRemoved) {
@@ -69,7 +69,7 @@ public class AlbumController {
 		editedAlbum.setAlbumName(album.getAlbumName());
 		albumService.updateAlbum(editedAlbum);
 		
-		return new ResponseEntity<Album>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

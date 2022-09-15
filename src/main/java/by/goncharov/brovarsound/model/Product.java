@@ -26,7 +26,7 @@ public class Product {
     String image;
 
     @Column(name = "Description")
-    String Description;
+    String description;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id")

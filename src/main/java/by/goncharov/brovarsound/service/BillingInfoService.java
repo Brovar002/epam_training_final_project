@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BillingInfoService {
-	private static Logger logger = LoggerFactory.getLogger(ConditionTypeService.class);
+	private static Logger logger = LoggerFactory.getLogger(BillingInfoService.class);
 	
 	@Autowired
     BillingInfoCrudRepository billingInfoCrudRepository;

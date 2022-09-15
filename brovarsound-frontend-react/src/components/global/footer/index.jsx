@@ -9,7 +9,7 @@ class Footer extends React.Component {
             <footer>
                 <hr />
                 <div className='footer'>
-                    <p>BrovarSound 2020&#169;</p>
+                    <p>BrovarSound 2022&#169;</p>
                     <p className='footer__admin-login'><a href="/admin/login">Admin Login</a></p>
                 </div>
                 <hr />

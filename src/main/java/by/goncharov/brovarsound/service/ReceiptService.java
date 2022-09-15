@@ -38,14 +38,14 @@ public class ReceiptService {
 
     }
 
-    public List<Receipt> findReceiptByCustomerId(int customer_id) throws Exception{
-        List<Receipt> receipts = receiptCrudRepository.findReceiptByCustomerId(customer_id);
+    public List<Receipt> findReceiptByCustomerId(int customerId) throws Exception{
+        List<Receipt> receipts = receiptCrudRepository.findReceiptByCustomerId(customerId);
         if (!receipts.isEmpty()){
             logger.info("receipts:" + receipts.toString());
             return receipts;
         }
         logger.error("receipts is null");
-        throw new Exception("There isn't any receipts for customer with " + customer_id);
+        throw new Exception("There isn't any receipts for customer with " + customerId);
     }
 
     public Receipt saveReceipt(Receipt receipt){

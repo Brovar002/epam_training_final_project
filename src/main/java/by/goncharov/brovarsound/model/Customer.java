@@ -37,6 +37,6 @@ public class Customer {
     String password;
     
     @Column(name="role")
-    private final String role = "user";
+    private static final String role = "user";
 
 }

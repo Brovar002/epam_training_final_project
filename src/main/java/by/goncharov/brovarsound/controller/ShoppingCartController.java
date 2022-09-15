@@ -28,7 +28,7 @@ public class ShoppingCartController {
 	@PostMapping("/saveshoppingcart")
 	public ResponseEntity<ShoppingCart> saveAlbum(@RequestBody ShoppingCart shoppingCart){
 		shoppingCartService.saveAndUpdateShoppingCart(shoppingCart);
-		return new ResponseEntity<ShoppingCart>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/shoppingcart/{id}")

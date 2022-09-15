@@ -22,7 +22,7 @@ public class CartSongItemsController {
 	public ResponseEntity<CartSongItems> saveCartSongItems(@RequestBody CartSongItems cartSongItems){
 		logger.info("Saving cartSongItems: "+ cartSongItems.toString());
 		cartSongItemsService.saveCartSongItems(cartSongItems);
-		return new ResponseEntity<CartSongItems>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/updatecartsongs/{id}")
@@ -31,7 +31,7 @@ public class CartSongItemsController {
 		CartSongItems editedCartSongItems = cartSongItemsService.findCartSongItemsById(id);
 		editedCartSongItems.setQuantity(cartSongItems.getQuantity());
 		cartSongItemsService.updateCartSongItems(editedCartSongItems);
-		return new ResponseEntity<CartSongItems>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deletecartsong/{id}")

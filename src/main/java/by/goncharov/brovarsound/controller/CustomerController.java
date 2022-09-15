@@ -32,10 +32,8 @@ public class CustomerController {
 
 		Customer customer = customerService.findCustomerByUsername(username);
 
-		if(customerService.validateCustomer(customer)) {
-			if(customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
-				return ResponseEntity.ok(customer);
-			}
+		if(customerService.validateCustomer(customer) & customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
+			return ResponseEntity.ok(customer);
 		}
 		return ResponseEntity.badRequest().body("Invalid customer credentials");
 	}
@@ -43,7 +41,7 @@ public class CustomerController {
 	@PostMapping("/savecustomer")
 	public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer){
 		customerService.updateAndSaveCustomer(customer);
-		return new ResponseEntity<Customer>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/customer")
@@ -87,6 +85,6 @@ public class CustomerController {
 		editedCustomer.setUsername(customer.getUsername()); //should we let the customer edit username?
 		customerService.updateCustomer(editedCustomer);
 		
-		return new ResponseEntity<Customer>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

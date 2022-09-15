@@ -32,7 +32,7 @@ public class CategoryController {
 	@PostMapping("/savecategory")
 	public ResponseEntity<Category> saveCategory(@RequestBody Category category){
 		categoryService.saveCategory(category);
-		return new ResponseEntity<Category>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deletecategory/{id}")
@@ -55,7 +55,7 @@ public class CategoryController {
 		editedCategory.setImage(category.getImage());
 		categoryService.updateCategory(editedCategory);
 		
-		return new ResponseEntity<Category>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

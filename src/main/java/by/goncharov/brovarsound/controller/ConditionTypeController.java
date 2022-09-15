@@ -34,7 +34,7 @@ public class ConditionTypeController {
 	@PostMapping("/saveconditiontype")
 	public ResponseEntity<ConditionType> saveCategory(@RequestBody ConditionType conditionType){
 		conditionTypeService.saveConditionType(conditionType);
-		return new ResponseEntity<ConditionType>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteconditiontype/{id}")
@@ -53,9 +53,9 @@ public class ConditionTypeController {
 		logger.info("Updating conditionType to: "+ conditionType.toString());
 		
 		ConditionType editedConditionType = conditionTypeService.findConditionTypeById(id);
-		editedConditionType.setCondition_name(conditionType.getCondition_name());
+		editedConditionType.setConditionName(conditionType.getConditionName());
 		conditionTypeService.updateConditionType(editedConditionType);
 		
-		return new ResponseEntity<Category>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

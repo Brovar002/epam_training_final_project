@@ -29,7 +29,7 @@ public class FormatTypeController {
 	@PostMapping("/saveformattype")
 	public ResponseEntity<FormatType> saveFormatType(@RequestBody FormatType formatType){
 		formatTypeService.saveFormatType(formatType);
-		return new ResponseEntity<FormatType>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/formattype")
@@ -61,7 +61,7 @@ public class FormatTypeController {
 		FormatType editedFormatType = formatTypeService.findFormatTypeById(id);
 		editedFormatType.setFormatTypeName(formatType.getFormatTypeName());
 		formatTypeService.updateFormatType(editedFormatType);
-		return new ResponseEntity<FormatType>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
