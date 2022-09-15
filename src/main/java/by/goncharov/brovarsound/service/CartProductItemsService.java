@@ -1,0 +1,58 @@
+package by.goncharov.brovarsound.service;
+
+import java.util.Optional;
+
+import by.goncharov.brovarsound.model.CartProductItems;
+import by.goncharov.brovarsound.repository.CartProductItemsCrudRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CartProductItemsService {
+	private static Logger logger = LoggerFactory.getLogger(CartProductItemsService.class);
+	
+	@Autowired
+    CartProductItemsCrudRepository cartProductItemsCrudRepository;
+	
+	public CartProductItems findCartProductItemsById(int id) {
+		return cartProductItemsCrudRepository.findCartProductItemsById(id);
+	}
+	
+	public Iterable<CartProductItems> getAllCartProductItems(){
+        return cartProductItemsCrudRepository.findAll();
+    }
+	
+	public Optional<CartProductItems> getCartProductItems(int id) throws Exception {
+		Optional<CartProductItems> cartProductItems = cartProductItemsCrudRepository.findById(id);
+		
+		if(cartProductItems!=null) {
+			logger.info("cartProductItems: "+cartProductItems.toString());
+			return cartProductItems;
+		}
+		
+		logger.error("cartProductItems is null");
+		throw new Exception("Cart Product Item not found");
+	}
+	
+	public CartProductItems saveCartProducts(CartProductItems cartProductItems) {
+		return cartProductItemsCrudRepository.save(cartProductItems);
+	}
+	
+	public boolean deleteCartProductItemById(Integer id) throws Exception{
+		logger.info("deleting cartProductItem with id: "+id);
+		if(cartProductItemsCrudRepository.existsById(id)) {
+			cartProductItemsCrudRepository.deleteById(id);
+			return true;
+		}
+		
+		logger.error("CartProductItem is null");
+		throw new Exception("CartProductItem not found");
+    }
+	
+	public void updateCartProductItems(CartProductItems cartProductItems) {
+		cartProductItemsCrudRepository.save(cartProductItems);
+	}
+
+}
