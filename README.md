@@ -1,4 +1,4 @@
-# Order audio tracks online
+# BrovarSound
 ## Planned to be implemented:
 * Registration/authorization
 * Profile editing
@@ -7,31 +7,13 @@
 * Ability to leave comments under songs
 * Ability to top up your account
 * Ability to buy tracks
-* The ability to receive bonuses
-* Ability to download tracks
 
-### User roles and functions available to them:
-<br/>
+## Steps
+1. Go to the backend folder and run that app.
+2. Go to the frontend folder and `npm install` & `npm start` the app.
+3. Use the app!
 
-| Function                             | 	ADMIN | 	USER | GUEST |
-|--------------------------------------|--------|-------|-------|
-| change language                      | *      | *     | *     |
-| view all users and their information | *      |       |       |
-| recover deleted tracks               | *      |       |       |
-| add comments                         | *      | *     |       |
-| download tracks                      |        | *     |       |
-| delete tracks                        | *      |       |       |
-| view all tracks                      | *      | *     |       |
-| view all genres                      | *      | *     | *     |
-| view last orders                     | *      | *     | *     |
-| add tracks                           | *      |       |       |	
-| change tracks                        | *      |       |       |
-| change account information           | *      | *     |       |
-| buy tracks                           |        | *     |       | 
-| top up the balance                   | *      | *     |       |
-| logout                               | *      | *     |       |
-| sign in	                             |        |       | *     |
-| create new account                   |        |       | *     | <br/>	
+	
 
 ## Analogues:
 * iTunes Store
