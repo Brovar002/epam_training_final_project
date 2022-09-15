@@ -1,0 +1,22 @@
+.login-header {
+    margin-top: 10vh;
+    margin-left: 30vw;
+    color: black;
+}
+
+.login-form {
+    width: 40%;
+    margin-left: 30vw;
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+}
+
+.login-register-link {
+    margin-left: 35vw;
+    margin-bottom: 30vh;
+}
+
+.login-register-link > a {
+    font-style: none;
+    color: black;
+}
